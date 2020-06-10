@@ -16,8 +16,10 @@ Oliver Cook
 #### feinberg@mcmaster.ca
 
 Installation instructions:
-1. Clone the repository
-2. pip install .
-
-To run VoiceLab, run:
-python voicelab.py
+We recommend setting up a new env in Anaconda with Python 3.7.
+1. conda create -n voicelab python=3.7 -y
+2. conda activate voicelab
+3. Clone the repository
+  <code>- git clone git@github.com:Voice-Lab/VoiceLab.git</code>
+4. pip install .
+5. python voicelab.py

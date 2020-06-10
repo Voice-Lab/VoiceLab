@@ -4,7 +4,7 @@ from distutils.core import setup
 import setuptools
 
 setup(name='Voicelab',
-      version='0.1',
+      version='1.01',
       description='Python GUI for working with voicefiles',
       author='David Feinberg',
       author_email='feinberg@mcmaster.ca',
@@ -14,7 +14,7 @@ setup(name='Voicelab',
             'praat-parselmouth',
             'crepe',
             'openpyxl',
-            'PyQt5<5.9.1',
+            'PyQt5<5.91',
             'pandas',
             'seaborn',
             'tensorflow'

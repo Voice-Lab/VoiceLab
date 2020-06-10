@@ -1,8 +1,8 @@
-VoiceLab
+<img src="Voicelab/favicon.ico">**VoiceLab**
 ======
-**VoiceLab**
+**Automated Reproducible Acoustical Analysis**
 
-Automated Reproducible Acoustical Analysis
+
 
 ## Contributors
 David Feinberg, PhD  

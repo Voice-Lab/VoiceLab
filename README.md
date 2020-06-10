@@ -18,3 +18,6 @@ Oliver Cook
 Installation instructions:
 1. Clone the repository
 2. pip install .
+
+To run VoiceLab, run:
+python voicelab.py

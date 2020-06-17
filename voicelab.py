@@ -31,7 +31,7 @@ class VoicelabWizard(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowIcon(QIcon('favicon.ico'))
+        self.setWindowIcon(QIcon('Voicelab/favicon.ico'))
         # signals are created once and passed into each tab
         # TODO: this may be possible using a singleton class or some other OOP way
 

@@ -15,13 +15,13 @@ Oliver Cook
 ## Contact
 #### feinberg@mcmaster.ca
 
-**Precompiled binaries:**
+## Precompiled binaries
 - Windows exe file and Linux binary are here: https://github.com/Voice-Lab/VoiceLab/releases
 - OSX binary is coming soon
 
 
-**Python package installation instructions:**
-We recommend setting up a new env in Anaconda with Python 3.7.
+## Python package installation instructions
+0. Set up a new env in Anaconda with Python 3.7.
 1. <code>conda create -n voicelab python=3.7 -y</code>
 2. <code>conda activate voicelab</code>
 3. <code>git clone git@github.com:Voice-Lab/VoiceLab.git</code>

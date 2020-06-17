@@ -38,6 +38,7 @@ class ManipulateRaiseFormantsNode(VoicelabNode):
         sound = self.args["voice"]
         file_path = self.args["file_path"]
         formant_shift_ratio = self.args["formant_shift_ratio"]
+        new_pitch_median = self.args["new_pitch_median"]
         pitch_range_factor = self.args["pitch_range_factor"]
         duration_factor = self.args["duration_factor"]
         f0min, f0max = self.pitch_bounds(sound)
@@ -53,6 +54,7 @@ class ManipulateRaiseFormantsNode(VoicelabNode):
             f0min,
             f0max,
             formant_shift_ratio,
+            new_pitch_median,
             pitch_range_factor,
             duration_factor,
         )

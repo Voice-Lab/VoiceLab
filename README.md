@@ -15,6 +15,10 @@ Oliver Cook
 ## Contact
 #### feinberg@mcmaster.ca
 
+Precompiled binaries:
+Windows and Linux binaries are in the `Releases` tab
+OSX binary is coming soon
+
 Installation instructions:
 We recommend setting up a new env in Anaconda with Python 3.7.
 1. <code>conda create -n voicelab python=3.7 -y</code>

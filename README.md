@@ -16,7 +16,7 @@ Oliver Cook
 #### feinberg@mcmaster.ca
 
 **Precompiled binaries:**
-- Windows exe file and Linux binary are in the `Releases` tab
+- Windows exe file and Linux binary are in the `Releases` tab  [!https://github.com/Voice-Lab/VoiceLab/releases]
 - OSX binary is coming soon
 
 

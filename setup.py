@@ -14,7 +14,7 @@ setup(name='Voicelab',
             'praat-parselmouth',
             'crepe',
             'openpyxl',
-            'PyQt5<5.91',
+            'PyQt5==5.9.2',
             'pandas',
             'seaborn',
             'tensorflow'

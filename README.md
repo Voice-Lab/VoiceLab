@@ -16,8 +16,8 @@ Oliver Cook
 #### feinberg@mcmaster.ca
 
 ## Precompiled binaries
-- Windows exe file and Linux binary are here: https://github.com/Voice-Lab/VoiceLab/releases
-- OSX binary is coming soon
+- Windows exe file and Linux binary, and OSX app file are here: https://github.com/Voice-Lab/VoiceLab/releases
+- OSX binary is in a zip file, don't forget to unzip it
 
 
 ## Python package installation instructions

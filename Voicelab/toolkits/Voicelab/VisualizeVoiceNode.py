@@ -94,7 +94,7 @@ class VisualizeVoiceNode(VoicelabNode):
         ax.set_xlabel("Time [s]")
         ax.set_ylabel("Frequency [Hz]")
 
-        ax.yaxis.label.set_color("w")
+        #ax.yaxis.label.set_color("w")
         ax.set_xlim([self.args["voice"].xmin, self.args["voice"].xmax])
 
         # if we have selected to plot intensity and an intensity value has been provided
@@ -103,6 +103,7 @@ class VisualizeVoiceNode(VoicelabNode):
             intensity = voice.to_intensity()
             intensity_axis = ax.twinx()
             self.plot_intensity(intensity_axis, intensity, pad_distance)
+            plt.ylim(0, round(intensity.values.max()))
             del self.args["Intensity"]
             pad_distance = pad_distance + 30
 

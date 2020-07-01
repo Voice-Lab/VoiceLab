@@ -15,6 +15,8 @@ Oliver Cook
 ## Contact
 #### feinberg@mcmaster.ca
 
+## Documentation here: https://voice-lab.github.io/VoiceLab/
+
 ## Precompiled binaries
 - Windows exe file and Linux binary, and OSX app file are here: https://github.com/Voice-Lab/VoiceLab/releases
 - OSX binary is in a zip file, don't forget to unzip it

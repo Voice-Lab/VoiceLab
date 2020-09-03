@@ -13,9 +13,13 @@ Oliver Cook
 * Version 0.1
 
 ## Contact
-#### feinberg@mcmaster.ca
+- feinberg@mcmaster.ca
 
-## Documentation here: https://voice-lab.github.io/VoiceLab/
+## Citing Voicelab
+ Feinberg, D. R., & Cook, O. (2020, September 3). VoiceLab. https://doi.org/10.17605/OSF.IO/3WR6K 
+
+## Documentation
+- https://voice-lab.github.io/VoiceLab/
 
 ## Precompiled binaries
 - Windows exe file and Linux binary, and OSX app file are here: https://github.com/Voice-Lab/VoiceLab/releases
@@ -29,6 +33,3 @@ Oliver Cook
 3. <code>git clone git@github.com:Voice-Lab/VoiceLab.git</code>
 4. <code>pip install .</code>
 5. <code>python voicelab.py<code>
-
-## Citing Voicelab
- Feinberg, D. R., & Cook, O. (2020, September 3). VoiceLab. https://doi.org/10.17605/OSF.IO/3WR6K 

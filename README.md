@@ -16,7 +16,7 @@ Oliver Cook
 - feinberg@mcmaster.ca
 
 ## Citing Voicelab
- Feinberg, D. R., & Cook, O. (2020, September 3). VoiceLab. https://doi.org/10.17605/OSF.IO/3WR6K 
+Feinberg, D. R., & Cook, O. (2020, September 15). VoiceLab: Automated Reproducible Acoustic Analysis. Retrieved from psyarxiv.com/v5uxf
 
 ## Documentation
 - https://voice-lab.github.io/VoiceLab/

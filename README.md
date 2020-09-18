@@ -27,9 +27,7 @@ Feinberg, D. R., & Cook, O. (2020, September 15). VoiceLab: Automated Reproducib
 
 
 ## Python package installation instructions
-0. Set up a new env in Anaconda with Python 3.7.
-1. <code>conda create -n voicelab python=3.7 -y</code>
-2. <code>conda activate voicelab</code>
-3. <code>git clone git@github.com:Voice-Lab/VoiceLab.git</code>
-4. <code>pip install .</code>
-5. <code>python voicelab.py<code>
+pip install Voicelab
+
+## To run Voicelab
+python voicelab.py

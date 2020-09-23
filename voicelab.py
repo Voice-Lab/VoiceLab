@@ -9,7 +9,7 @@ from Voicelab.VoicelabWizard.SettingsTab import SettingsTab
 from Voicelab.VoicelabWizard.VoicelabController import VoicelabController
 
 from Voicelab.default_settings import available_functions, default_functions
-
+sys.setrecursionlimit(3000)
 
 class VoicelabWizard(QMainWindow):
 

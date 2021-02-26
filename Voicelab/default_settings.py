@@ -5,8 +5,9 @@ import Voicelab.toolkits.Voicelab as Voicelab
 available_functions = {
     "Measure Duration": Voicelab.MeasureDurationNode("Measure Duration"),
     "Measure Pitch": Voicelab.MeasurePitchNode("Measure Pitch"),
-    #"Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
-    "Measure Pitch Crepe": Voicelab.MeasurePitchCrepeNode("Measure Pitch Crepe"),
+    "Measure Subharmonics": Voicelab.MeasureSHRPNode("Measure Subharmonics"),
+    # "Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
+    # "Measure Pitch Crepe": Voicelab.MeasurePitchCrepeNode("Measure Pitch Crepe"),
     "Measure Harmonics-to-Noise-Ratio": Voicelab.MeasureHarmonicityNode(
         "Measure Harmonics-to-Noise-Ratio"
     ),
@@ -51,11 +52,11 @@ available_functions = {
     "Manipulate Pitch And Formants Higher": Voicelab.ManipulateRaisePitchAndFormantsNode(
             "Manipulate Pitch And Formants Higher"
         ),
-
-    "Scale Intensity (RMS)": Voicelab.ScaleIntensityNode("Scale Intensity (RMS)"),
-    "Create Spectrograms": Voicelab.VisualizeVoiceNode("Create Spectrograms"),
     "Resample Sounds": Voicelab.ResampleSoundsNode("Resample Sounds"),
     "Reverse Sounds": Voicelab.ReverseSoundsNode("Reverse Sounds"),
+    "Scale Intensity (RMS)": Voicelab.ScaleIntensityNode("Scale Intensity (RMS)"),
+    "Create Spectrograms": Voicelab.VisualizeVoiceNode("Create Spectrograms"),
+    "Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
 }
 
 # List of default functions that will be performed.
@@ -65,10 +66,11 @@ available_functions = {
 default_functions = [
     "Measure Duration",
     "Measure Pitch",
+    "Measure Subharmonics",
     #"Measure Pitch Yin",
-    "Measure Pitch Crepe",
+    # "Measure Pitch Crepe",
     "Measure Formants",
-    "Measure Signal-to-Noise Ratio",
+    # "Measure Signal-to-Noise Ratio",
     "Measure Harmonics-to-Noise-Ratio",
     "Measure Cepstral Peak Prominance (CPP)",
     "Measure Jitter",
@@ -76,7 +78,7 @@ default_functions = [
     "Measure Intensity",
     "Measure RMS Energy",
     "Measure Spectral Tilt",
-    "Measure LTAS",
+    # "Measure LTAS",
     "Measure Spectral Shape",
     # "TEVA (Tracheoesophageal Voice Analysis)",
     # 'Measure Speech Rate',
@@ -90,6 +92,7 @@ default_functions = [
     # 'Resample Sounds'
     # 'Reverse Sounds'
     # 'Create Spectrograms',
+    # "Create F1F2 Plot",
 ]
 
 # list of nodes that have visualizable return values and a list naming the values to visualize
@@ -166,5 +169,12 @@ function_requirements = {
         ("Measure Pitch", "Pitch"),
         ("Measure Pitch", "Pitch Floor"),
         ("Measure Pitch", "Pitch Ceiling"),
+    ],
+
+    "Create F1F2 Plot": [
+        ("Measure Formants", "F1 Mean"),
+        ("Measure Formants", "F2 Mean"),
+        ("Measure Formants", "F3 Mean"),
+        ("Measure Formants", "F4 Mean"),
     ],
 }

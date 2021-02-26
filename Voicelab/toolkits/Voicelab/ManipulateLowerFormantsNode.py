@@ -23,7 +23,6 @@ class ManipulateLowerFormantsNode(VoicelabNode):
 
         # initialize with default arguments
         self.args = {
-            "unit": ("percent", []),
             "formant_shift_ratio": 0.85,
             "new_pitch_median": 0,
             "pitch_range_factor": 1,

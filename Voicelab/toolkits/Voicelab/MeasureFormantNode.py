@@ -45,9 +45,12 @@ class MeasureFormantNode(VoicelabNode):
             "window length(s)": 0.025,
             "pre emphasis from": 50,
             "max_formant": 5500,
+            "Ceiling Step Size": 0.025,
+            'Number of Steps': 5,
             # 'method': ('formants_praat_manual', ['formants_praat_manual', 'sweep']),
             # 'Measure PCA': True
         }
+
         self.state = {
             "f1 means": [],
             "f2 means": [],
@@ -71,13 +74,24 @@ class MeasureFormantNode(VoicelabNode):
             # Generate max_formant parameter
             self.args["max_formant"] = self.formant_max(sound)
 
-            formant_object = sound.to_formant_burg(
-                self.args["time step"],
-                self.args["max number of formants"],
-                self.args["max_formant"],
-                self.args["window length(s)"],
-                self.args["pre emphasis from"],
-            )
+            formant_path_object = call(sound,
+                                       "To FormantPath (burg)",
+                                       self.args["time step"],
+                                       self.args["max number of formants"],
+                                       self.args["max_formant"],
+                                       self.args["window length(s)"],
+                                       self.args["pre emphasis from"],
+                                       self.args["Ceiling Step Size"],
+                                       self.args['Number of Steps'])
+            formant_object = call(formant_path_object, "Extract Formant")
+
+            #formant_object = sound.to_formant_burg(
+            #    self.args["time step"],
+            #    self.args["max number of formants"],
+            #    self.args["max_formant"],
+            #    self.args["window length(s)"],
+            #    self.args["pre emphasis from"],
+            #)
 
             f1_mean = call(formant_object, "Get mean", 1, 0, 0, "Hertz")
             f2_mean = call(formant_object, "Get mean", 2, 0, 0, "Hertz")

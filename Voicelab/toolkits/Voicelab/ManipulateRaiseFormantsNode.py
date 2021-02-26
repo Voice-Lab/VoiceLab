@@ -23,12 +23,11 @@ class ManipulateRaiseFormantsNode(VoicelabNode):
 
         # initialize with default arguments
         self.args = {
-            "unit": ("percent", []),
             "formant_shift_ratio": 1.15,
             "new_pitch_median": 0,
             "pitch_range_factor": 1,
             "duration_factor": 1,
-            "normalize amplitude": True,
+            "normalize amplitude": True
         }
 
     ###############################################################################################
@@ -38,9 +37,10 @@ class ManipulateRaiseFormantsNode(VoicelabNode):
         sound = self.args["voice"]
         file_path = self.args["file_path"]
         formant_shift_ratio = self.args["formant_shift_ratio"]
-        new_pitch_median = self.args["new_pitch_median"]
+        new_pitch_median = self.args['new_pitch_median']
         pitch_range_factor = self.args["pitch_range_factor"]
         duration_factor = self.args["duration_factor"]
+
         f0min, f0max = self.pitch_bounds(sound)
 
         output_file_name = file_path.split("/")[-1].split(".wav")[0]

@@ -253,3 +253,4 @@ class OutputTab(VoicelabTab):
         self.data_controller.save_results(
             active_results, active_functions, last_used_settings, temp_loaded
         )
+

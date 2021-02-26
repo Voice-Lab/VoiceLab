@@ -90,7 +90,7 @@ class VoicelabController:
     """
     # load function: load a single function into the data model
     """
-    def load_function(self, fn_name, fn_node, default=False):
+    def load_function(self, fn_name, fn_node, default=False) -> object:
         self.data_model.load_function(fn_name, fn_node, default)
         return self.data_model.loaded_functions
 
@@ -177,14 +177,19 @@ class VoicelabController:
         # we want to deep copy the active settings otherwise they may be unintentionally
         # modifed with values during processing
         # self.last_used_settings = copy.deepcopy(active_settings)
+        # DRF - I guess we don't really need to do that after all since it's commented out
+
+        # save the settings so we can put them in the excel file later
         self.last_used_settings = active_settings
 
+        # reset the results in case this isn't our first run since the program opened
         self.reset_results()
 
-        # Empty WARIO pipeline
+        # Create an empty WARIO pipeline
         pipeline = Pipeline()
 
         # Create a node that will load all of the voices
+        # todo figure out why we need to do this, since we already loaded the voices
         load_voices = Voicelab.LoadVoicesNode("Load Voice")
 
         # Set up the load node with the appropriate file locations
@@ -244,7 +249,6 @@ class VoicelabController:
 
         pipeline.listen(self.progress_callback)
         pipeline_results = pipeline.start()
-
         # Collect the results of the pipeline running
         for i, result_file in enumerate(pipeline_results):
             for result_fn in pipeline_results[i]:

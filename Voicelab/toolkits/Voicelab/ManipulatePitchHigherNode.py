@@ -46,6 +46,7 @@ class ManipulatePitchHigherNode(VoicelabNode):
                 amount = self.args["amount"]
         time_step = self.args["time_step"]
         f0min, f0max = self.pitch_bounds(sound)
+        self.args['f0min'], self.args['f0max'] = f0min, f0max
         # create manipulation object
         manipulation = call(sound, "To Manipulation", time_step, f0min, f0max)
         # extract pitch tier

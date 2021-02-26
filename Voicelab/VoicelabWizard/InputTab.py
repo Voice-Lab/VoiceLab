@@ -6,16 +6,16 @@ from PyQt5.QtMultimedia import QSound
 from Voicelab.pipeline.Pipeline import Pipeline
 import Voicelab.toolkits.Voicelab as Voicelab
 
-import sklearn.utils._cython_blas
-import sklearn.neighbors.typedefs
-import sklearn.neighbors.quad_tree
-import sklearn.tree
-import sklearn.tree._utils
+#import sklearn.utils._cython_blas
+#import sklearn.neighbors.typedefs
+#import sklearn.neighbors.quad_tree
+#import sklearn.tree
+#import sklearn.tree._utils
 import webbrowser
-
 from Voicelab.VoicelabWizard.VoicelabTab import VoicelabTab
 
-
+# Create the Input Tab Class, inheriting VoiceLabTab, which has common code for starting the pipeline and what to do
+# when it ends
 class InputTab(VoicelabTab):
     def __init__(self, data_controller, signals, tabs, *args, **kwargs):
 
@@ -32,14 +32,16 @@ class InputTab(VoicelabTab):
         self.signals["on_files_changed"].connect(self.on_files_changed)
         self.initUI()
 
-    def initUI(self):
+    def initUI(self):  # initUI() creates the gui
 
         # FilesTab
         self.layout = QVBoxLayout()
 
         # List of loaded voice files
         self.list_loaded_voices = QListWidget()
+        # Allows user to select and rearrange multiple voices
         self.list_loaded_voices.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        # if an item changes, connect the signal
         self.list_loaded_voices.itemSelectionChanged.connect(self.onselection_change)
 
         # Create and connect add button
@@ -80,12 +82,14 @@ class InputTab(VoicelabTab):
         self.layout.addWidget(self.btn_start)
         self.layout.addWidget(self.progress)
 
-        # Loaded Voice List
+        # Set the layout
         self.setLayout(self.layout)
 
-    #onclick_help
+    # onclick_help
     def onclick_help(self):
+        """Displays help files"""
         try:
+            # todo this breaks in compiled version, check pyinstaller or have it load from github pages
             url = 'Voicelab/help/index.html'
             webbrowser.open(url, new=2)  # open in new tab
         except:
@@ -93,6 +97,7 @@ class InputTab(VoicelabTab):
 
     # onclick_play
     def onclick_play(self):
+        """Plays sounds"""
         try:
             for self.soundfile in self.playlist:
                 self.sound = QSound(self.soundfile)
@@ -102,6 +107,7 @@ class InputTab(VoicelabTab):
 
     # onclick_stop
     def onclick_stop(self):
+        """Stops playing sounds"""
         try:
             self.sound.stop()
         except:
@@ -111,36 +117,46 @@ class InputTab(VoicelabTab):
     # on_selection_change: callback for when the selection of files has changed.
     ###############################################################################################
     def onselection_change(self):
+        """on_selection_change: callback for when the selection of files has changed."""
         active_widgets = self.list_loaded_voices.selectedItems()
-        active_files = [i.text() for i in active_widgets]
+        active_files = [i.text() for i in active_widgets]  # text method gets the filenames
 
         # simply pass the selected files on to the controller
         self.data_controller.activate_voices(active_files)
+        # activate_voices: from a list of file paths, set the associated voice files for processing
         self.signals["on_files_changed"].emit(self.data_controller.active_voices)
-        self.playlist = active_files
+        self.playlist = active_files  # create playlist to play sounds -currently only plays selected sound
     ###############################################################################################
     # onclick_add: callback for when the add file button is pressed. adds a list of files to the model
     ###############################################################################################
     def onclick_add(self):
-
+        """onclick_add: This button opens a dialog to select sounds"""
         # Select a collection of voice files using the systems default dialog
-        options = QFileDialog.Options()
+        options = QFileDialog.Options()  # clear any file dialog options
+        # get a list of file locations using the PyQt5 QFileDialog.getOpenFileNames function
         file_locations = QFileDialog.getOpenFileNames(
             self,
             "QFileDialog.getOpenFileNames()",
             "",
-            "Sound Files (*.wav *.mp3 *.aiff *.ogg *.aifc *.au *.nist *.flac)",
+            "Sound Files (*.wav *.mp3 *.aiff *.ogg *.aifc *.au *.nist *.flac)",  # set what file types we'll read
             options=options,
         )[0]
 
         # Display the loaded files in a list. Only add if the file is not already loaded
+        # drf You can add multiple copies of the same file to the list, but only one Parselmouth Sound object
+        # drf ever goes into the self.data_controller.loaded_voices dictionary
         for file_location in file_locations:
+            print(f"self.data_controller.loaded_voices {self.data_controller.loaded_voices}")
             if file_location is not self.data_controller.loaded_voices:
                 widget = QListWidgetItem(parent=self.list_loaded_voices)
                 widget.setText(file_location)
                 widget.setSelected(True)
+
+            # This creates a Parselmouth Sound Object for each filename and puts it into the loaded_voices dictionary
+            # The key is the filename and the value is the parselmouth sound object
             self.data_controller.load_voices([file_location])
 
+        # Send the signal that the active voices list has changed
         if len(file_locations) > 0:
             self.signals["on_files_changed"].emit(self.data_controller.active_voices)
 
@@ -153,6 +169,7 @@ class InputTab(VoicelabTab):
         Args:
             file_locations:
         """
+        # If there are no voices loaded, disable the start button, otherwise enable it
         if len(file_locations) > 0:
             self.btn_start.setDisabled(False)
         else:
@@ -164,14 +181,14 @@ class InputTab(VoicelabTab):
     ###############################################################################################
     def onclick_remove(self):
         try:
-            active_files = self.list_loaded_voices.selectedItems()
+            active_files = self.list_loaded_voices.selectedItems()  # get list of selected files
 
-            for list_item in active_files:
-                file_path = list_item.text()
-                self.data_controller.unload_voices([file_path])
-                self.list_loaded_voices.takeItem(self.list_loaded_voices.row(list_item))
+            for list_item in active_files:  # go through list of select files
+                file_path = list_item.text()  # get the file path from the list of files
+                self.data_controller.unload_voices([file_path])  # unload the voices from the datta controller
+                self.list_loaded_voices.takeItem(self.list_loaded_voices.row(list_item))  # take the items of the gui list
 
-            self.signals["on_files_changed"].emit(self.data_controller.active_voices)
+            self.signals["on_files_changed"].emit(self.data_controller.active_voices)  # send a signal that the list of voices changed
         except:
             pass
 
@@ -181,15 +198,15 @@ class InputTab(VoicelabTab):
     ###############################################################################################
     def onclick_start(self):
 
-        self.data_controller.reset_figures()
+        self.data_controller.reset_figures()  # reset the figures
 
-        n_voices = len(self.data_controller.active_voices)
-        n_functions = len(self.data_controller.active_functions) + 1
-        self.progress.setMinimum(0)
-        self.progress.setMaximum(n_voices * n_functions)
-        self.signals["on_progress_update"].connect(self.on_progress_updated)
+        n_voices = len(self.data_controller.active_voices)  # count how many files to process
+        n_functions = len(self.data_controller.active_functions) + 1  # count how many functions to run + 1 (why +1?)
+        self.progress.setMinimum(0)  # start progress bar at 0
+        self.progress.setMaximum(n_voices * n_functions)  # end of the progress bar
+        self.signals["on_progress_update"].connect(self.on_progress_updated)  # connect signal to update progress bar
 
-        self.start_process()
+        self.start_process()  # start the pipeline - code in VoiceLabTab.VoiceLabTab
 
         self.tabs.setCurrentIndex(2)
 

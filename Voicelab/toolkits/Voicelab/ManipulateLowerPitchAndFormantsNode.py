@@ -17,7 +17,7 @@ class ManipulateLowerPitchAndFormantsNode(VoicelabNode):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.args = {"unit": ("percent", []),
+        self.args = {
                      "formant_factor": 1.15,
                      "pitch_factor": 1.15,
                      "pitch_range_factor": 1,
@@ -39,6 +39,7 @@ class ManipulateLowerPitchAndFormantsNode(VoicelabNode):
         duration_factor = 1
         pitch_range_factor = 1
         f0min, f0max = self.pitch_bounds(sound)
+        self.args['f0min'], self.args['f0max'] = f0min, f0max
         print(f0min, f0max)
         pitch = sound.to_pitch()
         median_pitch = call(pitch, "Get quantile", 0, duration, 0.5, "Hertz")

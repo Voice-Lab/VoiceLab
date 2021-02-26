@@ -22,13 +22,13 @@ class VoicelabTab(QWidget):
     # start_process: start processing the data through the pipeline
     ###############################################################################################
     def start_process(self):
-        # tell the data controller to start processing
+        """start_process -tells the data controller to start processing"""
         pipeline_results = self.data_controller.start_processing(
             self.data_controller.active_voices,
             self.data_controller.active_functions,
             self.data_controller.active_settings,
-        )
-        # notify all those listening that the processing
+        )  # todo figure out where pipeline_results ends up
+        # notify all those listening that the processing has completed
         self.signals["on_processing_completed"].emit(
             self.data_controller.active_results
         )

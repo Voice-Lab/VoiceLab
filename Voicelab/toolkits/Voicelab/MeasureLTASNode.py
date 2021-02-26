@@ -67,8 +67,8 @@ class MeasureLTASNode(VoicelabNode):
                 "LTAS slope (dB)": slope_dB,
                 "LTAS local peak height (dB)": local_peak_height_dB,
                 "LTAS standard deviation (dB)": standard_deviation_dB,
-                f"LTAS spectral tilt slope ({slope_unit})": slope_value,
-                f"LTAS spectral tilt intercept ({intercept_unit})": intercept_value,
+                "LTAS spectral tilt slope ({slope_unit})": slope_value,
+                "LTAS spectral tilt intercept ({intercept_unit})": intercept_value,
             }
         except:
             return {
@@ -76,6 +76,6 @@ class MeasureLTASNode(VoicelabNode):
                 "LTAS slope (dB)": "LTAS failed",
                 "LTAS local peak height (dB)": "LTAS failed",
                 "LTAS standard deviation (dB)": "LTAS failed",
-                f"LTAS spectral tilt slope ": "LTAS failed",
-                f"LTAS spectral tilt intercept": "LTAS failed",
+                "LTAS spectral tilt slope ": "LTAS failed",
+                "LTAS spectral tilt intercept": "LTAS failed",
             }

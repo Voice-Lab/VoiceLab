@@ -85,7 +85,7 @@ class VoicelabDataModel:
 
     ###############################################################################################
     # load_voice: makes the voice available to the system
-    # + voice: parselmouth voice object
+    # + voice: parselmouth Sound object
     # + file_path: path to the file in the filesystem. Used for indexing
     ###############################################################################################
     def load_voice(self, voice, file_path):

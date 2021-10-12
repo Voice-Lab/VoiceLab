@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   build:
@@ -20,5 +22,5 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: my-exe
+        name: VoiceLab.exe
         path: src/dist/windows # or path/to/artifact

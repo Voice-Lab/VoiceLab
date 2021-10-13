@@ -1,6 +1,0 @@
-librosa
-openpyxl
-praat-parselmouth==0.4.0
-pyqt5
-qdarkstyle
-seaborn

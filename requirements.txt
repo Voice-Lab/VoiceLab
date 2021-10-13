@@ -1,0 +1,6 @@
+librosa
+openpyxl
+praat-parselmouth
+pyqt5
+qdarkstyle
+seaborn

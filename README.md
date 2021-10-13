@@ -28,3 +28,6 @@ Oliver Cook
 2. source venv/activate
 3. pip install requirements.txt
 4. python voicelab.py
+
+ # Documentation
+ https://voice-lab.github.io/VoiceLab

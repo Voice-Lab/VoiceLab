@@ -23,6 +23,6 @@ We recommend setting up a new env in Anaconda with Python 3.9.
 5. <code>python voicelab.py<code>
 
 Or, you can make a virtual environment using venv:
-python3 -m venv venv
-pip install requirements.txt
-python voicelab.py
+1. python3 -m venv venv
+2. pip install requirements.txt
+3. python voicelab.py

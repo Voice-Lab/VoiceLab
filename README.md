@@ -10,7 +10,10 @@ David Feinberg, PhD
 Oliver Cook
 
 ## Version 
-* Version 3
+* Version 1.0
+* This is a stable release, no longer in beta.
+* Unstable features have been removed
+
 ## Contact
 #### feinberg@mcmaster.ca
 

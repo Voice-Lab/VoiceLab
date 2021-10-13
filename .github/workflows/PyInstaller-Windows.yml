@@ -23,4 +23,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: VoiceLab.exe
-        path: src/dist/windows # or path/to/artifact
+        path: src/dist/windows

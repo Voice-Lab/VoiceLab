@@ -27,10 +27,10 @@ Oliver Cook
 
 
 ### Or, you can make a virtual environment using venv:
-1. python3 -m venv venv
-2. source venv/activate
-3. pip install requirements.txt
-4. python voicelab.py
+1. <code>python3 -m venv venv</code>
+2. <code>source venv/activate</code>
+3. <code>pip install requirements.txt</code>
+4. <code>python voicelab.py</code>
 
  # Documentation
  https://voice-lab.github.io/VoiceLab

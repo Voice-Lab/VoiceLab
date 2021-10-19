@@ -72,7 +72,7 @@ credit. For more info on that license, see here.
 Load Voices Tab
 ===============
 
-![Load voices window](_static/LoadVoices.png){width="400px"}
+![Load voices window](docs/_static/LoadVoices.png){width="400px"}
 
 Load Sound File
 ---------------
@@ -106,7 +106,7 @@ By default we will select all files.
 Settings Tab {#Settings}
 ============
 
-![Settings window](_static/settings.png){width="400px"}
+![Settings window](docs/_static/settings.png){width="400px"}
 
 To choose different analyses, select the `Use Advanced Settings`{.python
 .sourceCode} checkbox. From here, you\'ll be given the option to select
@@ -494,7 +494,7 @@ of the sound, and clip those out also.
 Spectrograms
 ============
 
-![Spectrogram](_static/spectrogram.png){width="400px"}
+![Spectrogram](docs/_static/spectrogram.png){width="400px"}
 
 VoiceLab creates full colour spectrograms. By default we use a wide-band
 window. You can adjust the window length. For example, for a narrow-band
@@ -505,7 +505,7 @@ formant frequencies, and intensity measures on the spectrogram.
 Power Spectra
 =============
 
-![Power spectrum](_static/power_spectrum.png){width="400px"}
+![Power spectrum](docs/_static/power_spectrum.png){width="400px"}
 
 VoiceLab creates power spectra of sounds and overlays an LPC curve over
 the top.

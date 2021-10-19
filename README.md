@@ -87,7 +87,7 @@ analysis parameters, go to the \'Settings\' tab and press the \'Advanced
 Settings\' button. Only the files selected (in blue) will be analyzed.
 By default we will select all files.
 
-Settings Tab {#Settings}
+Settings Tab
 ============
 
 ![Settings window](docs/_static/settings.png)
@@ -121,13 +121,13 @@ measurement gets a separate tab in the xlsx file. This is great if you
 want to know what happened. It can also accompany a manuscript or paper
 to help others replicate analyses.
 
-Measure Duration {#Duration}
+Measure Duration
 ----------------
 
 This measures the full duration of the sound file. There are no
 parameters to adjust.
 
-Measure Pitch {#Pitch}
+Measure Pitch 
 -------------
 
 This measures voice pitch or fundamental frequency. This uses Praat\'s
@@ -152,7 +152,7 @@ Open Sauce (Yu et al., 2019), a Python port of Voice Sauce (Shue et al.,
 in (Shue et al., 2011) and (Yu et al., 2019), subharmonic raw values are
 padded with NaN values to 201 data points.
 
-### Automated pitch floor and ceiling parameters {#floor-ceiling}
+### Automated pitch floor and ceiling parameters 
 
 Praat suggests adjusting pitch settings based on
 [gender](http://www.fon.hum.uva.nl/praat/manual/Intro_4_2__Configuring_the_pitch_contour.html)
@@ -171,7 +171,7 @@ role="ref"}, and cross-correlation for
 `Jitter<Jitter>`, and
 `Shimmer<Shimmer>`,
 
-Measure Harmonicity {#HNR}
+Measure Harmonicity 
 -------------------
 
 This measures mean harmonics-to-noise-ratio using automatic floor and
@@ -183,7 +183,7 @@ default Voice Lab use `To Harmonicity (cc)..`. You
 can select `To Harmonicity (ac)` or change any
 other Praat parameters if you wish.
 
-Measure Jitter {#Jitter}
+Measure Jitter 
 --------------
 
 This measures and returns values of all of [Praat\'s jitter
@@ -208,7 +208,7 @@ Jitter Measures:
 -   Jitter (ppq5)
 -   Jitter (ddp)
 
-Measure Shimmer {#Shimmer}
+Measure Shimmer 
 ---------------
 
 This measures and returns values of all of [Praat\'s shimmer

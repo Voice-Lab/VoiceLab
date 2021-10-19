@@ -1,13 +1,15 @@
 <img src="Voicelab/favicon.ico">**VoiceLab**
 ======
 **Automated Reproducible Acoustical Analysis**
-
-
+Voice Lab is an automated voice analysis software. What this software
+does is allow you to measure, manipulate, and visualize many voices at
+once, without messing with analysis parameters. You can also save all of
+your data, analysis parameters, manipulated voices, and full colour
+spectrograms and power spectra, with the press of one button.
 
 ## Contributors
-David Feinberg, PhD  
-
-Oliver Cook
+1. David Feinberg, PhD
+2. Oliver Cook
 
 ## Version 
 * Version 1.0
@@ -15,21 +17,16 @@ Oliver Cook
 * Unstable features have been removed
 
 ## Contact
-#### feinberg@mcmaster.ca
+#### David Feinberg: feinberg@mcmaster.ca
 
 ## Installation instructions:
-### We recommend setting up a new env in Anaconda with Python 3.9.
-1. <code>conda create -n voicelab python=3.9 -y</code>
-2. <code>conda activate voicelab</code>
-3. <code>git clone git@github.com:Voice-Lab/VoiceLab.git</code>
-4. <code>pip install .</code>
-5. <code>python voicelab.py</code>
+You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.0/VoiceLab-v1.0.0.OSX.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.0/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
 
-
-### Or, you can make a virtual environment using venv:
-1. <code>python3 -m venv venv</code>
-2. <code>source venv/activate</code>
-3. <code>pip install requirements.txt</code>
+### If you are on Linux, other systems, or just want to use Python, we recommend setting up a new virtual environment with Python 3.9.
+0. Clone this repository and navigate to the project root.
+1. <code>python3.9 -m venv venv</code>
+2. <code>source venv/bin/activate</code>
+3. <code>python setup.py install</code>
 4. <code>python voicelab.py</code>
 
  # Documentation
@@ -37,12 +34,6 @@ Oliver Cook
 
 Voice Lab
 =========
-
-Voice Lab is an automated voice analysis software. What this software
-does is allow you to measure, manipulate, and visualize many voices at
-once, without messing with analysis parameters. You can also save all of
-your data, analysis parameters, manipulated voices, and full colour
-spectrograms with the press of one button.
 
 Voice Lab is written in Python and relies heavily on a package called
 parselmouth-praat. parselmouth-praat is a Python package that

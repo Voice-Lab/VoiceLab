@@ -489,7 +489,7 @@ the top.
 Results Tab
 ===========
 
-![Results window](_static/output_window.png)
+![Results window](docs/_static/output_window.png)
 
 This is where you can view results. You can select each voice file on
 the left and view each measurement result on the bottom frame. You can

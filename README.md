@@ -156,8 +156,8 @@ Open Sauce (Yu et al., 2019), a Python port of Voice Sauce (Shue et al.,
 in (Shue et al., 2011) and (Yu et al., 2019), subharmonic raw values are
 padded with NaN values to 201 data points.
 
-Shue, Y.-L., Keating, P., Vicenik, C., & Yu, K. (2011). VoiceSauce: A program for voice analysis. Proceedings of the ICPhS XVII, 1846–1849.
-Yu, T. M., Murray, R. D., Silverstein, K., & Yu, K. M. (2019). OpenSauce: Open source software for voice analysis, v0.1. https://doi.org/10.5281/zenodo.2638411
+- Shue, Y.-L., Keating, P., Vicenik, C., & Yu, K. (2011). VoiceSauce: A program for voice analysis. Proceedings of the ICPhS XVII, 1846–1849.  
+- Yu, T. M., Murray, R. D., Silverstein, K., & Yu, K. M. (2019). OpenSauce: Open source software for voice analysis, v0.1. https://doi.org/10.5281/zenodo.2638411
 
 
 ### Automated pitch floor and ceiling parameters 

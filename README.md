@@ -38,13 +38,6 @@ Oliver Cook
 Voice Lab
 =========
 
-::: {.highlight}
-rst
-:::
-
-::: {.toctree maxdepth="2" caption="Contents:"}
-:::
-
 Voice Lab is an automated voice analysis software. What this software
 does is allow you to measure, manipulate, and visualize many voices at
 once, without messing with analysis parameters. You can also save all of

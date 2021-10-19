@@ -1,6 +1,6 @@
 <img src="Voicelab/favicon.ico">**VoiceLab**
 ======
-**Automated Reproducible Acoustical Analysis**
+**Automated Reproducible Acoustical Analysis**  
 Voice Lab is an automated voice analysis software. What this software
 does is allow you to measure, manipulate, and visualize many voices at
 once, without messing with analysis parameters. You can also save all of

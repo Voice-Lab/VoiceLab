@@ -21,6 +21,9 @@ All of the code is open source and available on our GitHub repository, so if thi
 
 Load Voices Tab
 ====================================
+.. image:: _static/LoadVoices.png
+  :width: 400
+  :alt: Load voices window
 
 
 Load Sound File
@@ -55,6 +58,10 @@ Only the files selected (in blue) will be analyzed. By default we will select al
 
 Settings Tab
 =============
+.. image:: _static/settings.png
+  :width: 400
+  :alt: Settings window
+
 To choose different analyses, select the :python:`Use Advanced Settings` checkbox. From here, you'll be given the option to select different analyses. You can also change any analysis parameters. If you do change analysis parameters, make sure you know what you are doing, and remember that those same analysis parameters will be used on all voice files that are selected. If you don't alter these parameters, we determine analysis parameters automatically for you, so they are tailored for each voice to give the best measurements.
 
 Save Results
@@ -160,7 +167,7 @@ You can adjust interpolation, qeufrency upper and lower bounds, line type, and f
 
 Measure Formants
 *****************
-This returns the mean of the first 4 formant frequencies of the voice using the :python:`To Burg` algorithm. We first :ref:`measure pitch<Pitch>` to determine whether we should use 5500 Hz or 5000 Hz as the maximum formant value. `Praat <http://www.fon.hum.uva.nl/praat/manual/Sound__To_Formant__burg____.html>`_ suggests using 5500Hz for women, and 5000Hz for men, based on findings from Escudero, P., Boersma, P., Rauber, A. S., & Bion, R. A. (2009). A cross-dialect acoustic description of vowels: Brazilian and European Portuguese. The Journal of the Acoustical Society of America, 126(3), 1379-1393. It is not gender per se that is the reason these settings are used, but that low fundamental frequency can confuse some measures of low-back vowels, and changing this setting helps fix that. Voice Lab will never ask you to assume the gender of a person, so it uses a cutoff of a 170 Hz Fundamental Frequency determine analysis parameters, rather than gender. Voice Lab always measure with a maximum of 5 formants in order to reliably measure 4 formants.
+This returns the mean of the first 4 formant frequencies of the voice using the :python:`To FormantPath` algorithm using 5.5 maximum number of formants.  All other values are Praat defaults for Formant Path.  Formant path picks the best formant ceiling value by fitting each prediction to a polynomial curve, and choosing the best fit for each formant. You can also use your own settings for :python:'To Formant Burg...' if you want to. 
 
 Vocal Tract Estimates
 ***********************
@@ -333,14 +340,25 @@ This trims sounds. You can trim a % of time off the ends of the sound, or voicel
 
 Spectrograms
 ======================
+.. image:: _static/spectrogram.png
+  :width: 400
+  :alt: Spectrogram
 VoiceLab creates full colour spectrograms. By default we use a wide-band window. You can adjust the window length. For example, for a narrow-band spectrogram, you can try 0.005 as a window length. You can also select a different colour palate. You can also overlay pitch, the first four formant frequencies, and intensity measures on the spectrogram.
 
 Power Spectra
 ======================
+.. image:: _static/power_spectrum.png
+  :width: 400
+  :alt: Power spectrum
+ 
 VoiceLab creates power spectra of sounds and overlays an LPC curve over the top.
 
 Results Tab
 =============
+.. image:: _static/output_window.png
+  :width: 400
+  :alt: Results window
+
 This is where you can view results. You can select each voice file on the left and view each measurement result on the bottom frame. You can also view your spectrograms in the spectrogram window. You can change the size of any of these frames in order to see things better. Press :python:`Save Results` to save data. All data (results & settings), manipulated voices, and spectrograms are saved automatically when this button is pressed. All you have to do is choose which folder to save into. Don't worry about picking file names, Voice Lab will make those automatically for you.
 
 Output formats

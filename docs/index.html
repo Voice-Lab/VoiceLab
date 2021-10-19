@@ -129,6 +129,7 @@
 </section>
 <section id="load-voices-tab">
 <h1>Load Voices Tab<a class="headerlink" href="#load-voices-tab" title="Permalink to this headline"></a></h1>
+<a class="reference internal image-reference" href="_images/LoadVoices.png"><img alt="Load voices window" src="_images/LoadVoices.png" style="width: 400px;" /></a>
 <section id="load-sound-file">
 <h2>Load Sound File<a class="headerlink" href="#load-sound-file" title="Permalink to this headline"></a></h2>
 <p>Press this button to load sound files. You can load as many files as you like.
@@ -157,6 +158,7 @@ Only the files selected (in blue) will be analyzed. By default we will select al
 </section>
 <section id="settings-tab">
 <span id="settings"></span><h1>Settings Tab<a class="headerlink" href="#settings-tab" title="Permalink to this headline"></a></h1>
+<a class="reference internal image-reference" href="_images/settings.png"><img alt="Settings window" src="_images/settings.png" style="width: 400px;" /></a>
 <p>To choose different analyses, select the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Use</span></span> <span class="name"><span class="pre">Advanced</span></span> <span class="name"><span class="pre">Settings</span></span></code> checkbox. From here, you’ll be given the option to select different analyses. You can also change any analysis parameters. If you do change analysis parameters, make sure you know what you are doing, and remember that those same analysis parameters will be used on all voice files that are selected. If you don’t alter these parameters, we determine analysis parameters automatically for you, so they are tailored for each voice to give the best measurements.</p>
 <section id="save-results">
 <h2>Save Results<a class="headerlink" href="#save-results" title="Permalink to this headline"></a></h2>
@@ -230,7 +232,7 @@ You can adjust interpolation, qeufrency upper and lower bounds, line type, and f
 </section>
 <section id="measure-formants">
 <h2>Measure Formants<a class="headerlink" href="#measure-formants" title="Permalink to this headline"></a></h2>
-<p>This returns the mean of the first 4 formant frequencies of the voice using the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">To</span></span> <span class="name"><span class="pre">Burg</span></span></code> algorithm. We first <a class="reference internal" href="#pitch"><span class="std std-ref">measure pitch</span></a> to determine whether we should use 5500 Hz or 5000 Hz as the maximum formant value. <a class="reference external" href="http://www.fon.hum.uva.nl/praat/manual/Sound__To_Formant__burg____.html">Praat</a> suggests using 5500Hz for women, and 5000Hz for men, based on findings from Escudero, P., Boersma, P., Rauber, A. S., &amp; Bion, R. A. (2009). A cross-dialect acoustic description of vowels: Brazilian and European Portuguese. The Journal of the Acoustical Society of America, 126(3), 1379-1393. It is not gender per se that is the reason these settings are used, but that low fundamental frequency can confuse some measures of low-back vowels, and changing this setting helps fix that. Voice Lab will never ask you to assume the gender of a person, so it uses a cutoff of a 170 Hz Fundamental Frequency determine analysis parameters, rather than gender. Voice Lab always measure with a maximum of 5 formants in order to reliably measure 4 formants.</p>
+<p>This returns the mean of the first 4 formant frequencies of the voice using the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">To</span></span> <span class="name"><span class="pre">FormantPath</span></span></code> algorithm using 5.5 maximum number of formants.  All other values are Praat defaults for Formant Path.  Formant path picks the best formant ceiling value by fitting each prediction to a polynomial curve, and choosing the best fit for each formant. You can also use your own settings for :python:’To Formant Burg…’ if you want to.</p>
 </section>
 <section id="vocal-tract-estimates">
 <h2>Vocal Tract Estimates<a class="headerlink" href="#vocal-tract-estimates" title="Permalink to this headline"></a></h2>
@@ -373,14 +375,17 @@ De Jong, N.H. &amp; Wempe, T. (2009). Praat script to detect syllable nuclei and
 </section>
 <section id="spectrograms">
 <h1>Spectrograms<a class="headerlink" href="#spectrograms" title="Permalink to this headline"></a></h1>
+<a class="reference internal image-reference" href="_images/spectrogram.png"><img alt="Spectrogram" src="_images/spectrogram.png" style="width: 400px;" /></a>
 <p>VoiceLab creates full colour spectrograms. By default we use a wide-band window. You can adjust the window length. For example, for a narrow-band spectrogram, you can try 0.005 as a window length. You can also select a different colour palate. You can also overlay pitch, the first four formant frequencies, and intensity measures on the spectrogram.</p>
 </section>
 <section id="power-spectra">
 <h1>Power Spectra<a class="headerlink" href="#power-spectra" title="Permalink to this headline"></a></h1>
+<a class="reference internal image-reference" href="_images/power_spectrum.png"><img alt="Power spectrum" src="_images/power_spectrum.png" style="width: 400px;" /></a>
 <p>VoiceLab creates power spectra of sounds and overlays an LPC curve over the top.</p>
 </section>
 <section id="results-tab">
 <h1>Results Tab<a class="headerlink" href="#results-tab" title="Permalink to this headline"></a></h1>
+<a class="reference internal image-reference" href="_images/output_window.png"><img alt="Results window" src="_images/output_window.png" style="width: 400px;" /></a>
 <p>This is where you can view results. You can select each voice file on the left and view each measurement result on the bottom frame. You can also view your spectrograms in the spectrogram window. You can change the size of any of these frames in order to see things better. Press <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Save</span></span> <span class="name"><span class="pre">Results</span></span></code> to save data. All data (results &amp; settings), manipulated voices, and spectrograms are saved automatically when this button is pressed. All you have to do is choose which folder to save into. Don’t worry about picking file names, Voice Lab will make those automatically for you.</p>
 <ul class="simple">
 <li><p>All data files are saved as xlsx</p></li>

@@ -56,7 +56,7 @@ credit. For more info on that license, see here.
 Load Voices Tab
 ===============
 
-![Load voices window](docs/_static/LoadVoices.png){width="400px"}
+![Load voices window](docs/_static/LoadVoices.png)
 
 Load Sound File
 ---------------
@@ -90,7 +90,7 @@ By default we will select all files.
 Settings Tab {#Settings}
 ============
 
-![Settings window](docs/_static/settings.png){width="400px"}
+![Settings window](docs/_static/settings.png)
 
 To choose different analyses, select the `Use Advanced Settings`{.python
 .sourceCode} checkbox. From here, you\'ll be given the option to select
@@ -131,16 +131,16 @@ Measure Pitch {#Pitch}
 -------------
 
 This measures voice pitch or fundamental frequency. This uses Praat\'s
-`Sound: To Pitch (ac)...`{.python .sourceCode}, by default. You can also
+`Sound: To Pitch (ac)...`, by default. You can also
 use the cross-correlation algorithm: `Sound: To Pitch (cc)...`{.python
 .sourceCode}. For full details on these algorithms, see the [praat
 manual pitch page](http://www.fon.hum.uva.nl/praat/manual/Pitch.html).
-`Measure Pitch`{.python .sourceCode} returns the following measurements:
+`Measure Pitch` returns the following measurements:
 - Minimum Pitch - Maximum Pitch - Mean Pitch - Standard Deviation of
 Pitch - Pitch Floor - Pitch Ceiling
 
 We use the automated pitch floor and ceiling parameters described
-`here.<floor-ceiling>`{.interpreted-text role="ref"}
+`here.<floor-ceiling>`
 
 Measure Subharmonics
 --------------------
@@ -161,15 +161,15 @@ mitigate this, VoiceLab first casts a wide net in floor and ceiling
 settings to learn the range of probable fundamental frequencies is a
 voice. Then it remeasures the voice pitch using different settings for
 higher and lower pitched voices. VoiceLab by default uses employs
-`very accurate`{.python .sourceCode}. VoiceLab returns
-`minimum pitch`{.python .sourceCode}, `maximum pitch`{.python
-.sourceCode}, `mean pitch`{.python .sourceCode}, and
-`standard deviation of pitch`{.python .sourceCode}. By default VoiceLab
+`very accurate`. VoiceLab returns
+`minimum pitch`, `maximum pitch`{.python
+.sourceCode}, `mean pitch`, and
+`standard deviation of pitch`. By default VoiceLab
 uses autocorrelation for `Measuring Pitch<Pitch>`{.interpreted-text
 role="ref"}, and cross-correlation for
-`harmonicity<HNR>`{.interpreted-text role="ref"},
-`Jitter<Jitter>`{.interpreted-text role="ref"}, and
-`Shimmer<Shimmer>`{.interpreted-text role="ref"},
+`harmonicity<HNR>`,
+`Jitter<Jitter>`, and
+`Shimmer<Shimmer>`,
 
 Measure Harmonicity {#HNR}
 -------------------
@@ -179,8 +179,8 @@ ceiling settings described `here.<floor-ceiling>`{.interpreted-text
 role="ref"} Full details of the algorithm can be found in the [Praat
 Manual Harmonicity
 Page](http://www.fon.hum.uva.nl/praat/manual/Harmonicity.html). By
-default Voice Lab use `To Harmonicity (cc)..`{.python .sourceCode}. You
-can select `To Harmonicity (ac)`{.python .sourceCode} or change any
+default Voice Lab use `To Harmonicity (cc)..`. You
+can select `To Harmonicity (ac)` or change any
 other Praat parameters if you wish.
 
 Measure Jitter {#Jitter}
@@ -198,9 +198,7 @@ perturbations in period length. The PCA finds what is common about all
 of these measures of noise, and gives you a score relative to your
 sample. With a large enough sample, the PCA score should be a more
 robust measure of jitter than any single measurement. Voice Lab uses use
-it\'s
-`automated pitch floor and ceiling algorithm.<floor-ceiling>`{.interpreted-text
-role="ref"} to set analysis parameters.
+it's `automated pitch floor and ceiling algorithm.<floor-ceiling>` to set analysis parameters.
 
 Jitter Measures:
 
@@ -225,9 +223,7 @@ perturbations in amplitude of periods. The PCA finds what is common
 about all of these measures of noise, and gives you a score relative to
 your sample. With a large enough sample, the PCA score should be a more
 robust measure of shimmer than any single measurement. Voice Lab uses
-use it\'s
-`automated pitch floor and ceiling algorithm.<floor-ceiling>`{.interpreted-text
-role="ref"} to set analysis parameters.
+use it's `automated pitch floor and ceiling algorithm.<floor-ceiling>` to set analysis parameters.
 
 Shimmer Measures:
 
@@ -249,7 +245,7 @@ Measure Formants
 ----------------
 
 This returns the mean of the first 4 formant frequencies of the voice
-using the `To FormantPath`{.python .sourceCode} algorithm using 5.5
+using the `To FormantPath` algorithm using 5.5
 maximum number of formants. All other values are Praat defaults for
 Formant Path. Formant path picks the best formant ceiling value by
 fitting each prediction to a polynomial curve, and choosing the best fit
@@ -263,7 +259,7 @@ This returns the following vocal tract length estimates:
 
 ### Average Formant
 
-This calculates the mean $\frac {\sum _{i=1}^{n} {f_i}}{n}$ of the first
+This calculates the mean <a href="https://www.codecogs.com/eqnedit.php?latex=\frac&space;{\sum&space;_{i=1}^{n}&space;{f_i}}{n}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac&space;{\sum&space;_{i=1}^{n}&space;{f_i}}{n}" title="\frac {\sum _{i=1}^{n} {f_i}}{n}" /></a> of the first
 four formant frequencies for each sound.
 
 Pisanski, K., & Rendall, D. (2011). The prioritization of voice
@@ -286,27 +282,26 @@ this measure is based on transforming the data using z-scoring, which is
 based on the population mean. Without a large enough sample, this
 measurement could be suspicious.
 
-$\frac {\sum _{i=1}^{n} {f_i}}{n}$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\frac&space;{\sum&space;_{i=1}^{n}&space;{f_i}}{n}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac&space;{\sum&space;_{i=1}^{n}&space;{f_i}}{n}" title="\frac {\sum _{i=1}^{n} {f_i}}{n}" /></a>
 
 Puts, D. A., Apicella, C. L., & Cárdenas, R. A. (2011). Masculine voices
-signal men\'s threat potential in forager and industrial societies.
+signal men's threat potential in forager and industrial societies.
 Proceedings of the Royal Society B: Biological Sciences, 279(1728),
 601-609.
 
 ### Geometric Mean
 
 This calculates the geometric mean
-$\left(\prod _{i=1}^{n}f_{i}\right)^{\frac {1}{n}}$ of the first 4
-formant frequencies for each sound.
+<a href="https://www.codecogs.com/eqnedit.php?latex=\left(\prod&space;_{i=1}^{n}f_{i}\right)^{\frac&space;{1}{n}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\left(\prod&space;_{i=1}^{n}f_{i}\right)^{\frac&space;{1}{n}}" title="\left(\prod _{i=1}^{n}f_{i}\right)^{\frac {1}{n}}" /></a> of the first 4 formant frequencies for each sound.
 
 Smith, D. R., & Patterson, R. D. (2005). The interaction of
 glottal-pulse rate andvocal-tract length in judgements of speaker size,
-sex, and age.Journal of theAcoustical Society of America, 118,
+sex, and age.Journal of the Acoustical Society of America, 118,
 3177e3186.
 
 ### Formant Dispersion
 
-$\frac {\sum _{i=2}^{n} {f_i - f_{i-1}}}{n}$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\frac&space;{\sum&space;_{i=2}^{n}&space;{f_i&space;-&space;f_{i-1}}}{n}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac&space;{\sum&space;_{i=2}^{n}&space;{f_i&space;-&space;f_{i-1}}}{n}" title="\frac {\sum _{i=2}^{n} {f_i - f_{i-1}}}{n}" /></a>
 
 Fitch, W. T. (1997). Vocal-tract length and formant frequency dispersion
 correlate with body size in rhesus macaques.Journal of the Acoustical
@@ -314,7 +309,7 @@ Society of America,102,1213e1222.
 
 ### VTL
 
-$\frac {\sum _{i=1}^{n} (2n-1) \frac {f_i}{4c}}{n}$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\frac&space;{\sum&space;_{i=1}^{n}&space;(2n-1)&space;\frac&space;{f_i}{4c}}{n}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac&space;{\sum&space;_{i=1}^{n}&space;(2n-1)&space;\frac&space;{f_i}{4c}}{n}" title="\frac {\sum _{i=1}^{n} (2n-1) \frac {f_i}{4c}}{n}" /></a>
 
 Fitch, W. T. (1997). Vocal-tract length and formant frequency dispersion
 correlate with body size in rhesus macaques.Journal of the Acoustical
@@ -325,23 +320,22 @@ NJ: Prentice Hall.
 
 ### VTL Δf
 
-$f_i$ = The slope of 0 intercept regression between
-$F_i = \frac {(2i-1)}{2} Δf$ and the mean of each of the first 4 formant
+<a href="https://www.codecogs.com/eqnedit.php?latex=f_i" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f_i" title="f_i" /></a> = The slope of 0 intercept regression between
+F_i = \frac{(2i-1)}{2}\Delta f and the mean of each of the first 4 formant
 frequencies.
 
-$VTL f_i = \frac {\sum _{i=1}^{n} (2n-1)(\frac {c}{4f_i})}{n}$
+<a href="https://www.codecogs.com/eqnedit.php?latex=VTL&space;f_i&space;=&space;\frac&space;{\sum&space;_{i=1}^{n}&space;(2n-1)(\frac&space;{c}{4f_i})}{n}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?VTL&space;f_i&space;=&space;\frac&space;{\sum&space;_{i=1}^{n}&space;(2n-1)(\frac&space;{c}{4f_i})}{n}" title="VTL f_i = \frac {\sum _{i=1}^{n} (2n-1)(\frac {c}{4f_i})}{n}" /></a>
 
-$VTL \Delta f = \frac {c}{2Δf}$
+<a href="https://www.codecogs.com/eqnedit.php?latex=VTL&space;\Delta&space;f&space;=&space;\frac&space;{c}{2\Delta&space;f}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?VTL&space;\Delta&space;f&space;=&space;\frac&space;{c}{2\Delta&space;f}" title="VTL \Delta f = \frac {c}{2\Delta f}" /></a>
 
-Reby,D.,&McComb,K.(2003).Anatomical constraints generate honesty:
+Reby,D.,& McComb,K.(2003).Anatomical constraints generate honesty:
 acoustic cues to age and weight in the roars of red deer stags. Animal
 Behaviour, 65,519e530.
 
 Measure Intensity
 -----------------
 
-This returns the mean of Praat\'s `Sound: To Intensity...`{.python
-.sourceCode} function in dB. You can adjust the minimum pitch parameter.
+This returns the mean of Praat\'s `Sound: To Intensity...` function in dB. You can adjust the minimum pitch parameter.
 
 Measure RMS Energy
 ------------------
@@ -370,17 +364,16 @@ This returns: - Number of Syllables
 -   Articulation Rate (Number of Syllables / Phonation Time)
 -   Average Syllable Duration (Speaking Time / Number of Syllables)
 
-You can adjust: - silence threshold `mindb`{.python .sourceCode}
+You can adjust: - silence threshold `mindb`
 
--   mimimum dip between peaks (dB) `mindip`{.python .sourceCode}. This
+-   mimimum dip between peaks (dB) `mindip`. This
     should be between 2-4. Try 4 for clean and filtered sounds, and
     lower numbers for noisier sounds.
--   minimum pause length `minpause`{.python .sourceCode}
+-   minimum pause length `minpause`
 
 This command really only words on sounds with a few syllables, since
 Voice Lab is measuring how fast someone speaks. For monosyllabic sounds,
-use the `Measure Duration function.<Duration>`{.interpreted-text
-role="ref"}
+use the `Measure Duration function.<Duration>`
 
 Measure Spectral Tilt
 ---------------------
@@ -478,8 +471,7 @@ of the sound, and clip those out also.
 Spectrograms
 ============
 
-![Spectrogram](docs/_static/spectrogram.png){width="400px"}
-
+![Spectrogram](docs/_static/spectrogram.png)
 VoiceLab creates full colour spectrograms. By default we use a wide-band
 window. You can adjust the window length. For example, for a narrow-band
 spectrogram, you can try 0.005 as a window length. You can also select a
@@ -489,7 +481,7 @@ formant frequencies, and intensity measures on the spectrogram.
 Power Spectra
 =============
 
-![Power spectrum](docs/_static/power_spectrum.png){width="400px"}
+![Power spectrum](docs/_static/power_spectrum.png)
 
 VoiceLab creates power spectra of sounds and overlays an LPC curve over
 the top.
@@ -497,13 +489,13 @@ the top.
 Results Tab
 ===========
 
-![Results window](_static/output_window.png){width="400px"}
+![Results window](_static/output_window.png)
 
 This is where you can view results. You can select each voice file on
 the left and view each measurement result on the bottom frame. You can
 also view your spectrograms in the spectrogram window. You can change
 the size of any of these frames in order to see things better. Press
-`Save Results`{.python .sourceCode} to save data. All data (results &
+`Save Results` to save data. All data (results &
 settings), manipulated voices, and spectrograms are saved automatically
 when this button is pressed. All you have to do is choose which folder
 to save into. Don\'t worry about picking file names, Voice Lab will make

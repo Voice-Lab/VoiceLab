@@ -136,8 +136,12 @@ use the cross-correlation algorithm: `Sound: To Pitch (cc)...`{.python
 .sourceCode}. For full details on these algorithms, see the [praat
 manual pitch page](http://www.fon.hum.uva.nl/praat/manual/Pitch.html).
 `Measure Pitch` returns the following measurements:
-- Minimum Pitch - Maximum Pitch - Mean Pitch - Standard Deviation of
-Pitch - Pitch Floor - Pitch Ceiling
+- Minimum Pitch  
+- Maximum Pitch  
+- Mean Pitch  
+- Standard Deviation of Pitch  
+- Pitch Floor  
+- Pitch Ceiling  
 
 We use the automated pitch floor and ceiling parameters described
 `here.<floor-ceiling>`
@@ -151,6 +155,10 @@ Open Sauce (Yu et al., 2019), a Python port of Voice Sauce (Shue et al.,
 2011). These measurements do not use any Praat or Parselmouth code. As
 in (Shue et al., 2011) and (Yu et al., 2019), subharmonic raw values are
 padded with NaN values to 201 data points.
+
+Shue, Y.-L., Keating, P., Vicenik, C., & Yu, K. (2011). VoiceSauce: A program for voice analysis. Proceedings of the ICPhS XVII, 1846–1849.
+Yu, T. M., Murray, R. D., Silverstein, K., & Yu, K. M. (2019). OpenSauce: Open source software for voice analysis, v0.1. https://doi.org/10.5281/zenodo.2638411
+
 
 ### Automated pitch floor and ceiling parameters 
 

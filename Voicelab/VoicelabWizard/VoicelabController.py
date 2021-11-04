@@ -209,10 +209,8 @@ class VoicelabController:
         # we want to deep copy the active settings otherwise they may be unintentionally
         # modifed with values during processing
         # self.last_used_settings = copy.deepcopy(active_settings)
-<<<<<<< HEAD
-=======
+
         # DRF - I guess we don't really need to do that after all since it's commented out
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 
         # save the settings so we can put them in the excel file later
         self.last_used_settings = active_settings
@@ -298,7 +296,7 @@ class VoicelabController:
 
         pipeline.listen(self.progress_callback)
         pipeline_results = pipeline.start()
-<<<<<<< HEAD
+
         finished_window = QMessageBox()
         finished_window.setWindowTitle("Finished")
         finished_window.setText("Finished processing.\nCheck your data, then save.")
@@ -306,8 +304,6 @@ class VoicelabController:
         finished_window.exec_()
 
 
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         # Collect the results of the pipeline running
         for i, result_file in enumerate(pipeline_results):
             for result_fn in pipeline_results[i]:
@@ -458,7 +454,7 @@ class VoicelabController:
                 sheet_data = results_sheets[sheet_name]
                 if len(sheet_name) > 31:  # Excel column label lengths can't be longer than 31 characters
                     sheet_name = sheet_name[:31]
-
+                print(f"{sheet_name=}")
                 # Delete Praat pitch object from results dictionary
                 # We need it for other algos, but we dont' want it in the excel file
                 if 'Pitch' in sheet_data.keys():

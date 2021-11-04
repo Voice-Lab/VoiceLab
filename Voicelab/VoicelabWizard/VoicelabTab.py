@@ -27,11 +27,10 @@ class VoicelabTab(QWidget):
             self.data_controller.active_voices,
             self.data_controller.active_functions,
             self.data_controller.active_settings,
-<<<<<<< HEAD
+
         )
-=======
-        )  # todo figure out where pipeline_results ends up
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
+
+        # todo figure out where pipeline_results ends up
         # notify all those listening that the processing has completed
         self.signals["on_processing_completed"].emit(
             self.data_controller.active_results

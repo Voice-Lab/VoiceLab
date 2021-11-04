@@ -89,12 +89,9 @@ class InputTab(VoicelabTab):
     def onclick_help(self):
         """Displays help files"""
         try:
-<<<<<<< HEAD
             url = 'https://voice-lab.github.io/VoiceLab/'
-=======
             # todo this breaks in compiled version, check pyinstaller or have it load from github pages
             url = 'Voicelab/help/index.html'
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
             webbrowser.open(url, new=2)  # open in new tab
         except:
             pass
@@ -205,11 +202,8 @@ class InputTab(VoicelabTab):
         self.data_controller.reset_figures()  # reset the figures
 
         n_voices = len(self.data_controller.active_voices)  # count how many files to process
-<<<<<<< HEAD
         n_functions = len(self.data_controller.active_functions) + 1  # count how many functions to run + 1
-=======
         n_functions = len(self.data_controller.active_functions) + 1  # count how many functions to run + 1 (why +1?)
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         self.progress.setMinimum(0)  # start progress bar at 0
         self.progress.setMaximum(n_voices * n_functions)  # end of the progress bar
         self.signals["on_progress_update"].connect(self.on_progress_updated)  # connect signal to update progress bar

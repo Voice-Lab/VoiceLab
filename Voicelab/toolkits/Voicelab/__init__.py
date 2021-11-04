@@ -4,10 +4,7 @@ from .LoadVoicesNode import LoadVoicesNode
 # TODO: Output Nodes
 
 # Measure Nodes
-<<<<<<< HEAD
 from .VisualizeSpectrumNode import VisualizeSpectrumNode
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 from .MeasureSHRPNode import MeasureSHRPNode
 from .MeasureDurationNode import MeasureDurationNode
 from .MeasureIntensityNode import MeasureIntensityNode
@@ -26,13 +23,10 @@ from .MeasureEnergyNode import MeasureEnergyNode
 from .MeasureFormantPositionsNode import MeasureFormantPositionsNode
 from .MeasureLTASNode import MeasureLTASNode
 from .MeasureSpectralShapeNode import MeasureSpectralShapeNode
-<<<<<<< HEAD
 from .ManipulateTruncateSoundsNode import ManipulateTruncateSoundsNode
-=======
-from .TEVANode import TEVANode
-from .MeasurePitchYinNode import MeasurePitchYinNode
-from .MeasurePitchCrepeNode import MeasurePitchCrepeNode
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
+#from .TEVANode import TEVANode
+#from .MeasurePitchYinNode import MeasurePitchYinNode
+#from .MeasurePitchCrepeNode import MeasurePitchCrepeNode
 
 # Manipulate Nodes
 from .ManipulateLowerPitchAndFormantsNode import ManipulateLowerPitchAndFormantsNode
@@ -47,10 +41,7 @@ from .ReverseSoundsNode import ReverseSoundsNode
 
 # Visualization Nodes
 from .VisualizeVoiceNode import VisualizeVoiceNode
-<<<<<<< HEAD
 from .VisualizeSpectrumNode import VisualizeSpectrumNode
-=======
 
 # Experimental Nodes
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 from .F1F2PlotNode import F1F2PlotNode

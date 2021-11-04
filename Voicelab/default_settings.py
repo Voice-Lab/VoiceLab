@@ -6,11 +6,7 @@ available_functions = {
     "Measure Duration": Voicelab.MeasureDurationNode("Measure Duration"),
     "Measure Pitch": Voicelab.MeasurePitchNode("Measure Pitch"),
     "Measure Subharmonics": Voicelab.MeasureSHRPNode("Measure Subharmonics"),
-<<<<<<< HEAD
-=======
-    # "Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
-    "Measure Pitch Crepe": Voicelab.MeasurePitchCrepeNode("Measure Pitch Crepe"),
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
+
     "Measure Harmonics-to-Noise-Ratio": Voicelab.MeasureHarmonicityNode(
         "Measure Harmonics-to-Noise-Ratio"
     ),
@@ -45,20 +41,17 @@ available_functions = {
     "Manipulate Pitch And Formants Higher": Voicelab.ManipulateRaisePitchAndFormantsNode(
             "Manipulate Pitch And Formants Higher"
         ),
-<<<<<<< HEAD
+
     "Trim Sounds": Voicelab.ManipulateTruncateSoundsNode("Trim Sounds"),
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
+
     "Resample Sounds": Voicelab.ResampleSoundsNode("Resample Sounds"),
     "Reverse Sounds": Voicelab.ReverseSoundsNode("Reverse Sounds"),
     "Scale Intensity (RMS)": Voicelab.ScaleIntensityNode("Scale Intensity (RMS)"),
-    "Create Spectrograms": Voicelab.VisualizeVoiceNode("Create Spectrograms"),
-<<<<<<< HEAD
+
     "Create LPC Power Spectra": Voicelab.VisualizeSpectrumNode("Create LPC Power Spectra"),
     #"Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
-=======
+
     "Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 }
 
 # List of default functions that will be performed.
@@ -71,14 +64,9 @@ default_functions = [
     "Measure Duration",
     "Measure Pitch",
     "Measure Subharmonics",
-<<<<<<< HEAD
     "Measure Formants",
-=======
-    #"Measure Pitch Yin",
-    # "Measure Pitch Crepe",
     "Measure Formants",
     # "Measure Signal-to-Noise Ratio",
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
     "Measure Harmonics-to-Noise-Ratio",
     "Measure Cepstral Peak Prominance (CPP)",
     "Measure Jitter",
@@ -87,10 +75,7 @@ default_functions = [
     "Measure RMS Energy",
     "Measure Spectral Tilt",
     # "Measure LTAS",
-<<<<<<< HEAD
     # "Measure MFCCs",
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
     "Measure Spectral Shape",
     # 'Measure Speech Rate',
     "Measure Vocal Tract Estimates",
@@ -104,12 +89,9 @@ default_functions = [
     # 'Resample Sounds'
     # 'Reverse Sounds'
     # 'Create Spectrograms',
-<<<<<<< HEAD
     # "Create LPC Power Spectra",
     # 'Create F1F2 Plot',
-=======
     # "Create F1F2 Plot",
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 ]
 visualize_list = {
     "Measure Pitch": "Pitch",
@@ -179,20 +161,17 @@ function_requirements = {
         ("Measure Pitch", "Pitch Ceiling"),
     ],
 
-<<<<<<< HEAD
     # "Create F1F2 Plot": [
     #     ("Measure Formants", "F1 Mean"),
     #     ("Measure Formants", "F2 Mean"),
     #     ("Measure Formants", "F3 Mean"),
     #     ("Measure Formants", "F4 Mean"),
     # ],
-=======
     "Create F1F2 Plot": [
         ("Measure Formants", "F1 Mean"),
         ("Measure Formants", "F2 Mean"),
         ("Measure Formants", "F3 Mean"),
         ("Measure Formants", "F4 Mean"),
     ],
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 }
 

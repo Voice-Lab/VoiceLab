@@ -85,7 +85,6 @@ class MeasureFormantNode(VoicelabNode):
         try:
             # Load the sound
             sound = self.args["voice"]
-<<<<<<< HEAD
             # Burg Method
             if method == 'To Formant Burg...':
                 # Set Maximum Formant Value Automatically
@@ -111,24 +110,22 @@ class MeasureFormantNode(VoicelabNode):
                     self.args["window length(s)"],
                     self.args["pre emphasis from"],
             )
-=======
             # measure_PCA = self.args['Measure PCA']
 
-            # Generate max_formant parameter
-            self.args["max_formant"] = self.formant_max(sound)
-            formant_path_object = call(sound, "To FormantPath (burg)", 0.005, 5, self.args["max_formant"], 0.025, 50.0, 0.025, 5)
-            formant_object = call(formant_path_object, "Extract Formant")
+                # Generate max_formant parameter
+                self.args["max_formant"] = self.formant_max(sound)
+                formant_path_object = call(sound, "To FormantPath (burg)", 0.005, 5, self.args["max_formant"], 0.025, 50.0, 0.025, 5)
+                formant_object = call(formant_path_object, "Extract Formant")
 
-            #formant_object = sound.to_formant_burg(
-            #    self.args["time step"],
-            #    self.args["max number of formants"],
-            #    self.args["max_formant"],
-            #    self.args["window length(s)"],
-            #    self.args["pre emphasis from"],
-            #)
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
+                #formant_object = sound.to_formant_burg(
+                #    self.args["time step"],
+                #    self.args["max number of formants"],
+                #    self.args["max_formant"],
+                #    self.args["window length(s)"],
+                #    self.args["pre emphasis from"],
+                #)
 
-            # Formant Path Method
+                # Formant Path Method
             elif self.args['method'] == 'Formant Path':
                 try:  # Try formant path first
                     # Find centre max formant

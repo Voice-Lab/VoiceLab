@@ -18,7 +18,6 @@ class F1F2PlotWindow(QMainWindow):
         self.label = QLabel(self)
         # set the image file
         self.pixmap = QPixmap('f1f2.png')
-<<<<<<< HEAD
 
         # TODO fix this so we don't get the warning anymore
         # set the central widget
@@ -26,8 +25,6 @@ class F1F2PlotWindow(QMainWindow):
         #self.setCentralWidget(self.central_widget)
 
 
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         # Create a container in the label to put image
         self.container_layout = QVBoxLayout(self)
         # set the layout of the container

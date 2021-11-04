@@ -31,7 +31,6 @@ class MeasureSHRPNode(VoicelabNode):
             mean_f0 = np.nanmean(f0)
             return {
                 "subharmonic-to-harmonic ratio": mean_shr.item(),
-<<<<<<< HEAD
                 "Subharmonic Mean Pitch": mean_f0.item(),
                 "Subharmonic Pitch Values": f0.tolist() # padded or truncated to 200 values
             }
@@ -41,14 +40,7 @@ class MeasureSHRPNode(VoicelabNode):
                 "subharmonic-to-harmonic ratio": "Measurement failed",
                 "Subharmonic Mean Pitch": "Measurement failed",
                 "Subharmonic Pitch Values": "Measurement failed",
-=======
                 "Subharmonic Pitch": mean_f0.item(),
-            }
-        except:
-            return {
-                "subharmonic-to-harmonic ratio": "Measurement failed",
-                "Subharmonic Pitch": "Measurement failed",
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
             }
 
 

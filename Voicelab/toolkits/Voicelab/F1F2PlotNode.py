@@ -9,12 +9,7 @@ from Voicelab.VoicelabWizard.F1F2PlotWindow import F1F2PlotWindow
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-<<<<<<< HEAD
 import datetime
-=======
-
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
-
 import io
 import pandas as pd
 import matplotlib
@@ -22,11 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
-<<<<<<< HEAD
 import math
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
-
 from numpy import random
 from scipy.spatial import distance
 
@@ -59,7 +50,6 @@ class F1F2PlotNode(VoicelabNode):
         super().__init__(*args, **kwargs)
 
         self.args = {
-<<<<<<< HEAD
             "Vowel Marker": ("Vowels", ["Vowels", "IPA Symbols", "None"]),
             "Comparison Data": (
                 "Peterson & Barney 1952",
@@ -74,7 +64,6 @@ class F1F2PlotNode(VoicelabNode):
                 "My data",
                 ["My data", "Peterson & Barney 1952 Data", "No ellipses"],
             ),
-=======
             "Vowel Marker": ("Vowels",
                              ["Vowels",
                               "IPA Symbols",
@@ -82,7 +71,6 @@ class F1F2PlotNode(VoicelabNode):
                               ]),
             "Comparison Data": ("Peterson & Barney 1952",
                                 ["Peterson & Barney 1952", ]),
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         }
 
         self.state = {
@@ -92,32 +80,22 @@ class F1F2PlotNode(VoicelabNode):
             "f4 means": [],
         }
 
-<<<<<<< HEAD
     def process(self):
         voice = self.args["voice"]
         # F1 - F4 Means are calculated in the MeasureFormantNode
-=======
 
     def process(self):
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         f1 = self.args["F1 Mean"]
         f2 = self.args["F2 Mean"]
         f3 = self.args["F3 Mean"]
         f4 = self.args["F4 Mean"]
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         self.state["f1 means"].append(f1)
         self.state["f2 means"].append(f2)
         self.state["f3 means"].append(f3)
         self.state["f4 means"].append(f4)
-
-<<<<<<< HEAD
-
         return {}
-=======
+
         f1_means = self.state["f1 means"]
         f2_means = self.state["f2 means"]
         f3_means = self.state["f3 means"]
@@ -126,7 +104,6 @@ class F1F2PlotNode(VoicelabNode):
         return {
         }
 
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
 
     def closest_node(self, point, points):
         closest_index = distance.cdist([point], points).argmin()
@@ -134,7 +111,7 @@ class F1F2PlotNode(VoicelabNode):
 
 
     def end(self, results):
-<<<<<<< HEAD
+
         # Fix menu options
         self.vowel_marker = self.args["Vowel Marker"][0]
         self.colour_map = self.args["Colour Map"][0]
@@ -713,7 +690,7 @@ class F1F2PlotNode(VoicelabNode):
         return results
 
     def confidence_ellipse(self, x, y, ax, n_std=1, facecolor="none", **kwargs):
-=======
+
         vowel_marker = self.args["Vowel Marker"][0]
         # create the plot
         fig, ax_kwargs = plt.subplots()
@@ -788,7 +765,6 @@ class F1F2PlotNode(VoicelabNode):
 
 
     def confidence_ellipse(self, x, y, ax, n_std=1, facecolor='none', **kwargs):
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         """
         Create a plot of the covariance confidence ellipse of *x* and *y*.
 
@@ -820,7 +796,6 @@ class F1F2PlotNode(VoicelabNode):
         # two-dimensionl dataset.
         ell_radius_x = np.sqrt(1 + pearson)
         ell_radius_y = np.sqrt(1 - pearson)
-<<<<<<< HEAD
         ellipse = Ellipse(
             (0, 0),
             width=ell_radius_x * 2,
@@ -828,13 +803,11 @@ class F1F2PlotNode(VoicelabNode):
             facecolor=facecolor,
             **kwargs,
         )
-=======
         ellipse = Ellipse((0, 0),
                           width=ell_radius_x * 2,
                           height=ell_radius_y * 2,
                           facecolor=facecolor,
                           **kwargs)
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         self.g_ell_center = ellipse.get_center()
         self.g_ell_width = ell_radius_x * 2
         self.g_ell_height = ell_radius_y * 2
@@ -844,30 +817,25 @@ class F1F2PlotNode(VoicelabNode):
         # the squareroot of the variance and multiplying
         # with the given number of standard deviations.
         scale_x = np.sqrt(cov[0, 0]) * n_std
-<<<<<<< HEAD
 
-=======
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
         mean_x = np.mean(x)
 
         # calculating the stdandard deviation of y ...
         scale_y = np.sqrt(cov[1, 1]) * n_std
         mean_y = np.mean(y)
 
-<<<<<<< HEAD
+
         transf = (
             transforms.Affine2D()
             .rotate_deg(45)
             .scale(scale_x, scale_y)
             .translate(mean_x, mean_y)
         )
-=======
+
         transf = transforms.Affine2D() \
             .rotate_deg(45) \
             .scale(scale_x, scale_y) \
             .translate(mean_x, mean_y)
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
-
         ellipse.set_transform(transf + ax.transData)
         self.ellipse = ellipse
         return ax.add_patch(ellipse)
@@ -884,11 +852,8 @@ def hz_to_bark(hz):
         -------
         bark is the frequency in bark
     """
-<<<<<<< HEAD
+
     bark = 7 * np.log(hz / 650 + np.sqrt(1 + (hz / 650) ** 2))
-=======
-    bark = 7 * np.log(hz/650 + np.sqrt(1 + (hz/650)**2))
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
     return bark
 
 
@@ -902,15 +867,12 @@ def gather_data():
     """
 
     peterson_barney = call("Create formant table (Peterson & Barney 1952)")
-<<<<<<< HEAD
     peterson_barney = pd.read_csv(
         io.StringIO(call(peterson_barney, "List", True)), sep="\t", header=0
     ).dropna()
     peterson_barney["F1 Bark"] = hz_to_bark(peterson_barney["F1"])
     peterson_barney["F2 Bark"] = hz_to_bark(peterson_barney["F2"])
-=======
     peterson_barney = pd.read_csv(io.StringIO(call(peterson_barney, "List", True)), sep='\t').dropna()
     peterson_barney['F1 Bark'] = hz_to_bark(peterson_barney['F1'])
     peterson_barney['F2 Bark'] = hz_to_bark(peterson_barney['F2'])
->>>>>>> 92cbef5835595201bc2cf28062c8ee7f88bf6b1f
     return peterson_barney

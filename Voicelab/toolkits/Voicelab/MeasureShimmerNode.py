@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from scipy import stats
 
 from Voicelab.pipeline.Node import Node
 from parselmouth.praat import call

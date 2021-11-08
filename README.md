@@ -7,14 +7,9 @@ once, without messing with analysis parameters. You can also save all of
 your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
-## Contributors
-### Current Contributor
-David Feinberg, PhD
-### Past Contributor(s)
-Oliver Cook
 
 ## Version 
-* Version 1.0
+* Version 1.0.1
 * This is a stable release, no longer in beta.
 * Unstable features have been removed
 
@@ -30,6 +25,12 @@ You can grab the full program here for <a href="https://github.com/Voice-Lab/Voi
 2. <code>source venv/bin/activate</code>
 3. <code>python setup.py install</code>
 4. <code>python voicelab.py</code>
+
+## Contributors
+### Current Contributor
+David Feinberg, PhD
+### Past Contributor(s)
+Oliver Cook
 
  # Documentation
  https://voice-lab.github.io/VoiceLab

@@ -8,8 +8,10 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 ## Contributors
-1. David Feinberg, PhD
-2. Oliver Cook
+### Current Contributor
+David Feinberg, PhD
+### Past Contributor(s)
+Oliver Cook
 
 ## Version 
 * Version 1.0

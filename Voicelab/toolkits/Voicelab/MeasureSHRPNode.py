@@ -40,7 +40,7 @@ class MeasureSHRPNode(VoicelabNode):
                 "subharmonic-to-harmonic ratio": "Measurement failed",
                 "Subharmonic Mean Pitch": "Measurement failed",
                 "Subharmonic Pitch Values": "Measurement failed",
-                "Subharmonic Pitch": mean_f0.item(),
+                "Subharmonic Pitch": "Measurement failed",
             }
 
 

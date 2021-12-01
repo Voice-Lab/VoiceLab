@@ -95,8 +95,7 @@ Settings Tab
 
 ![Settings window](docs/_static/settings.png)
 
-To choose different analyses, select the `Use Advanced Settings`{.python
-.sourceCode} checkbox. From here, you\'ll be given the option to select
+To choose different analyses, select the `Use Advanced Settings` checkbox. From here, you\'ll be given the option to select
 different analyses. You can also change any analysis parameters. If you
 do change analysis parameters, make sure you know what you are doing,
 and remember that those same analysis parameters will be used on all

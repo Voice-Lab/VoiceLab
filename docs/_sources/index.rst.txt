@@ -104,10 +104,6 @@ Measure Pitch Yin
 This is the Yin implementation from Librosa.
 
 
-Measure Pitch RAPT
-******************
-This is the RAPT implementation from pysptk.
-
 
 Measure Subharmonics
 ********************

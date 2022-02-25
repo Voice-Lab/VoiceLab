@@ -8,7 +8,6 @@ available_functions = {
     "Measure Pitch": Voicelab.MeasurePitchNode("Measure Pitch"),
     "Measure Subharmonics": Voicelab.MeasureSHRPNode("Measure Subharmonics"),
     "Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
-    "Measure Pitch Rapt": Voicelab.MeasurePitchRaptNode("Measure Pitch Rapt"),
     "Measure Harmonics-to-Noise-Ratio": Voicelab.MeasureHarmonicityNode(
         "Measure Harmonics-to-Noise-Ratio"
     ),
@@ -67,10 +66,8 @@ default_functions = [
     "Measure Duration",
     "Measure HNR Voice Sauce",
     "Measure Pitch",
-    "Measure Pitch Rapt",
     "Measure Subharmonics",
     "Measure Pitch Yin",
-    "Measure Formants",
     "Measure Formants",
     # "Measure Signal-to-Noise Ratio",
     "Measure Harmonics-to-Noise-Ratio",
@@ -96,7 +93,7 @@ default_functions = [
     # 'Reverse Sounds'
     # 'Create Spectrograms',
     # "Create LPC Power Spectra",
-    'Create Spectrogram',
+    # 'Create Spectrogram',
     # "Create F1F2 Plot",
 ]
 visualize_list = {

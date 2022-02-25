@@ -106,9 +106,11 @@ class InputTab(VoicelabTab):
                 if self.soundfile[-3:].lower() != "wav":
                     tmp_praat_object = parselmouth.Sound(self.soundfile)
                     tmp_praat_object.save("tmp.wav", "WAV")
-                    #print(self.soundfile)self.sound = QSound(self.soundfile)
                     self.sound = QSound("tmp.wav")
-                    self.sound.play()
+                    QSound.play(self.sound)
+                else:
+                    self.sound = QSound(self.soundfile)
+                    QSound.play(self.sound)
         except:
             pass
 

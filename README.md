@@ -9,7 +9,7 @@ spectrograms and power spectra, with the press of one button.
 
 
 ## Version 
-* Version 1.0.1
+* Version 1.0.2
 * This is a stable release, no longer in beta.
 * Unstable features have been removed
 
@@ -17,7 +17,7 @@ spectrograms and power spectra, with the press of one button.
 #### David Feinberg: feinberg@mcmaster.ca
 
 ## Installation instructions:
-You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.1/VoiceLab.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.1/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
+You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.2/VoiceLab-OSX.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.2/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
 
 ### If you are on Linux, other systems, or just want to use Python, we recommend setting up a new virtual environment with Python 3.9.
 0. Clone this repository and navigate to the project root.
@@ -95,8 +95,7 @@ Settings Tab
 
 ![Settings window](docs/_static/settings.png)
 
-To choose different analyses, select the `Use Advanced Settings`{.python
-.sourceCode} checkbox. From here, you\'ll be given the option to select
+To choose different analyses, select the `Use Advanced Settings` checkbox. From here, you\'ll be given the option to select
 different analyses. You can also change any analysis parameters. If you
 do change analysis parameters, make sure you know what you are doing,
 and remember that those same analysis parameters will be used on all

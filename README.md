@@ -8,8 +8,7 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 
-## Version 
-* Version 1.1.0
+## Version 1.1.0
 ### Changes from 1.0.2
 #### Feature additions
 * Addition of Measure Energy, based on VoiceSauce Energy algorithm (correlation r>0.999). Measure RMS Energy is included in this measure also.

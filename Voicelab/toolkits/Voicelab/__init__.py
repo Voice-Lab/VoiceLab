@@ -4,8 +4,11 @@ from .LoadVoicesNode import LoadVoicesNode
 # TODO: Output Nodes
 
 # Measure Nodes
+from .MeasureHNRVoiceSauceNode import MeasureHNRVoiceSauceNode
+from .MeasurePitchRaptNode import MeasurePitchRaptNode
 from .VisualizeSpectrumNode import VisualizeSpectrumNode
 from .MeasureSHRPNode import MeasureSHRPNode
+from .MeasurePitchYinNode import MeasurePitchYinNode
 from .MeasureDurationNode import MeasureDurationNode
 from .MeasureIntensityNode import MeasureIntensityNode
 from .MeasureFormantNode import MeasureFormantNode

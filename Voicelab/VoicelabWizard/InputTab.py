@@ -1,7 +1,9 @@
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from PyQt5.QtMultimedia import QSound
+from PyQt5.QtMultimedia import *
+import os
+import parselmouth
 
 from Voicelab.pipeline.Pipeline import Pipeline
 import Voicelab.toolkits.Voicelab as Voicelab
@@ -101,8 +103,12 @@ class InputTab(VoicelabTab):
         """Plays sounds"""
         try:
             for self.soundfile in self.playlist:
-                self.sound = QSound(self.soundfile)
-                self.sound.play()
+                if self.soundfile[-3:].lower() != "wav":
+                    tmp_praat_object = parselmouth.Sound(self.soundfile)
+                    tmp_praat_object.save("tmp.wav", "WAV")
+                    #print(self.soundfile)self.sound = QSound(self.soundfile)
+                    self.sound = QSound("tmp.wav")
+                    self.sound.play()
         except:
             pass
 

@@ -30,6 +30,7 @@ class VisualizeVoiceNode(VoicelabNode):
 
         self.args = {
             "window_length": 0.01,  # Positive number
+            "dynamic range": 50,
             "colour_map": (
                 "afmhot",
                 [
@@ -70,8 +71,8 @@ class VisualizeVoiceNode(VoicelabNode):
 
         pad_distance = 10
 
-        fig = plt.figure()
-        ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+        fig = plt.figure(figsize=(16, 9), dpi=300)
+        ax = fig.add_axes([-0.2, 0.2, 0.6, 0.6])
 
         if isinstance(colour_map, tuple):
             colour_map = colour_map[0]
@@ -86,56 +87,36 @@ class VisualizeVoiceNode(VoicelabNode):
             x, y = spectrogram.x_grid(), spectrogram.y_grid()
 
             sg_db = 10 * np.log10(spectrogram.values)
-            vgmin_value = sg_db.max() - 70
+            vgmin_value = sg_db.max() - self.args['dynamic range']
             ax.pcolormesh(x, y, sg_db, vmin=vgmin_value, cmap=colour_map)
             ax.set_ylim([spectrogram.ymin, spectrogram.ymax])
-            ax.set_xlabel("Time [s]")
-            ax.set_ylabel("Frequency [Hz]")
+            ax.set_xlabel("Time [s]", fontsize=40, color="black")
+            ax.set_ylabel("Frequency [Hz]", fontsize=40, color="black")
 
-            #ax.yaxis.label.set_color("w")
             ax.set_xlim([self.args["voice"].xmin, self.args["voice"].xmax])
+            ylabels = ax.get_yticklabels()
+            for label in ylabels:
+                label.set_fontsize(25)
+            xlabels = ax.get_xticklabels()
+            for label in xlabels:
+                label.set_fontsize(25)
 
             # if we have selected to plot formants and a formants value has been provided
             if plot_formants and "Formants" in self.args:
-                #formants = self.args["Formants"]
+                formants = self.args["Formants"]
 
-                try:
-                    pitch_floor, pitch_ceiling = self.pitch_bounds(voice)
-                    pitch = call(
-                        voice, "To Pitch", 0.0, pitch_floor, pitch_ceiling
-                    )  # check pitch to set formant settings
-                    mean_f0 = call(pitch, "Get mean", 0, 0, "Hertz")
-
-                    if 140 <= mean_f0 <= 300:
-                        max_formant = 5500
-
-                    elif mean_f0 < 140:
-                        max_formant = 5000
-                    else:
-                        max_formant = 5500
-                except:
-                    max_formant = 5500
-
+            else:
                 try:  # Try formant path first
-                    formant_path_object = call(voice,
-                                               "To FormantPath (burg)",
-                                               0.005,
-                                               5.0,
-                                               max_formant,
-                                               0.025,
-                                               50,
-                                               0.05,
-                                               4)
+                    formant_path_object = call(voice, "To FormantPath (burg)", 0.005, 5.0, 5500, 0.025, 50, 0.05, 4)
                     formants = call(formant_path_object, "Extract Formant")
 
                 except :  # If formant path fails, just run formant_burg with max_formant from self.args
-                    formants = voice.to_formant_burg(maximum_formant=max_formant)
+                    formants = voice.to_formant_burg(maximum_formant=5500)
 
-                #formants = voice.to_formant_burg()
-                formants_axis = ax.twinx()
-                formants_axis.set_ylim([spectrogram.ymin, spectrogram.ymax])
-                self.plot_formants(formants_axis, formants, voice)
-                del self.args["Formants"]
+            formants_axis = ax.twinx()
+            formants_axis.set_ylim([spectrogram.ymin, spectrogram.ymax])
+            self.plot_formants(formants_axis, formants, voice)
+            del self.args["Formants"]
 
             # if we have selected to plot intensity and an intensity value has been provided
             if plot_intensity and "Intensity" in self.args:
@@ -145,7 +126,7 @@ class VisualizeVoiceNode(VoicelabNode):
                 self.plot_intensity(intensity_axis, intensity, pad_distance)
                 plt.ylim(0, round(intensity.values.max()))
                 del self.args["Intensity"]
-                pad_distance = pad_distance + 30
+                pad_distance += 60
 
 
 
@@ -158,7 +139,7 @@ class VisualizeVoiceNode(VoicelabNode):
                 del self.args["Pitch"]
 
             # fig.show()
-            plt.close(fig)
+            fig.setlayout('tight')
             return {"figure": fig}
         except:
             return {"figure": """Your sound is too short:
@@ -179,8 +160,13 @@ Sound: spectrogram analysis not performed."""}
         axis.plot(intensity.xs(), intensity.values.T, linewidth=1, color="g")
         axis.grid(False)
         plt.ylim(50)
-        axis.set_ylabel("Intensity [dB]", color="g")
-        # axis.yaxis.label.set_color('g')
+        axis.set_ylabel("Intensity [dB]", fontsize=40, color="green")
+        ylabels = axis.get_yticklabels()
+        for label in ylabels:
+            label.set_fontsize(25)
+        xlabels = axis.get_xticklabels()
+        for label in xlabels:
+            label.set_fontsize(25)
 
     def plot_pitch(self, axis, pitch, voice, pad_distance):
         """
@@ -191,8 +177,6 @@ Sound: spectrogram analysis not performed."""}
             pad_distance:
         """
         axis.tick_params(axis="y", pad=pad_distance, colors="b")
-        # axis.yaxis.labelpad = 50
-
         pitch_values = pitch.selected_array["frequency"]
         intensity = voice.to_intensity()
         sample_times = pitch.xs()
@@ -204,14 +188,23 @@ Sound: spectrogram analysis not performed."""}
                 pitch_values[i] = 0
 
         pitch_values[pitch_values == 0] = np.nan
-        axis.plot(pitch.xs(), pitch_values, linestyle="-", color="k", linewidth=3)
-        axis.plot(pitch.xs(), pitch_values, linestyle="-", color="w", linewidth=2)
-        axis.plot(pitch.xs(), pitch_values, linestyle="-", color="b", linewidth=1)
+        alpha = 1
+        if self.args['Plot Formants']:
+            alpha = 0.4
+        axis.plot(pitch.xs(), pitch_values, linestyle="-", color="k", linewidth=6, alpha=alpha)
+        axis.plot(pitch.xs(), pitch_values, linestyle="-", color="w", linewidth=5, alpha=alpha)
+        axis.plot(pitch.xs(), pitch_values, linestyle="-", color="b", linewidth=4, alpha=alpha)
+
         axis.grid(False)
         pitch_max = 500
         axis.set_ylim(0, pitch_max)
-        axis.set_ylabel("Fundamental frequency [Hz]")
-        axis.yaxis.label.set_color("b")
+        axis.set_ylabel("Fundamental frequency [Hz]", fontsize=40, color="blue")
+        ylabels = axis.get_yticklabels()
+        for label in ylabels:
+            label.set_fontsize(25)
+        xlabels = axis.get_xticklabels()
+        for label in xlabels:
+            label.set_fontsize(25)
 
     def plot_formants(self, axis, formants, voice):
         """
@@ -240,8 +233,6 @@ Sound: spectrogram analysis not performed."""}
                 if intensity_value < 50:
                     formant_values[j] = 0
             formant_values[formant_values == 0] = np.nan
-            axis.scatter(
-                sample_times, formant_values, c="w", linewidth=3, marker="o", s=1
-            )
-            axis.scatter(sample_times, formant_values, c="r", linewidth=1, s=1)
+            axis.scatter(sample_times, formant_values, c="w", linewidth=3, marker="o", s=6)
+            axis.scatter(sample_times, formant_values, c="r", linewidth=1, marker="o", s=5)
             axis.grid(False)

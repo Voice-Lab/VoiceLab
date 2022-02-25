@@ -1,6 +1,10 @@
 from Voicelab.pipeline.Node import Node
 from parselmouth.praat import call
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
+import numpy as np
+from scipy.fftpack import fft
+from scipy.interpolate import interp1d
+from scipy.io import wavfile
 
 ###################################################################################################
 # MEASURE DURATION NODE
@@ -50,10 +54,10 @@ SHRP - a pitch determination algorithm based on subharmonic-to-harmonic ratio.
 
 # Licensed under Apache v2 (see LICENSE)
 
-import numpy as np
-from scipy.fftpack import fft
-from scipy.interpolate import interp1d
-from scipy.io import wavfile
+# imports moved to top of file import numpy as np
+# imports moved to top of file from scipy.fftpack import fft
+# imports moved to top of file from scipy.interpolate import interp1d
+# imports moved to top of file from scipy.io import wavfile
 # Comments in quotes are copied from the matlab source.
 
 

@@ -17,7 +17,7 @@ class ManipulateRaisePitchAndFormantsNode(VoicelabNode):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.args = {"unit": ("percent", []),
+        self.args = {"unit": ("percent", ["percent"]),
                      "formant_factor": 1.15,
                      "pitch_factor":   1.15,
                      "pitch_range_factor": 1,
@@ -50,6 +50,9 @@ class ManipulateRaisePitchAndFormantsNode(VoicelabNode):
         output_file_name = (
             f"{output_file_name}_raise_pitch_and_formants_{pitch_factor}_{formant_factor}"
         )
+        number_of_channels = call(sound, 'Get number of channels')
+        if number_of_channels == 2:
+            sound = call(sound, 'Convert to mono')
 
         manipulated_sound = call(
             sound,

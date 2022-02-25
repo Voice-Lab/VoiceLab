@@ -4,9 +4,11 @@ import Voicelab.toolkits.Voicelab as Voicelab
 # List of all available operations the user can perform as well as their associated function node
 available_functions = {
     "Measure Duration": Voicelab.MeasureDurationNode("Measure Duration"),
+    #"Measure HNR Voice Sauce": Voicelab.MeasureHNRVoiceSauceNode("Measure HNR Voice Sauce"),
     "Measure Pitch": Voicelab.MeasurePitchNode("Measure Pitch"),
     "Measure Subharmonics": Voicelab.MeasureSHRPNode("Measure Subharmonics"),
-
+    "Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
+    "Measure Pitch Rapt": Voicelab.MeasurePitchRaptNode("Measure Pitch Rapt"),
     "Measure Harmonics-to-Noise-Ratio": Voicelab.MeasureHarmonicityNode(
         "Measure Harmonics-to-Noise-Ratio"
     ),
@@ -24,7 +26,8 @@ available_functions = {
     "Measure LTAS": Voicelab.MeasureLTASNode("Measure LTAS"),
     "Measure MFCCs": Voicelab.MeasureMFCCNode("Measure MFCCs"),
     "Measure Spectral Tilt": Voicelab.MeasureSpectralTiltNode("Measure Spectral Tilt"),
-    "Measure RMS Energy": Voicelab.MeasureEnergyNode("Measure RMS Energy"),
+    #"Measure RMS Energy": Voicelab.MeasureEnergyNode("Measure RMS Energy"),
+    "Measure Energy": Voicelab.MeasureEnergyNode("Measure Energy"),
     "Measure Spectral Shape": Voicelab.MeasureSpectralShapeNode("Measure Spectral Shape"),
 
     "Manipulate Pitch Lower": Voicelab.ManipulatePitchLowerNode(
@@ -36,22 +39,22 @@ available_functions = {
     "Manipulate Formants Lower": Voicelab.ManipulateLowerFormantsNode("Manipulate Formants Lower"),
     "Manipulate Formants Higher": Voicelab.ManipulateRaiseFormantsNode("Manipulate Formants Higher"),
     "Manipulate Pitch And Formants Lower": Voicelab.ManipulateLowerPitchAndFormantsNode(
-            "Manipulate Pitch And Formants Lower"
-        ),
+        "Manipulate Pitch And Formants Lower"
+    ),
     "Manipulate Pitch And Formants Higher": Voicelab.ManipulateRaisePitchAndFormantsNode(
-            "Manipulate Pitch And Formants Higher"
-        ),
+        "Manipulate Pitch And Formants Higher"
+    ),
 
     "Trim Sounds": Voicelab.ManipulateTruncateSoundsNode("Trim Sounds"),
 
     "Resample Sounds": Voicelab.ResampleSoundsNode("Resample Sounds"),
     "Reverse Sounds": Voicelab.ReverseSoundsNode("Reverse Sounds"),
     "Scale Intensity (RMS)": Voicelab.ScaleIntensityNode("Scale Intensity (RMS)"),
-
+    "Create Spectrogram": Voicelab.VisualizeVoiceNode("Create Spectrogram"),
     "Create LPC Power Spectra": Voicelab.VisualizeSpectrumNode("Create LPC Power Spectra"),
     #"Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
 
-    "Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
+    #"Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
 }
 
 # List of default functions that will be performed.
@@ -62,8 +65,11 @@ available_functions = {
 # list of nodes that have visualizable return values and a list naming the values to visualize
 default_functions = [
     "Measure Duration",
+    "Measure HNR Voice Sauce",
     "Measure Pitch",
+    "Measure Pitch Rapt",
     "Measure Subharmonics",
+    "Measure Pitch Yin",
     "Measure Formants",
     "Measure Formants",
     # "Measure Signal-to-Noise Ratio",
@@ -72,7 +78,7 @@ default_functions = [
     "Measure Jitter",
     "Measure Shimmer",
     "Measure Intensity",
-    "Measure RMS Energy",
+    "Measure Energy",
     "Measure Spectral Tilt",
     # "Measure LTAS",
     # "Measure MFCCs",
@@ -90,7 +96,7 @@ default_functions = [
     # 'Reverse Sounds'
     # 'Create Spectrograms',
     # "Create LPC Power Spectra",
-    # 'Create F1F2 Plot',
+    'Create Spectrogram',
     # "Create F1F2 Plot",
 ]
 visualize_list = {
@@ -126,7 +132,7 @@ function_requirements = {
         ("Measure Formants", "F3 Median"),
         ("Measure Formants", "F4 Median"),
         ("Measure Pitch", "Pitch"),
-        ],
+    ],
 
     "Measure Shimmer": [
         ("Measure Pitch", "Pitch Floor"),
@@ -153,7 +159,7 @@ function_requirements = {
         ("Measure Pitch", "Pitch Ceiling"),
 
     ],
-    "Create Spectrograms": [
+    "Create Spectrogram": [
         ("Measure Formants", "Formants"),
         ("Measure Intensity", "Intensity"),
         ("Measure Pitch", "Pitch"),
@@ -161,12 +167,6 @@ function_requirements = {
         ("Measure Pitch", "Pitch Ceiling"),
     ],
 
-    # "Create F1F2 Plot": [
-    #     ("Measure Formants", "F1 Mean"),
-    #     ("Measure Formants", "F2 Mean"),
-    #     ("Measure Formants", "F3 Mean"),
-    #     ("Measure Formants", "F4 Mean"),
-    # ],
     "Create F1F2 Plot": [
         ("Measure Formants", "F1 Mean"),
         ("Measure Formants", "F2 Mean"),

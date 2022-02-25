@@ -41,9 +41,7 @@ class MeasureHarmonicityNode(VoicelabNode):
         """This function measures Harmonics to Noise Ratio"""
         try:
             sound = self.args["voice"]
-            algorithm = self.args["Algorithm"][
-                0
-            ]  # the selected algorithm, allows for interactivity
+            algorithm = self.args["Algorithm"][0]  # the selected algorithm, allows for interactivity
 
             timestep = self.args["Timestep"]
             silence_threshold = self.args["Silence Threshold"]
@@ -51,65 +49,21 @@ class MeasureHarmonicityNode(VoicelabNode):
 
             # measure pitch ceiling and floor
             broad_pitch = call(
-                sound, "To Pitch (cc)", 0, 50, 15, "yes", 0.03, 0.45, 0.01, 0.35, 0.14, 800
-            )
-            broad_mean_f0: float = call(
-                broad_pitch, "Get mean", 0, 0, "hertz"
-            )  # get mean pitch
+                sound, "To Pitch (cc)", 0, 50, 15, "yes", 0.03, 0.45, 0.01, 0.35, 0.14, 800)
+            broad_mean_f0: float = call( broad_pitch, "Get mean", 0, 0, "hertz")  # get mean pitch
 
             if broad_mean_f0 < 400:
-                pitch2 = call(
-                    sound,
-                    "To Pitch (cc)",
-                    0,
-                    50,
-                    15,
-                    "yes",
-                    0.03,
-                    0.45,
-                    0.01,
-                    0.35,
-                    0.14,
-                    500,
-                )
-                pitch2_min_f0: float = call(
-                    pitch2, "Get minimum", 0, 0, "hertz", "Parabolic"
-                )  # get min pitch
-                pitch2_max_f0: float = call(
-                    pitch2, "Get maximum", 0, 0, "hertz", "Parabolic"
-                )  # get max pitch
+                pitch2 = call(sound, "To Pitch (cc)", 0, 50, 15, "yes", 0.03, 0.45, 0.01, 0.35, 0.14, 500)
+                pitch2_min_f0: float = call(pitch2, "Get minimum", 0, 0, "hertz", "Parabolic")  # get min pitch
+                pitch2_max_f0: float = call(pitch2, "Get maximum", 0, 0, "hertz", "Parabolic")  # get max pitch
             else:
-                pitch2 = call(
-                    sound,
-                    "To Pitch (cc)",
-                    0,
-                    50,
-                    15,
-                    "yes",
-                    0.03,
-                    0.45,
-                    0.01,
-                    0.35,
-                    0.14,
-                    800,
-                )
-                pitch2_min_f0: float = call(
-                    pitch2, "Get minimum", 0, 0, "hertz", "Parabolic"
-                )  # get min pitch
-                pitch2_max_f0: float = call(
-                    pitch2, "Get maximum", 0, 0, "hertz", "Parabolic"
-                )  # get max pitch
+                pitch2 = call(sound, "To Pitch (cc)", 0, 50, 15, "yes", 0.03, 0.45, 0.01, 0.35, 0.14, 800,)
+                pitch2_min_f0: float = call(pitch2, "Get minimum", 0, 0, "hertz", "Parabolic")  # get min pitch
+                pitch2_max_f0: float = call(pitch2, "Get maximum", 0, 0, "hertz", "Parabolic")  # get max pitch
 
             pitch_floor: float = pitch2_min_f0 * 0.9
 
-            harmonicity: float = call(
-                sound,
-                algorithm,
-                timestep,
-                pitch_floor,
-                silence_threshold,
-                periods_per_window,
-            )
+            harmonicity: float = call(sound, algorithm, timestep, pitch_floor, silence_threshold, periods_per_window,)
 
             hnr: float = call(harmonicity, "Get mean", 0, 0)
 

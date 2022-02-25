@@ -23,7 +23,7 @@ class ManipulateLowerFormantsNode(VoicelabNode):
 
         # initialize with default arguments
         self.args = {
-            "unit": ("percent", []),
+            "unit": ("percent", ["percent"]),
             "formant_shift_ratio": 0.85,
             "new_pitch_median": 0,
             "pitch_range_factor": 1,
@@ -48,6 +48,9 @@ class ManipulateLowerFormantsNode(VoicelabNode):
             output_file_name = (
                 f"{output_file_name}_manipulate_formants_{formant_shift_ratio}"
             )
+            number_of_channels = call(sound, 'Get number of channels')
+            if number_of_channels == 2:
+                sound = call(sound, 'Convert to mono')
 
             manipulated_sound = call(
                 sound,

@@ -9,9 +9,17 @@ spectrograms and power spectra, with the press of one button.
 
 
 ## Version 
-* Version 1.0.2
-* This is a stable release, no longer in beta.
-* Unstable features have been removed
+* Version 1.1.0
+### Changes from 1.0.2
+#### Feature additions
+* Addition of Measure Energy, based on VoiceSauce Energy algorithm (correlation r>0.999). Measure RMS Energy is included in this measure also.
+* Addition of Pitch Yin Algorithm from Librosa
+#### Bug fixes
+* Now can play file formats other that wav (only tested on mp3)
+* Can now manipulate stereo files by converting to mono first
+* Fix bug in formant manipulation & pitch & formant manipulation that caused crash
+* Fixed mp3 playback on windows and osx
+* There is a windows binary and an OSX binary too
 
 ## Contact
 #### David Feinberg: feinberg@mcmaster.ca

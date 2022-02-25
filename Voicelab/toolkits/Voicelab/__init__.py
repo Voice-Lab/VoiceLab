@@ -5,7 +5,6 @@ from .LoadVoicesNode import LoadVoicesNode
 
 # Measure Nodes
 from .MeasureHNRVoiceSauceNode import MeasureHNRVoiceSauceNode
-from .MeasurePitchRaptNode import MeasurePitchRaptNode
 from .VisualizeSpectrumNode import VisualizeSpectrumNode
 from .MeasureSHRPNode import MeasureSHRPNode
 from .MeasurePitchYinNode import MeasurePitchYinNode

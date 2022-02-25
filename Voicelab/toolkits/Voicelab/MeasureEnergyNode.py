@@ -2,11 +2,8 @@ from Voicelab.pipeline.Node import Node
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 
 import numpy as np
-import librosa
 from parselmouth.praat import call
 import parselmouth
-import pysptk
-from scipy.io.wavfile import read as wavread
 import pandas as pd
 
 
@@ -20,7 +17,7 @@ class MeasureEnergyNode(VoicelabNode):
         super().__init__(*args, **kwargs)
 
         self.args = {
-            "pitch algorithm": ("Praat", ["Praat", "Yin"]),
+            "pitch algorithm": ("Praat", ["Praat"]),
             "start": 0.0,
             "end": 0.0,
             "number of periods": 5,
@@ -35,51 +32,50 @@ class MeasureEnergyNode(VoicelabNode):
         Get energy of a signal using Algorithm from Voice Sauce ported to Python.
         """
 
-        #try:
-        # Get the pitch in order to set a variable window length based on 5 pitch periods
-        sound = self.args["voice"]
-        audioFilePath = self.args["file_path"]
-        self.Fs = sound.sampling_frequency
-        self.audioFilePath = self.args["file_path"]
-        if isinstance(self.args["pitch algorithm"], tuple):
-            self.method = self.args["pitch algorithm"][0]
-        else:
-            self.method = self.args["pitch algorithm"]
-        self.fmin = self.args['fmin']
-        self.fmax = self.args['fmax']
+        try:
+            # Get the pitch in order to set a variable window length based on 5 pitch periods
+            sound = self.args["voice"]
+            audioFilePath = self.args["file_path"]
+            self.Fs = sound.sampling_frequency
+            self.audioFilePath = self.args["file_path"]
+            if isinstance(self.args["pitch algorithm"], tuple):
+                self.method = self.args["pitch algorithm"][0]
+            else:
+                self.method = self.args["pitch algorithm"]
+            self.fmin = self.args['fmin']
+            self.fmax = self.args['fmax']
 
-        # Get the number of periods in the signal
-        N_periods = 5  # Nperiods_EC
-        self.N_periods = N_periods
-        frameshift = 1  # variables.frameshift
-        # y, sr = librosa.load(audioFilePath, sr=16000)
-        time_praat, F0_praat = get_raw_pitch(audioFilePath)
-        F0 = refine_pitch_voice_sauce(time_praat, F0_praat)
-        self.F0 = F0
-        sound = parselmouth.Sound(audioFilePath)
-        y = sound.values.T
-        Fs =  sound.sampling_frequency
-        self.Fs = Fs
+            # Get the number of periods in the signal
+            N_periods = 5  # Nperiods_EC
+            self.N_periods = N_periods
+            frameshift = 1  # variables.frameshift
+            time_praat, F0_praat = get_raw_pitch(audioFilePath)
+            F0 = refine_pitch_voice_sauce(time_praat, F0_praat)
+            self.F0 = F0
+            sound = parselmouth.Sound(audioFilePath)
+            y = sound.values.T
+            Fs =  sound.sampling_frequency
+            self.Fs = Fs
 
-        sampleshift = (Fs / 1000 * frameshift)
-        self.sampleshift = sampleshift
+            sampleshift = (Fs / 1000 * frameshift)
+            self.sampleshift = sampleshift
 
-        # Calculate Energy
-        E, mean_energy = get_energy_voice_sauce(audioFilePath)
+            # Calculate Energy
+            E, mean_energy = get_energy_voice_sauce(audioFilePath)
 
-        praat_rms = call(sound, "Get root-mean-square", 0, 0)
+            praat_rms = call(sound, "Get root-mean-square", 0, 0)
 
-        return {
-            "Energy Voice Sauce": E,
-            "Mean Energy Energy Voice Sauce": mean_energy,
-            "RMS Energy Praat": praat_rms,
-        }
-        #except:
-        #    return {
-        #        "Energy Voice Sauce": "Measurement failed",
-        #        "Mean Energy Voice Sauce": "Measurement failed",
-        #        "RMS Energy Praat": "Measurement failed",
-        #    }
+            return {
+                "Energy Voice Sauce": E,
+                "Mean Energy Energy Voice Sauce": mean_energy,
+                "RMS Energy Praat": praat_rms,
+            }
+        except:
+            return {
+                "Energy Voice Sauce": "Measurement failed",
+                "Mean Energy Voice Sauce": "Measurement failed",
+                "RMS Energy Praat": "Measurement failed",
+            }
 
 def get_energy_voice_sauce(audioFilePath):
     """

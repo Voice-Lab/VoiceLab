@@ -17,7 +17,7 @@ spectrograms and power spectra, with the press of one button.
 #### David Feinberg: feinberg@mcmaster.ca
 
 ## Installation instructions:
-You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.2/VoiceLab-OSX.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.0.2/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
+You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.1.0/voicelab.exe" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.1.0/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
 
 ### If you are on Linux, other systems, or just want to use Python, we recommend setting up a new virtual environment with Python 3.9.
 0. Clone this repository and navigate to the project root.
@@ -147,6 +147,10 @@ manual pitch page](http://www.fon.hum.uva.nl/praat/manual/Pitch.html).
 
 We use the automated pitch floor and ceiling parameters described
 `here.<floor-ceiling>`
+
+Measure Pitch Yin
+------------------
+This is the Yin implementation from Librosa.
 
 Measure Subharmonics
 --------------------
@@ -347,12 +351,9 @@ Measure Intensity
 
 This returns the mean of Praat\'s `Sound: To Intensity...` function in dB. You can adjust the minimum pitch parameter.
 
-Measure RMS Energy
-------------------
-
-This returns RMS amplitude, similar to ENERGY in Voice Sauce. You can
-adjust the start and end time of the analysis. If you leave both values
-at 0, it will measure the entire file.
+Measure Energy
+---------------
+This is my port of VoiceSauce’s Energy Algorithm. It is different than the old RMS Energy algorithm in previous versions of VoiceLab. This code is not in OpenSauce.
 
 Measure Speech Rate
 -------------------

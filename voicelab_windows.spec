@@ -1,4 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_data_files
+
 
 block_cipher = None
 
@@ -6,9 +8,10 @@ block_cipher = None
 a = Analysis(['voicelab.py'],
              pathex=['VoiceLab'],
              binaries=[],
-             datas=[],
+             datas=collect_data_files('librosa'),
              hiddenimports=['qdarkstyle',
-                             'PyQt5.sip'],
+                             'PyQt5.sip',
+                             'sklearn.neighbors._partition_nodes',],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],

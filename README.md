@@ -9,7 +9,7 @@ spectrograms and power spectra, with the press of one button.
 
 
 ## Version 1.1.1
-### Changes from 1.0.2
+### Changes from 1.1.0
 #### Bug fixes
 * Fixed manipulations -non default options now do not crash the program.
 

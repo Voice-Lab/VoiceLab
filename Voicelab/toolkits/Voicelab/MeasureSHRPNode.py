@@ -1,4 +1,5 @@
 from Voicelab.pipeline.Node import Node
+import parselmouth
 from parselmouth.praat import call
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 import numpy as np
@@ -28,6 +29,17 @@ class MeasureSHRPNode(VoicelabNode):
         try:
             """Returns subharmonic-to-harmonic ratio and Pitch from Subharmonics."""
             filename = self.args["file_path"]
+            # If it's an mp3, convert it to wav
+            if filename[-3:].lower() != "wav":
+                tmp_praat_object = parselmouth.Sound(filename)
+                # If it's stereo, convert it to mo
+                number_of_channels = call(tmp_praat_object, 'Get number of channels')
+                if number_of_channels == 2:
+                    tmp_praat_object = call(tmp_praat_object, 'Convert to mono')
+                tmp_praat_object.save("tmp.wav", "WAV")
+                filename = 'tmp.wav'
+
+
             wav_data, wavdata_int, fps = wavread(filename)
             shr, f0 = shr_pitch(wav_data, fps, datalen=200)
             mean_shr = np.nanmean(shr)
@@ -39,7 +51,9 @@ class MeasureSHRPNode(VoicelabNode):
                 "Subharmonic Pitch Values": f0.tolist() # padded or truncated to 200 values
             }
 
-        except:
+
+        except Exception as e:
+            print(e)
             return {
                 "subharmonic-to-harmonic ratio": "Measurement failed",
                 "Subharmonic Mean Pitch": "Measurement failed",

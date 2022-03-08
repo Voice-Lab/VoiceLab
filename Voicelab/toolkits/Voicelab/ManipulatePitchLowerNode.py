@@ -3,6 +3,7 @@ from typing import List, Union, Tuple
 from Voicelab.pipeline.Node import Node
 from parselmouth.praat import call
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
+from PyQt5.QtWidgets import QMessageBox
 
 ###################################################################################################
 # MANIPULATE PITCH NODE
@@ -36,14 +37,28 @@ class ManipulatePitchLowerNode(VoicelabNode):
         sound = self.args["voice"]
         file_path = self.args["file_path"]
         unit = self.args["unit"][0]
+
+        # This is because the first item in the unit tuple is a string, but the rest are a tuple
+        # This needs to be fixed eventually instead of hacked
+        if unit == 'E':
+            unit = "ERB"
+        elif unit == 'H':
+            unit = "Hertz"
+        elif unit == 'm':
+            unit = 'mel'
+        elif unit == 'l':
+            unit = 'logHertz'
+        elif unit == 's':
+            unit = 'semitones'
+
         method: str = self.args["method"][0]
-        if method == "Shift frequencies":
-            amount = self.args["amount"]
-        else:
-            if self.args["amount"] > 1:
-                amount = self.args["amount"] / 100
-            else:
-                amount = self.args["amount"]
+        if method == "S":
+            method = "Shift frequencies"
+        elif method == "M":
+            method = "Multiply frequencies"
+
+
+
         time_step = self.args["time_step"]
         f0min, f0max = self.pitch_bounds(sound)
         self.args['f0min'], self.args['f0max'] = f0min, f0max
@@ -52,7 +67,26 @@ class ManipulatePitchLowerNode(VoicelabNode):
         # extract pitch tier
         pitch_tier = call(manipulation, "Extract pitch tier")
         # modify pitch tier and replace it
-        call(pitch_tier, method, sound.xmin, sound.xmax, amount, unit)
+        # Shift frequencies has an additional 'unit' argument
+        amount = self.args['amount']
+        if method[0] == "S":  # "S" is for 'Shift frequencies'
+            call(pitch_tier, method, sound.xmin, sound.xmax, amount, unit)
+
+        # Multiply frequencies does not have a unit argument
+        else:
+            if amount <= 0:
+                warning_window = QMessageBox()
+                warning_window.setWindowTitle("Warning")
+                warning_window.setText("You cannot multiply freqeuncies by a number less than or equal to 0.\nWe have used the absolute value of your number")
+                warning_window.setIcon(QMessageBox.Critical)
+                warning_window.exec_()
+                amount *= -1
+
+            call(pitch_tier, method, sound.xmin, sound.xmax, amount)
+
+
+
+
         call([pitch_tier, manipulation], "Replace pitch tier")
         # resynthesize voices
         manipulated_sound = call(manipulation, "Get resynthesis (overlap-add)")

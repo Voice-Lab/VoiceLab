@@ -29,6 +29,10 @@ class MeasurePitchYinNode(VoicelabNode):
     def process(self):
         try:
             audioFilePath = self.args["file_path"]
+            if audioFilePath[-3:].lower() != "wav":
+                tmp_praat_object = parselmouth.Sound(audioFilePath)
+                tmp_praat_object.save("tmp.wav", "WAV")
+                audioFilePath = 'tmp.wav'
             y, sr = librosa.load(audioFilePath)
             fmin = self.args["min f0"]
             fmax = self.args["max f0"]
@@ -46,7 +50,8 @@ class MeasurePitchYinNode(VoicelabNode):
                 'pitches_yin': pitches_full.tolist()
             }
 
-        except:
+        except Exception as e:
+            print(e)
             return {
                 'min_pitch_yin': "Measure Pitch Yin Failed",
                 'max_pitch_yin': "Measure Pitch Yin Failed",

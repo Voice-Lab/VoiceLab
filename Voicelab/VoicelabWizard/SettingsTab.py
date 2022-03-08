@@ -432,7 +432,7 @@ class SettingWidget(QWidget):
             new_text:
         """
         setting_type = type(self.default)
-        if new_text != "":
+        if new_text != "" and new_text != '-':
             self.data_controller.set_settings(
                 self.fn_name, [self.name], [setting_type(new_text)]
             )

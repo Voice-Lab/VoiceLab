@@ -1,4 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 
@@ -6,8 +7,8 @@ block_cipher = None
 a = Analysis(['voicelab.py'],
              pathex=['VoiceLab'],
              binaries=[],
-             datas=[],
-             hiddenimports=['cmath', 'sklearn.utils._weight_vector'],
+             datas=collect_data_files('librosa'),
+             hiddenimports=['cmath', 'sklearn.utils._weight_vector', 'sklearn.neighbors._partition_nodes'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -38,5 +39,5 @@ coll = COLLECT(exe,
                name='VoiceLab')
 app = BUNDLE(coll,
              name='VoiceLab.app',
-             icon='favicon.ico',
+             icon='Voicelab/favicon.ico',
              bundle_identifier=None)

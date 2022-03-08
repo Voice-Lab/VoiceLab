@@ -8,23 +8,16 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 
-## Version 1.1.0
+## Version 1.1.1
 ### Changes from 1.0.2
-#### Feature additions
-* Addition of Measure Energy, based on VoiceSauce Energy algorithm (correlation r>0.999). Measure RMS Energy is included in this measure also.
-* Addition of Pitch Yin Algorithm from Librosa
 #### Bug fixes
-* Now can play file formats other that wav (only tested on mp3)
-* Can now manipulate stereo files by converting to mono first
-* Fix bug in formant manipulation & pitch & formant manipulation that caused crash
-* Fixed mp3 playback on windows and osx
-* There is a windows binary and an OSX binary too
+* Fixed manipulations -non default options now do not crash the program.
 
 ## Contact
 #### David Feinberg: feinberg@mcmaster.ca
 
 ## Installation instructions:
-You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.1.0/voicelab.exe" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.1.0/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
+You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.1.1/voicelab.exe" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.1.1/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
 
 ### If you are on Linux, other systems, or just want to use Python, we recommend setting up a new virtual environment with Python 3.9.
 0. Clone this repository and navigate to the project root.

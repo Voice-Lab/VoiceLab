@@ -52,13 +52,13 @@ class MeasureSHRPNode(VoicelabNode):
             }
 
 
-        except Exception as e:
-            print(e)
+        #except Exception as e:
+        #    print(e)
+        except:
             return {
                 "subharmonic-to-harmonic ratio": "Measurement failed",
                 "Subharmonic Mean Pitch": "Measurement failed",
                 "Subharmonic Pitch Values": "Measurement failed",
-                "Subharmonic Pitch": "Measurement failed",
             }
 
 

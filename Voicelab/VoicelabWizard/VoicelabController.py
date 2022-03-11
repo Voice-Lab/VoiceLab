@@ -455,6 +455,8 @@ class VoicelabController:
                 if len(sheet_name) > 31:  # Excel column label lengths can't be longer than 31 characters
                     sheet_name = sheet_name[:31]
                 print(f"{sheet_name=}")
+                print(f'{sheet_data=}')
+
                 # Delete Praat pitch object from results dictionary
                 # We need it for other algos, but we dont' want it in the excel file
                 if 'Pitch' in sheet_data.keys():

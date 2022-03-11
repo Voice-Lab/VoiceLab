@@ -31,9 +31,13 @@ class MeasureMFCCNode(VoicelabNode):
         # process: WARIO hook called once for each voice file.
     def process(self):
         sound = self.args["voice"]
-        mfcc = sound.to_mfcc()
-
-        return {
-            "mfcc": mfcc.extract_features().values.tolist()
-        }
+        try:
+            mfcc = sound.to_mfcc(number_of_coefficients=24)
+            return {
+                "mfcc": mfcc.extract_features().values.tolist()
+            }
+        except:
+            return{
+                "mfcc": []
+            }
 

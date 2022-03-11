@@ -36,6 +36,7 @@ class MeasureEnergyNode(VoicelabNode):
             # Get the pitch in order to set a variable window length based on 5 pitch periods
             sound = self.args["voice"]
             audioFilePath = self.args["file_path"]
+            print(audioFilePath)
             self.Fs = sound.sampling_frequency
             self.audioFilePath = self.args["file_path"]
             if isinstance(self.args["pitch algorithm"], tuple):
@@ -62,7 +63,8 @@ class MeasureEnergyNode(VoicelabNode):
 
             # Calculate Energy
             E, mean_energy = get_energy_voice_sauce(audioFilePath)
-
+            print(f'{type(E)=}')
+            print(f'{type(mean_energy)=}')
             praat_rms = call(sound, "Get root-mean-square", 0, 0)
 
             return {
@@ -72,7 +74,7 @@ class MeasureEnergyNode(VoicelabNode):
             }
         except:
             return {
-                "Energy Voice Sauce": "Measurement failed",
+                "Energy Voice Sauce": ["Measurement failed"],
                 "Mean Energy Voice Sauce": "Measurement failed",
                 "RMS Energy Praat": "Measurement failed",
             }

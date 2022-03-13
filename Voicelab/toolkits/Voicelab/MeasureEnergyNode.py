@@ -62,19 +62,43 @@ class MeasureEnergyNode(VoicelabNode):
             self.sampleshift = sampleshift
 
             # Calculate Energy
-            E, mean_energy = get_energy_voice_sauce(audioFilePath)
-            print(f'{type(E)=}')
+            # todo Fix something so we always return values here
+
+            try:
+                E = get_energy_voice_sauce(audioFilePath)
+                E = E.tolist()
+            except:
+                E = 'Unable to calculate Energy'
+
+            try:
+                EWithNoZero = E[E > 0]
+                if len(EWithNoZero) > 0:
+                    mean_energy = np.nanmean(EWithNoZero)
+                    mean_energy = mean_energy.item()
+                else:
+                    E = 'Unable to calculate Energy'
+                    mean_energy = 'Unable to calculate mean'
+            except:
+                E,  mean_energy = 'Unable to calculate Energy', 'Unable to calculate mean'
+
+
             print(f'{type(mean_energy)=}')
-            praat_rms = call(sound, "Get root-mean-square", 0, 0)
+
+            print(f'{type(E)=}')
+            try:
+                praat_rms = call(sound, "Get root-mean-square", 0, 0)
+            except:
+                praat_rms = "Unable to calculate RMS in Praat"
+            print(f'{type(praat_rms)=}')
 
             return {
                 "Energy Voice Sauce": E,
-                "Mean Energy Energy Voice Sauce": mean_energy,
+                "Mean Energy Voice Sauce": mean_energy,
                 "RMS Energy Praat": praat_rms,
             }
         except:
             return {
-                "Energy Voice Sauce": ["Measurement failed"],
+                "Energy Voice Sauce": "Measurement failed",
                 "Mean Energy Voice Sauce": "Measurement failed",
                 "RMS Energy Praat": "Measurement failed",
             }
@@ -121,9 +145,9 @@ def get_energy_voice_sauce(audioFilePath):
 
         yseg = y[ystart:yend]
         E[k] = np.sum(yseg ** 2)
-        EWithNoZero = E[E > 0]
-        mean_energy = np.nanmean(EWithNoZero)
-    return E.tolist(), mean_energy.item()
+
+
+    return E
 
 def get_raw_pitch(audioFilePath):
     """

@@ -104,7 +104,7 @@ visualize_list = {
 
 # these are the types of values that are allowed to display, this is to prevent things like
 # sound objects printed to screen. Adding a new type here will let it show up in the results
-display_whitelist = [int, float, str, list]
+display_whitelist = [int, float, str, list, ]
 
 # Simple way to define upstream data requirements. Basically replacing the interactive gui
 # Function requirements should be written as:

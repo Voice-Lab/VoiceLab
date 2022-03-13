@@ -454,8 +454,6 @@ class VoicelabController:
                 sheet_data = results_sheets[sheet_name]
                 if len(sheet_name) > 31:  # Excel column label lengths can't be longer than 31 characters
                     sheet_name = sheet_name[:31]
-                print(f"{sheet_name=}")
-                print(f'{sheet_data=}')
 
                 # Delete Praat pitch object from results dictionary
                 # We need it for other algos, but we dont' want it in the excel file
@@ -474,6 +472,7 @@ class VoicelabController:
                 summary_result_sheets.append(sheet)
                 sheet.to_excel(results_writer, sheet_name, index=False)
                 print(f"Data from {sheet_name} saved.")
+
 
             results_summary_sheet = pd.concat(summary_result_sheets, axis=1)
             results_summary_sheet.to_excel(results_writer, "Summary", index=False)

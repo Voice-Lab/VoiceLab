@@ -9,8 +9,10 @@ from Voicelab.VoicelabWizard.SettingsTab import SettingsTab
 #from Voicelab.VoicelabWizard.ExperimentalTab import ExperimentalTab
 from Voicelab.VoicelabWizard.VoicelabController import VoicelabController
 #from Voicelab.VoicelabWizard.ManipulationWindow import ManipulationWindow
-
 from Voicelab.default_settings import available_functions, default_functions
+
+import logging
+
 
 sys.setrecursionlimit(10000)
 
@@ -129,6 +131,7 @@ class VoicelabWizard(QMainWindow):
 
 
 if __name__ == "__main__":
+
     # boilerplate pyqt window creation
     app = QApplication(sys.argv)
     # setup stylesheet
@@ -140,3 +143,7 @@ if __name__ == "__main__":
     w.show()
     # Exit gracefully
     sys.exit(app.exec_())
+
+
+
+

@@ -29,32 +29,42 @@ class MeasureSpectralShapeNode(VoicelabNode):
         # process: WARIO hook called once for each voice file.
 
     def process(self):
-        # Gather parameters
-        sound = self.args["voice"]
-        spectrum = sound.to_spectrum()
-        power = self.args["Power"]
-        low_band_floor = self.args["Low band floor (Hz)"]
-        low_band_ceiling = self.args["Low band ceiling (Hz)"]
-        high_band_floor = self.args["High band floor (Hz)"]
-        high_band_ceiling = self.args["High band ceiling (Hz)"]
+        try:
+            # Gather parameters
+            sound = self.args["voice"]
+            spectrum = sound.to_spectrum()
+            power = self.args["Power"]
+            low_band_floor = self.args["Low band floor (Hz)"]
+            low_band_ceiling = self.args["Low band ceiling (Hz)"]
+            high_band_floor = self.args["High band floor (Hz)"]
+            high_band_ceiling = self.args["High band ceiling (Hz)"]
 
-        # Measure voices
-        centre_of_gravity = spectrum.get_centre_of_gravity(power)
-        standard_deviation = spectrum.get_standard_deviation(power)
-        kurtosis = spectrum.get_kurtosis(power)
-        skewness = spectrum.get_skewness(power)
-        band_energy_difference = spectrum.get_band_energy_difference(
-            low_band_floor, low_band_ceiling, high_band_floor, high_band_ceiling
-        )
-        band_density_difference = spectrum.get_band_density_difference(
-            low_band_floor, low_band_ceiling, high_band_floor, high_band_ceiling
-        )
+            # Measure voices
+            centre_of_gravity = spectrum.get_centre_of_gravity(power)
+            standard_deviation = spectrum.get_standard_deviation(power)
+            kurtosis = spectrum.get_kurtosis(power)
+            skewness = spectrum.get_skewness(power)
+            band_energy_difference = spectrum.get_band_energy_difference(
+                low_band_floor, low_band_ceiling, high_band_floor, high_band_ceiling
+            )
+            band_density_difference = spectrum.get_band_density_difference(
+                low_band_floor, low_band_ceiling, high_band_floor, high_band_ceiling
+            )
 
-        return {
-            "Centre of Gravity": centre_of_gravity,
-            "Standard Deviation": standard_deviation,
-            "Kurtosis": kurtosis,
-            "Skewness": skewness,
-            "Band Energy Difference": band_energy_difference,
-            "Band Density Difference": band_density_difference,
-        }
+            return {
+                "Centre of Gravity": centre_of_gravity,
+                "Standard Deviation": standard_deviation,
+                "Kurtosis": kurtosis,
+                "Skewness": skewness,
+                "Band Energy Difference": band_energy_difference,
+                "Band Density Difference": band_density_difference,
+            }
+        except:
+            return {
+                "Centre of Gravity": "Measurement failed",
+                "Standard Deviation": "Measurement failed",
+                "Kurtosis": "Measurement failed",
+                "Skewness": "Measurement failed",
+                "Band Energy Difference": "Measurement failed",
+                "Band Density Difference": "Measurement failed",
+            }

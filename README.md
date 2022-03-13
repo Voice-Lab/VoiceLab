@@ -8,10 +8,10 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 
-## Version 1.1.1
-### Changes from 1.1.0
+## Version 1.1.2
+### Changes from 1.1.1
 #### Bug fixes
-* Fixed manipulations -non default options now do not crash the program.
+* Fixed bugs in Subharmonics and Energy that caused VoiceLab to crash on saving.
 
 ## Contact
 #### David Feinberg: feinberg@mcmaster.ca

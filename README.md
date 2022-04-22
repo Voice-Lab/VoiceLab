@@ -20,6 +20,10 @@ spectrograms and power spectra, with the press of one button.
 * When trying to enter a value in "Time Steps" (Measure Voice pitch) it will no longer crash when typing a ".".
 * Fixed spectrograms
 
+#### Feature Removals
+* Started removing pitch range and duration options from formant manipulation menus. 
+  * If you need these back, contact me, and I'll put them back.
+
 ## Contact
 #### David Feinberg: feinberg@mcmaster.ca
 

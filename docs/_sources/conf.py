@@ -3,8 +3,11 @@
 import sys, os
 import sphinx_rtd_theme
 
+sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
+
 extensions = [
     'sphinx_rtd_theme',
+    'sphinx.ext.autodoc'
 ]
 
 html_theme = "sphinx_rtd_theme"
@@ -15,7 +18,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 exclude_patterns = []
 add_function_parentheses = True
-#add_module_names = True
+add_module_names = True
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 

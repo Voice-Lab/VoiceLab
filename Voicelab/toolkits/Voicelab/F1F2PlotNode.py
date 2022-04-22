@@ -80,11 +80,9 @@ class F1F2PlotNode(VoicelabNode):
             "f4 means": [],
         }
 
-    def process(self):
-        voice = self.args["voice"]
-        # F1 - F4 Means are calculated in the MeasureFormantNode
 
     def process(self):
+        #voice = self.args["voice"]
         f1 = self.args["F1 Mean"]
         f2 = self.args["F2 Mean"]
         f3 = self.args["F3 Mean"]

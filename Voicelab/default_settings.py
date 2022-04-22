@@ -48,6 +48,7 @@ available_functions = {
 
     "Resample Sounds": Voicelab.ResampleSoundsNode("Resample Sounds"),
     "Reverse Sounds": Voicelab.ReverseSoundsNode("Reverse Sounds"),
+    "Rotate Spectrum": Voicelab.RotateSpectrumNode("Rotate Spectrum"),
     "Scale Intensity (RMS)": Voicelab.ScaleIntensityNode("Scale Intensity (RMS)"),
     "Create Spectrogram": Voicelab.VisualizeVoiceNode("Create Spectrogram"),
     "Create LPC Power Spectra": Voicelab.VisualizeSpectrumNode("Create LPC Power Spectra"),
@@ -91,6 +92,7 @@ default_functions = [
     # "Trim Sounds",
     # 'Resample Sounds'
     # 'Reverse Sounds'
+    "Rotate Spectrum",
     # 'Create Spectrograms',
     # "Create LPC Power Spectra",
     # 'Create Spectrogram',

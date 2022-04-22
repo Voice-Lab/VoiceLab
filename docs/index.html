@@ -93,6 +93,7 @@
 <li><a class="reference internal" href="#spectrograms">Spectrograms</a></li>
 <li><a class="reference internal" href="#power-spectra">Power Spectra</a></li>
 <li><a class="reference internal" href="#results-tab">Results Tab</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
 </ul>
 </div>
         </div>
@@ -396,6 +397,315 @@ If you have trouble with trimming silences, try adjusting the silence ratio in t
 <li><p>All sound files are saved as wav</p></li>
 <li><p>All image files are saved as png</p></li>
 </ul>
+</section>
+<section id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h1>
+<p>This API is not yet complete. It is a work in progress. But, for now, there’s enough for you to run any node as long
+as you can understand the code.  Reproducing Voicelab’s exact behaviour in the command line is a bit more difficult as
+there is a state dictionary and and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">end</span></span><span class="punctuation"><span class="pre">()</span></span></code> method for some nodes.</p>
+<p>All nodes can be imported and run without the VoiceLab GUI if you program their execution in Python.</p>
+<p>You’ll need to supply: <code class="code python docutils literal notranslate"><span class="name"><span class="pre">args</span></span><span class="punctuation"><span class="pre">[</span></span><span class="literal string single"><span class="pre">'file_path'</span></span><span class="punctuation"><span class="pre">]</span></span></code>, which is the file path, and
+<code class="code python docutils literal notranslate"><span class="name"><span class="pre">args</span></span><span class="punctuation"><span class="pre">[</span></span><span class="literal string single"><span class="pre">'voice'</span></span><span class="punctuation"><span class="pre">]</span></span></code>, which is the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">parselmouth</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">Sound</span></span></code> object created by running
+<code class="code python docutils literal notranslate"><span class="name"><span class="pre">parselmouth</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">Sound</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">args</span></span><span class="punctuation"><span class="pre">[</span></span><span class="literal string single"><span class="pre">'file_path'</span></span><span class="punctuation"><span class="pre">])</span></span></code>.  You may also set additional parameters by creating an
+instance of a node, and setting the dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">args</span></span></code> to the appropriate values as specified
+in each node. The output of each node is a dictionary of the results. If the node is a manipulation
+node, it will return a <code class="code python docutils literal notranslate"><span class="name"><span class="pre">parselmouth</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">Sound</span></span></code> object. If the node is a plot, it will return a matplotlib figure.
+Otherwise, it will return mixed types of floats, integers, strings, and lists in the dictionary.</p>
+<span class="target" id="module-Voicelab.toolkits.Voicelab.MeasurePitchNode"></span><dl class="py class">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.MeasurePitchNode.MeasurePitchNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.MeasurePitchNode.</span></span><span class="sig-name descname"><span class="pre">MeasurePitchNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.MeasurePitchNode.MeasurePitchNode" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt>self.args: dict</dt><dd><p>Dictionary of arguments for the node.</p>
+<dl class="simple">
+<dt>self.args{‘Time Step’} (float):</dt><dd><p>Hop length in seconds. 0 is praat’s default, 0.75 / (pitch floor)</p>
+</dd>
+<dt>self.args{‘Max Number of Candidates’} (float)</dt><dd><p>The maximum number of pitch candidates to be considered</p>
+</dd>
+<dt>self.args{“Silence Threshold”} (float)</dt><dd><p>frames that do not contain amplitudes above this threshold (relative to the global maximum amplitude), are probably silent.</p>
+</dd>
+<dt>self.args{‘Voicing Threshold’} (float)</dt><dd><p>the strength of the unvoiced candidate, relative to the maximum possible autocorrelation. To increase the number of unvoiced decisions, increase this value.</p>
+</dd>
+<dt>self.args{‘Octave Cost’} (float)</dt><dd><p>degree of favouring of high-frequency candidates, relative to the maximum possible autocorrelation. This is necessary because even (or: especially) in the case of a perfectly periodic signal, all undertones of F0 are equally strong candidates as F0 itself. To more strongly favour recruitment of high-frequency candidates, increase this value.</p>
+</dd>
+<dt>self.args{“Octave Jump Cost”} (float)</dt><dd><p>degree of disfavouring of pitch changes, relative to the maximum possible autocorrelation. To decrease the number of large frequency jumps, increase this value. In contrast with what is described in the article, this value will be corrected for the time step: multiply by 0.01 s / TimeStep to get the value in the way it is used in the formulas in the article.</p>
+</dd>
+<dt>self.args{‘Vocied Unvoiced Cost’} (float)</dt><dd><p>degree of disfavouring of voiced/unvoiced transitions, relative to the maximum possible autocorrelation. To decrease the number of voiced/unvoiced transitions, increase this value. In contrast with what is described in the article, this value will be corrected for the time step: multiply by 0.01 s / TimeStep to get the value in the way it is used in the formulas in the article.</p>
+</dd>
+<dt>self.args{‘Unit’} (str)</dt><dd><p>The unit for pitch. Choices are “Hertz”,”Hertz (Logarithmic)”, “mel”, “logHertz”, “semitones re 1 Hz”, “semitones re 100 Hz”, “semitones re 200 Hz”, “semitones re 440 Hz”, “ERB”</p>
+</dd>
+<dt>self.args{‘Algorithm} (str)</dt><dd><p>Either Autocorrelation or Cross Correlation</p>
+</dd>
+<dt>self.args{“Very Accurate”} (str)</dt><dd><p>No uses 3 pitch periods. Yes uses 6 pitch periods.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.MeasurePitchNode.MeasurePitchNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.MeasurePitchNode.MeasurePitchNode.process" title="Permalink to this definition"></a></dt>
+<dd><p>The process function is the heart of VoiceLab. It is where all the processing
+is done. The process function takes in a single argument, which is an object that contains
+all the input data for this process (the input object). This function should return a dictionary, if it works,
+or a string with an error message if it does not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>self</strong> – Used to Access the attributes and methods of the class in python.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p>A dictionary with the following keys:</p>
+<dl class="simple">
+<dt>’Pitches’ (list of floats)</dt><dd><p>List of pitch values.</p>
+</dd>
+<dt>’Mean Pitch (F0)’ (float)</dt><dd><p>Mean pitch value in Hz.</p>
+</dd>
+<dt>’Standard Deviation (F0)’ (float)</dt><dd><p>Standard deviation of pitch values in Hz.</p>
+</dd>
+<dt>’Minimum Pitch (F0)’ (float)</dt><dd><p>Minimum pitch value in Hz.</p>
+</dd>
+<dt>’Maximum Pitch (F0)’ (float)</dt><dd><p>Maximum pitch value in Hz.</p>
+</dd>
+<dt>’Pitch Floor’ (float)</dt><dd><p>Pitch floor used in manipulation.</p>
+</dd>
+<dt>’Pitch Ceiling’ (float)</dt><dd><p>Pitch ceiling used in manipulation.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.MeasurePitchNode.measure_pitch">
+<span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.MeasurePitchNode.</span></span><span class="sig-name descname"><span class="pre">measure_pitch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">voice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">floor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ceiling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ac'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_number_of_candidates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silence_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.03</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voicing_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">octave_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">octave_jump_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voiced_unvoiced_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Hertz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">very_accurate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'no'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.MeasurePitchNode.measure_pitch" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voice</strong> (<em>str</em>) – The audio file to be analyzed.</p></li>
+<li><p><strong>floor</strong> (<em>int</em><em>, </em><em>float</em>) – The lowest pitch to be considered.</p></li>
+<li><p><strong>ceiling</strong> (<em>int</em><em>, </em><em>float</em>) – The highest pitch to be considered.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The algorithm used to find the pitch (autocorrelation or cross correlation).</p></li>
+<li><p><strong>time_step</strong> (<em>float</em>) – The time step used to find the pitch.</p></li>
+<li><p><strong>max_number_of_candidates</strong> (<em>int</em>) – The maximum number of pitch candidates to be considered.</p></li>
+<li><p><strong>silence_threshold</strong> (<em>float</em>) – The threshold used to determine if a frame is silent.</p></li>
+<li><p><strong>voicing_threshold</strong> (<em>float</em>) – The threshold used to determine if a frame is voiced.</p></li>
+<li><p><strong>octave_cost</strong> (<em>float</em>) – degree of favouring of high-frequency candidates, relative to the maximum possible autocorrelation</p></li>
+<li><p><strong>octave_jump_cost</strong> (<em>float</em>) – degree of disfavouring of pitch changes, relative to the maximum possible autocorrelation</p></li>
+<li><p><strong>voiced_unvoiced_cost</strong> (<em>float</em>) – degree of disfavouring of unvoiced frames</p></li>
+<li><p><strong>unit</strong> (<em>str</em>) – <p>The unit of the pitch. The choices are:</p>
+<ul>
+<li><p>Hertz</p></li>
+<li><p>Hertz (Logarithmic)</p></li>
+<li><p>mel</p></li>
+<li><p>logHertz</p></li>
+<li><p>semitones re 1 Hz</p></li>
+<li><p>semitones re 100 Hz</p></li>
+<li><p>semitones re 200 Hz</p></li>
+<li><p>semitones re 440 Hz</p></li>
+<li><p>ERB</p></li>
+</ul>
+</p></li>
+<li><p><strong>very_accurate</strong> (<em>str</em>) – very_accurate is a boolean value that determines if the algorithm used 3 pitch periods or 6. 6 are used if the value is yes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>pitch</strong>: <em>(parselmouth.Data)</em> - parselmouth pitch object</p></li>
+<li><p><strong>mean_f0</strong>: <em>(float)</em> - The mean pitch</p></li>
+<li><p><strong>std_f0</strong>: <em>(float)</em> - The standard deviation of the pitch</p></li>
+<li><p><strong>min_f0</strong>: <em>(float)</em> - The minimum pitch</p></li>
+<li><p><strong>max_f0</strong>: <em>(float)</em> - The maximum pitch</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode"></span><dl class="py class">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.ManipulatePitchHigherNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.</span></span><span class="sig-name descname"><span class="pre">ManipulatePitchHigherNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.ManipulatePitchHigherNode" title="Permalink to this definition"></a></dt>
+<dd><p>Manipulate pitch higher node.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.ManipulatePitchHigherNode.args">
+<span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.ManipulatePitchHigherNode.args" title="Permalink to this definition"></a></dt>
+<dd><p>The args dictionary is used to store the arguments of the node.
+The keys are the names of the arguments and the values are a tuple of the following format:
+(default value, [list of possible values]).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unit</strong> (<em>str</em>) – The unit of the pitch.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The method of manipulating the pitch.</p></li>
+<li><p><strong>amount</strong> (<em>float</em>) – The amount of the pitch manipulation.</p></li>
+<li><p><strong>time_step</strong> (<em>float</em>) – The time step of the pitch manipulation.</p></li>
+<li><p><strong>amplitude</strong> (<em>normalize</em>) – Whether to normalize the amplitude of the pitch manipulation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.ManipulatePitchHigherNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode.ManipulatePitchHigherNode.process" title="Permalink to this definition"></a></dt>
+<dd><p>The process function is the heart of the program.  It is called by default when you run a sound through VoiceLab,
+and it is also called when you click on “Start queue” in the GUI.  The process function takes in an array of arguments that are
+specified by whatever options you check off on the GUI or in VoiceLab’s “Manipulate Pitch Higher” menu.  These arguments
+are added to the args dictionary in the __init__ function.  The process function returns a dictionary of the results of the manipulation.
+This is either a parselmouth Sound object, or an error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>self</strong> – Used to Access the attributes and methods of the class in python.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the manipulated parselmouth.Sound object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict[str, Union[parselmouth.Sound, str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode"></span><dl class="py class">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode.ManipulateLowerFormantsNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode.</span></span><span class="sig-name descname"><span class="pre">ManipulateLowerFormantsNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode.ManipulateLowerFormantsNode" title="Permalink to this definition"></a></dt>
+<dd><p>Manipulate all of the formants of a voice to be lower.</p>
+<dl>
+<dt>self.args: dict</dt><dd><p>Dictionary of arguments for the node.</p>
+<dl class="simple">
+<dt>self.args{‘formant_shift_ratio’} (float, default=0.85):</dt><dd><p>The amount of formant shift to apply. 0-1 than one makes lower formants.  Greater than 1 makes higher formants.
+It’s recommended to use a number between 0 and 1, and if you want to raise formants, use the raise formants node instead to avoid confusion.</p>
+</dd>
+<dt>self.args{‘normalize amplitude’} (bool, default=True):</dt><dd><p>If true, the amplitude of the manipulated voice will be normalized to 70dB RMS.  Default is True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode.ManipulateLowerFormantsNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">parselmouth.Sound</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode.ManipulateLowerFormantsNode.process" title="Permalink to this definition"></a></dt>
+<dd><p>Lower all formants of the voice.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>self.args{‘formant_shift_ratio’} (float, default=0.85):</dt><dd><p>The amount of formant shift to apply. 0-1 than one makes lower formants.  Greater than 1 makes higher formants.
+It’s recommended to use a number between 0 and 1, and if you want to raise formants, use the raise formants node instead to avoid confusion.</p>
+</dd>
+</dl>
+<p>self.args{‘formant_shift_ratio’} (float, default=0.85):</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Manipulated parselmouth.Sound object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>manipulated_voice: parselmouth.Sound</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode"></span><dl class="py class">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode.ManipulateLowerPitchAndFormantsNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode.</span></span><span class="sig-name descname"><span class="pre">ManipulateLowerPitchAndFormantsNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode.ManipulateLowerPitchAndFormantsNode" title="Permalink to this definition"></a></dt>
+<dd><p>Manipulate lower pitch and formants</p>
+<dl>
+<dt>self.args<span class="classifier">dict</span></dt><dd><p>Arguments for the node
+self.args[‘formant_factor’] : float, default=0.85</p>
+<blockquote>
+<div><p>Factor to multiply formants by. Use a nunber between 0 and 1. For higher values, use ManipulateHigherPitchAndFormantsNode</p>
+</div></blockquote>
+<dl class="simple">
+<dt>self.args[‘pitch_factor’]<span class="classifier">float</span></dt><dd><p>Factor to multiply pitch by</p>
+</dd>
+<dt>self.args[‘normalize amplitude’]<span class="classifier">bool, default=True</span></dt><dd><p>Normalize amplitude to 70 dB RMS</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode.ManipulateLowerPitchAndFormantsNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">parselmouth.Sound</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode.ManipulateLowerPitchAndFormantsNode.process" title="Permalink to this definition"></a></dt>
+<dd><p>Lower pitch and formants</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dictionary of manipulated sound</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict of [str, parselmouth.Sound]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Voicelab.toolkits.Voicelab.ReverseSoundsNode"></span><dl class="py class">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ReverseSoundsNode.ReverseSoundsNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.ReverseSoundsNode.</span></span><span class="sig-name descname"><span class="pre">ReverseSoundsNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ReverseSoundsNode.ReverseSoundsNode" title="Permalink to this definition"></a></dt>
+<dd><p>A Class to reverse voice file temporally.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.ReverseSoundsNode.ReverseSoundsNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">parselmouth.Sound</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.ReverseSoundsNode.ReverseSoundsNode.process" title="Permalink to this definition"></a></dt>
+<dd><p>Run the node
+Reverse the time of the voice file.</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">return</dt>
+<dd class="field-odd"><p>The reversed sound file or an error message</p>
+</dd>
+<dt class="field-even">rtype</dt>
+<dd class="field-even"><p>dict of {str, [parselmouth.Sound, str]}</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Voicelab.toolkits.Voicelab.RotateSpectrumNode"></span><dl class="py class">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.RotateSpectrumNode.RotateSpectrumNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Voicelab.toolkits.Voicelab.RotateSpectrumNode.</span></span><span class="sig-name descname"><span class="pre">RotateSpectrumNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.RotateSpectrumNode.RotateSpectrumNode" title="Permalink to this definition"></a></dt>
+<dd><p>A Class to rotate the spectrum of the voice file.</p>
+<p>Script by Chris Darwin: <a class="reference external" href="http://www.lifesci.sussex.ac.uk/home/Chris_Darwin/Praatscripts/Spectral%20Rotation">http://www.lifesci.sussex.ac.uk/home/Chris_Darwin/Praatscripts/Spectral%20Rotation</a></p>
+<blockquote>
+<div><dl>
+<dt>self.args: dict</dt><dd><p>Dictionary of arguments for the node.</p>
+<dl class="simple">
+<dt>self.args{‘maximum_frequency’} (float):</dt><dd><p>maximum frequency. Spectrum will be resampled to 2x this frequency.
+Once rotated, this will be the new minimum frequency, but set to 0.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>self.process():</dt><dd><p>Rotates the spectrum of the voice file.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="Voicelab.toolkits.Voicelab.RotateSpectrumNode.RotateSpectrumNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">parselmouth.Sound</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Voicelab.toolkits.Voicelab.RotateSpectrumNode.RotateSpectrumNode.process" title="Permalink to this definition"></a></dt>
+<dd><p>process: WARIO hook called once for each voice file.</p>
+<blockquote>
+<div><p>Rotate the spectrum of the voice file.
+Script by Chris Darwin: <a class="reference external" href="http://www.lifesci.sussex.ac.uk/home/Chris_Darwin/Praatscripts/Spectral%20Rotation">http://www.lifesci.sussex.ac.uk/home/Chris_Darwin/Praatscripts/Spectral%20Rotation</a></p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>self.args{‘maximum_frequency’} (float): maximum frequency</p>
+</dd>
+<dt>Returns:</dt><dd><p>{“voice”: new_sound[0]} (dict[str, Union[parselmouth.Sound, str]]): the rotated sound object (not a wav file, but a praat object), or an error message</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

@@ -1,6 +1,8 @@
 from Voicelab.pipeline.Node import Node
 from parselmouth.praat import call
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
+from typing import Union
+import parselmouth
 
 ###################################################################################################
 # MANIPULATE PITCH AND FORMANTS NODE
@@ -14,47 +16,67 @@ from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 
 
 class ManipulateLowerPitchAndFormantsNode(VoicelabNode):
+    """Manipulate lower pitch and formants
+
+    Arguments
+    ----------
+    self.args : dict
+        Arguments for the node
+        self.args['formant_factor'] : float, default=0.85
+            Factor to multiply formants by. Use a nunber between 0 and 1. For higher values, use ManipulateHigherPitchAndFormantsNode
+        self.args['pitch_factor'] : float
+            Factor to multiply pitch by
+        self.args['normalize amplitude'] : bool, default=True
+            Normalize amplitude to 70 dB RMS
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.args = {"unit": ("percent", ["percent"]),
+        self.args = {
                      "formant_factor": 0.85,
                      "pitch_factor":   0.85,
-                     "pitch_range_factor": 1,
-                     "duration_factor": 1,
                      "normalize amplitude": True,
                      }
 
+        # These are default settings for praat that we are hiding from the GUI and API
+        self.pitch_range_factor = 1
+        self.duration_factor = 1
+        self.f0min, self.f0max = self.pitch_bounds(self.args["voice"])
+        self.args['f0min'], self.args['f0max'] = self.f0min, self.f0max
     ###############################################################################################
     # process: WARIO hook called once for each voice file.
     ###############################################################################################
-    def process(self):
+    def process(self) -> dict[str, Union[str, parselmouth.Sound]]:
+        """Lower pitch and formants
 
-        sound = self.args["voice"]
-        formant_factor = self.args["formant_factor"]
-        pitch_factor = self.args["pitch_factor"]
-        duration = sound.get_total_duration()
-        file_path = self.args["file_path"]
-        pitch_range_factor = self.args["pitch_range_factor"]
-        duration_factor = 1
-        pitch_range_factor = 1
-        f0min, f0max = self.pitch_bounds(sound)
-        self.args['f0min'], self.args['f0max'] = f0min, f0max
-        print(f0min, f0max)
-        pitch = sound.to_pitch()
-        median_pitch = call(pitch, "Get quantile", 0, duration, 0.5, "Hertz")
+        :return: Dictionary of manipulated sound
+        :rtype:  dict of [str, parselmouth.Sound]
+        """
 
-        new_pitch_median = pitch_factor * median_pitch
+        sound: parselmouth.Sound = self.args["voice"]
+        pitch_range_factor: Union[int, float] = self.pitch_range_factor
+        duration_factor: Union[int, float] = self.duration_factor
+        formant_factor: Union[int, float] = self.args["formant_factor"]
+        pitch_factor: Union[int, float] = self.args["pitch_factor"]
+        duration: Union[int, float] = sound.get_total_duration()
+        file_path: str = self.args["file_path"]
+        f0min, f0max = self.f0min, self.f0max
+        normalize_amplitude: bool = self.args["normalize amplitude"]
 
-        output_file_name = file_path.split("/")[-1].split(".wav")[0]
-        output_file_name = (
+        pitch: parselmouth.Data = sound.to_pitch(pitch_floor=f0min, pitch_ceiling=f0max)
+        median_pitch: float = call(pitch, "Get quantile", 0, duration, 0.5, "Hertz")
+
+        new_pitch_median: Union[int, float] = pitch_factor * median_pitch
+
+        output_file_name: str = file_path.split("/")[-1].split(".wav")[0]
+        output_file_name: str = (
             f"{output_file_name}_lower_pitch_and_formants_{pitch_factor}_{formant_factor}"
         )
-        number_of_channels = call(sound, 'Get number of channels')
+        number_of_channels: Union[int, float] = call(sound, 'Get number of channels')
         if number_of_channels == 2:
             sound = call(sound, 'Convert to mono')
 
-        manipulated_sound = call(
+        manipulated_sound: parselmouth.Sound = call(
             sound,
             "Change gender",
             f0min,
@@ -65,7 +87,7 @@ class ManipulateLowerPitchAndFormantsNode(VoicelabNode):
             duration_factor,
         )
 
-        if self.args["normalize amplitude"]:
+        if normalize_amplitude:
             manipulated_sound.scale_intensity(70)
 
         manipulated_sound.name = output_file_name

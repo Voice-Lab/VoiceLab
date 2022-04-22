@@ -371,3 +371,48 @@ Output formats
 - All data files are saved as xlsx
 - All sound files are saved as wav
 - All image files are saved as png
+
+
+API
+====
+This API is not yet complete. It is a work in progress. But, for now, there's enough for you to run any node as long
+as you can understand the code.  Reproducing Voicelab's exact behaviour in the command line is a bit more difficult as
+there is a state dictionary and and :python:`end()` method for some nodes.
+
+All nodes can be imported and run without the VoiceLab GUI if you program their execution in Python.
+
+You'll need to supply: :python:`args['file_path']`, which is the file path, and
+:python:`args['voice']`, which is the :python:`parselmouth.Sound` object created by running
+:python:`parselmouth.Sound(args['file_path'])`.  You may also set additional parameters by creating an 
+instance of a node, and setting the dictionary :python:`args` to the appropriate values as specified
+in each node. The output of each node is a dictionary of the results. If the node is a manipulation
+node, it will return a :python:`parselmouth.Sound` object. If the node is a plot, it will return a matplotlib figure.
+Otherwise, it will return mixed types of floats, integers, strings, and lists in the dictionary.
+
+Nodes
+------
+Measurement Nodes
+~~~~~~~~~~~~~~~~~~
+
+.. automodule:: Voicelab.toolkits.Voicelab.MeasurePitchNode
+   :members:
+
+Manipulation Nodes
+~~~~~~~~~~~~~~~~~~
+.. automodule:: Voicelab.toolkits.Voicelab.ManipulatePitchHigherNode
+   :members:
+
+.. automodule:: Voicelab.toolkits.Voicelab.ManipulateLowerFormantsNode
+   :members:
+
+.. automodule:: Voicelab.toolkits.Voicelab.ManipulateLowerPitchAndFormantsNode
+   :members:
+
+.. automodule:: Voicelab.toolkits.Voicelab.ReverseSoundsNode
+   :members:
+
+.. automodule:: Voicelab.toolkits.Voicelab.RotateSpectrumNode
+   :members:
+
+Visualization Nodes
+~~~~~~~~~~~~~~~~~~~~

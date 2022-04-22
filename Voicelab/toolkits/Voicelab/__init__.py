@@ -40,6 +40,7 @@ from .ManipulatePitchHigherNode import ManipulatePitchHigherNode
 from .ScaleIntensityNode import ScaleIntensityNode
 from .ResampleSoundsNode import ResampleSoundsNode
 from .ReverseSoundsNode import ReverseSoundsNode
+from .RotateSpectrumNode import RotateSpectrumNode
 
 # Visualization Nodes
 from .VisualizeVoiceNode import VisualizeVoiceNode

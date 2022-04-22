@@ -6,7 +6,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
-    <option name="format" value="PLAIN" />
-    <option name="myDocStringFormat" value="Plain" />
+    <option name="renderExternalDocumentation" value="true" />
+  </component>
+  <component name="ReSTService">
+    <option name="DOC_DIR" value="$USER_HOME$/VoiceLab/docs/_sources" />
+    <option name="TXT_IS_RST" value="true" />
   </component>
 </module>

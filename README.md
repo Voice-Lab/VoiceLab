@@ -8,10 +8,17 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 
-## Version 1.1.1
-### Changes from 1.1.0
+## Version 1.2.0
+### Changes from 1.1.2
+#### New Features
+* MeasurePitchNode now outputs a list of all pitch values
+* New Rotate Spectrom script from Chris Darwin
+* *Some* API documentation: https://voice-lab.github.io/VoiceLab/#api
+  * There's a lot to do, so it's going to take a while to get it all together.
+
 #### Bug fixes
-* Fixed manipulations -non default options now do not crash the program.
+* When trying to enter a value in "Time Steps" (Measure Voice pitch) it will no longer crash when typing a ".".
+* Fixed spectrograms
 
 ## Contact
 #### David Feinberg: feinberg@mcmaster.ca

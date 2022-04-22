@@ -25,6 +25,7 @@ class SettingsTab(VoicelabTab):
             **kwargs:
         """
         super().__init__(data_controller, signals, tabs, *args, **kwargs)
+
         self.signals["on_files_changed"].connect(self.on_files_changed)
 
         # stores the current, cached, and default values for what line edits should be checked
@@ -371,6 +372,7 @@ class SettingWidget(QWidget):
             **kwargs:
         """
         super().__init__(*args, **kwargs)
+        self.bad_inputs = {" ", ",", ".", ":", ";", "!", "?", "'", "\\", "/", "", "-", '_', '+', '=', '*', '&', '^', '%', '$', '#', '@', '~', '`', '<', '>', '|', '{', '}', '[', ']', '(', ')', '"', '\''}
 
         self.data_controller = data_controller
 
@@ -433,7 +435,7 @@ class SettingWidget(QWidget):
         """
 
         setting_type = type(self.default)
-        if new_text != "" and new_text != '-' and new_text != '.':
+        if new_text not in self.bad_inputs:
             self.data_controller.set_settings(
                 self.fn_name, [self.name], [setting_type(new_text)]
             )

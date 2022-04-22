@@ -41,8 +41,6 @@ class ManipulateLowerPitchAndFormantsNode(VoicelabNode):
         # These are default settings for praat that we are hiding from the GUI and API
         self.pitch_range_factor = 1
         self.duration_factor = 1
-        self.f0min, self.f0max = self.pitch_bounds(self.args["voice"])
-        self.args['f0min'], self.args['f0max'] = self.f0min, self.f0max
     ###############################################################################################
     # process: WARIO hook called once for each voice file.
     ###############################################################################################
@@ -60,7 +58,8 @@ class ManipulateLowerPitchAndFormantsNode(VoicelabNode):
         pitch_factor: Union[int, float] = self.args["pitch_factor"]
         duration: Union[int, float] = sound.get_total_duration()
         file_path: str = self.args["file_path"]
-        f0min, f0max = self.f0min, self.f0max
+        self.args['f0min'], self.args['f0max'] = self.pitch_bounds(sound)
+        f0min, f0max = self.args['f0min'], self.args['f0max']
         normalize_amplitude: bool = self.args["normalize amplitude"]
 
         pitch: parselmouth.Data = sound.to_pitch(pitch_floor=f0min, pitch_ceiling=f0max)

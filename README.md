@@ -63,7 +63,7 @@ is Praat\'s source code powering everything. That means if you are a
 beginner an expert, or anything in-between, you can use this software to
 automate your acoustical analyses.
 
-All of the code is open source and available on our GitHub repository,
+All of the code is open source and available here on our GitHub repository,
 so if this manual isn\'t in-depth enough, and you want to see exactly
 what\'s going on, go for it. It is under the MIT license, so you are
 free to do what you like with the software as long as you give us

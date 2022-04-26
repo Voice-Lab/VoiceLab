@@ -39,8 +39,8 @@ You can grab the full program here for <a href="https://github.com/Voice-Lab/Voi
  Do not install the version on PyPi. It does not work.
 
 
-## Contributors
-### Current Contributor
+## Software Development Team
+### Current Sole Maintainer
 David Feinberg, PhD
 ### Past Contributor(s)
 Oliver Cook

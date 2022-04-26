@@ -476,6 +476,10 @@ Reverse Sounds
 This reverses the selected sounds. Use this if you want to play sounds
 backwards. Try a Led Zepplin or Beatles song.
 
+Rotate Spectrum
+---------------
+This resamples the sound, rotates the selected sounds by 180 degrees and reverses it so it’s just the inverted frequency spectrum. This scipt is from Chris Darwin and reproduced here with permission: The original can be found here: http://www.lifesci.sussex.ac.uk/home/Chris_Darwin/Praatscripts/Spectral%20Rotation A similar technique was used here: Bédard, C., & Belin, P. (2004). A “voice inversion effect?”. Brain and cognition, 55(2), 247-249.
+
 Scale Intensity
 ---------------
 

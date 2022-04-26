@@ -12,7 +12,7 @@ spectrograms and power spectra, with the press of one button.
 ### Changes from 1.1.2
 #### New Features
 * MeasurePitchNode now outputs a list of all pitch values
-* New Rotate Spectrom script from Chris Darwin
+* New Rotate Spectrum script from Chris Darwin
 * *Some* API documentation: https://voice-lab.github.io/VoiceLab/#api
   * There's a lot to do, so it's going to take a while to get it all together.
 
@@ -28,7 +28,7 @@ spectrograms and power spectra, with the press of one button.
 #### David Feinberg: feinberg@mcmaster.ca
 
 ## Installation instructions:
-You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.2.0/voicelab.exe" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.2.0/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
+You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.2.0/voicelab.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.2.0/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary.
 
 ### If you are on Linux, other systems, or just want to use Python, we recommend setting up a new virtual environment with Python 3.9.
 0. Clone this repository and navigate to the project root.

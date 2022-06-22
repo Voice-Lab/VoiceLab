@@ -17,7 +17,7 @@ setup(name='Voicelab',
       author_email='feinberg@mcmaster.ca',
       packages=['Voicelab'],
       install_requires=[
-            'numpy==1.21',
+            'numpy==1.22.0',
             'PyQt5==5.15.2',
             'QDarkStyle==2.8.1',
             'praat-parselmouth==0.4.0',

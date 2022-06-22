@@ -88,12 +88,14 @@ class VoicelabDataModel:
     # + voice: parselmouth Sound object
     # + file_path: path to the file in the filesystem. Used for indexing
     ###############################################################################################
-    def load_voice(self, voice, file_path):
+    #def load_voice(self, voice, file_path):
+    def load_voice(self, file_path, signal, sampling_rate):
         """
         Args:
             voice:
             file_path:
         """
+        voice = (signal, sampling_rate)
         self.loaded_voices[file_path] = voice
         return self.loaded_voices
 

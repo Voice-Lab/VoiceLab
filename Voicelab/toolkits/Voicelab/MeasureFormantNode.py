@@ -1,37 +1,41 @@
-import pandas as pd
-import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from scipy import stats
-from sklearn.impute import SimpleImputer
-import sys
-import os
+from __future__ import annotations
 
-from Voicelab.pipeline.Node import Node
+import numpy as np
+
+from typing import Union
+import parselmouth
 from parselmouth.praat import call
+from Voicelab.pipeline.Node import Node
+
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 
 
-###################################################################################################
-# MEASURE FORMANTS NODE
-# WARIO pipeline node for measuring the formants of a voice
-###################################################################################################
-# PIPELINE ARGUMENTS
-# 'voice' :
-# 'time step':
-# 'max number of formants':
-# 'window length(s):
-# 'pre emphasis from'
-# 'pitch floor'
-# 'pitch ceiling'
-# 'method': Option tuple for the praat algorithm to use, 0 = selected value, 1 = available options
-# 'maximum formant': Maximum formant. Default is to dynamically calculate during runtime
-###################################################################################################
-# RETURNS
-###################################################################################################
-
-
 class MeasureFormantNode(VoicelabNode):
+    """Measure formant frequencies using Praat's Formant Path Function.
+
+    Arguments:
+    -----------
+        self.args : dict
+            Arguments for the node
+            self.args['time step'] : Union[float, int], default=0.0025
+                Time step in seconds
+            self.args['max number of formants'] : Union[float, int], default=5.5
+                Maximum number of formants is used to set the number of poles in the LPC filter.  The number of poles is 2x this number.
+            self.args['window length'] : bool, default=True
+                Normalize amplitude to 70 dB RMS
+            self.args['pre-emphasis']: Union[float, int], default=50
+                Pre-emphasis filter coefficient: the frequency F above which the spectral slope will increase by 6 dB/octave.
+            self.args['max_formant (To Formant Burg...)']: Union[float, int], default=5500
+                Maximum formant frequency in Hz. This is the nyquist frequency for resampling prior to LPC analysis. Sounds will be resampled to 2x this number. This is for the Formant Burg analysis, a fallback in-case Formant Path fails or is not selected.
+            self.args["Center Formant (Formant Path)"]: Union[float, int], default=5500
+                This is the centre frequency for the Formant Path analysis. This is the nyquist frequency for resampling prior to LPC analysis. Sounds will be resampled to 2x this number. Formant Path will measure formants using this value and several others, depending on the number of steps and ceiling step size.
+            self.args["Ceiling Step Size (Formant Path)"]: Union[float, int], default=0.05
+                This is the size of steps in the Formant Path analysis. This is the nyquist frequency for resampling prior to LPC analysis. Sounds will be resampled to 2x this number. Praat will measure formants at a number of steps up and down of this size.
+            self.args["Number of Steps (Formant Path)"]: Union[float, int], default=4
+                This is the number of steps in the Formant Path analysis. This is the nyquist frequency for resampling prior to LPC analysis. This is the number of formant analyses to perform.
+            self.args['method']: str, default='Formant Path'
+                Method to use for formant measurement. Options are: Formant Path or Formant Burg.
+    """
     def __init__(self, *args, **kwargs):
 
         """
@@ -44,16 +48,16 @@ class MeasureFormantNode(VoicelabNode):
         self.args = {
             # Shared Settings
             "time step": 0.0025,  # a zero value is equal to 25% of the window length
-            "max number of formants": 5.5, # Must be divisible by 0.5
+            "max number of formants": 5.5,  # Must be divisible by 0.5
             "window length(s)": 0.025,
             "pre emphasis from": 50,
             # Formant Burg-Specific Settings
-            "max_formant (To Formant Burg...)": ('Auto', ['Auto', '5500']),
+            "max_formant (To Formant Burg...)": 0.0,
             # Formant Path-Specific Settings
-            "Center Formant (Formant Path)": ('Auto', ['Auto', '5500']),
+            "Center Formant (Formant Path)": 0.0,
             "Ceiling Step Size (Formant Path)": 0.05,
             'Number of Steps (Formant Path)': 4,
-            'method': ('To Formant Burg...', ['To Formant Burg...', 'Formant Path'],),
+            'method': ('Formant Path', ['Formant Path', 'To Formant Burg...']),
         }
 
         # check that max number of formants is divisible by 0.5
@@ -73,104 +77,64 @@ class MeasureFormantNode(VoicelabNode):
         }
 
     def process(self):
-        """:Returns the means and medians of the 1st 4 formants, and the Praat formant object for use in VTL
-             estimates and plots.
-            :param None
-            :type: None
-            ...
+        """Returns the means and medians of the 1st 4 formants, and the Praat formant object for use in VTL estimates and plots.
+
             :return: The max formant value
             :rtype: int
         """
+        # Get the parameters for the analysis
         method = self.args['method'][0]
+        self.method = method
+        file_path = self.args["file_path"]
+        time_step = self.args["time step"]
+        max_number_of_formants = self.args["max number of formants"]
+        max_formant = self.args["max_formant (To Formant Burg...)"]
+        window_length = self.args["window length(s)"]
+        pre_emphasis = self.args["pre emphasis from"]
+        center_formant = self.args["Center Formant (Formant Path)"]
+        ceiling_step_size = self.args["Ceiling Step Size (Formant Path)"]
+        number_of_steps = self.args["Number of Steps (Formant Path)"]
+
+        signal, sampling_rate = self.args['voice']
+        sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+
         try:
-            # Load the sound
-            sound = self.args["voice"]
             # Burg Method
-            if method == 'To Formant Burg...':
-                # Set Maximum Formant Value Automatically
-                if self.args['max_formant (To Formant Burg...)'] == 'Auto':
-                    try:
-                        self.args['max_formant (To Formant Burg...)'] = self.formant_max(sound)
-                    except:
-                        # Otherwise default to 5500 Hz as max_formant value, Praat's default
-                        self.args['max_formant (To Formant Burg...)'] == 5500
+            if max_formant == 0:
+                max_formant = self.max_formant(file_path=file_path)
+            if method == 'To Formant Burg...' or method == 'T':
+                formant_object = self.measure_formants_burg(
+                    file_path,
+                    time_step,
+                    max_number_of_formants,
+                    max_formant,
+                    window_length,
+                    pre_emphasis
+                )
+
+            # Formant Path Method
+            elif method == 'Formant Path' or method == 'F':
+                # Find centre max formant
+                if center_formant == 0:
+                    f_center = self.max_formant(sound)
                 # Set any user defined max formant values
                 else:
-                    try:
-                        self.args['max_formant (To Formant Burg...)'] == int(self.args['max_formant (To Formant Burg...)'])
-                    except:
-                        # Otherwise default to 5500 Hz as max_formant value, Praat's default
-                        self.args['max_formant (To Formant Burg...)'] = 5500
+                    f_center = center_formant
 
-                # Create a Praat Formant Object
-                formant_object = sound.to_formant_burg(
-                    self.args["time step"],
-                    self.args["max number of formants"],
-                    self.args["max_formant (To Formant Burg...)"],
-                    self.args["window length(s)"],
-                    self.args["pre emphasis from"],
-            )
-            # measure_PCA = self.args['Measure PCA']
-
-                # Generate max_formant parameter
-                self.args["max_formant"] = self.formant_max(sound)
-                formant_path_object = call(sound, "To FormantPath (burg)", 0.005, 5, self.args["max_formant"], 0.025, 50.0, 0.025, 5)
+                formant_path_object = call(
+                    sound,
+                    "To FormantPath (burg)",
+                    time_step,
+                    max_number_of_formants,
+                    f_center,
+                    window_length,
+                    pre_emphasis,
+                    ceiling_step_size,
+                    number_of_steps
+                )
                 formant_object = call(formant_path_object, "Extract Formant")
+                self.args["method"]: str = 'Formant Path'
 
-                #formant_object = sound.to_formant_burg(
-                #    self.args["time step"],
-                #    self.args["max number of formants"],
-                #    self.args["max_formant"],
-                #    self.args["window length(s)"],
-                #    self.args["pre emphasis from"],
-                #)
-
-                # Formant Path Method
-            elif self.args['method'] == 'Formant Path':
-                try:  # Try formant path first
-                    # Find centre max formant
-                    if self.args['Center Formant (Formant Path)'] == 'Auto':
-                        try:
-                            self.args['Center Formant (Formant Path)'] = self.formant_max(sound)
-                        except:
-                            # Otherwise default to 5500 Hz as max_formant value, Praat's default
-                            self.args['Center Formant (Formant Path)'] == 5500
-                    # Set any user defined max formant values
-                    else:
-                        try:
-                            self.args['Center Formant (Formant Path)'] == int(
-                                self.args['Center Formant (Formant Path)'])
-                        except:
-                            # Otherwise default to 5500 Hz as max_formant value, Praat's default
-                            self.args['Center Formant (Formant Path)'] = 5500
-
-                    # Create A Praat Formant Path Object
-                    formant_path_object = call(sound,
-                                               "To FormantPath (burg)",
-                                               self.args["time step"],
-                                               self.args["max number of formants"],
-                                               self.args["Center Formant (Formant Path)"],
-                                               self.args["window length(s)"],
-                                               self.args["pre emphasis from"],
-                                               self.args["Ceiling Step Size (Formant Path)"],
-                                               self.args['Number of Steps (Formant Path)'])
-                    # Extract the Praat Formant Object from the Formant Path Object
-                    formant_object = call(formant_path_object, "Extract Formant")
-                    # Reset the method value in case previous voice failed at formant path and instead,
-                    ## 'To Formant Burg...' was used
-                    self.args["method"] = 'Formant Path'
-
-                except :
-                    # If formant path fails, get formant object formant_burg with max_formant from self.args
-                    formant_object = sound.to_formant_burg(
-                        self.args["time step"],
-                        self.args["max number of formants"],
-                        self.args["max_formant (To Formant Burg...)"],
-                        self.args["window length(s)"],
-                        self.args["pre emphasis from"],
-                    )
-                # Set the method to To formant burg to ensure we record the method change in the output data file.
-                self.args["method"] = 'To formant burg...'
 
             # The following code is to vectorize gathering the formants in Numpy to prevent nested loops
             # Set up lists to apply the functions across, the list needs to be 8 items long
@@ -200,56 +164,88 @@ class MeasureFormantNode(VoicelabNode):
                 "Formants": formant_object,
             }
 
-        except:
-            # If something went wrong beyond what's already been tested for, report nan values and move on
+        except Exception as e:
+            raise
             results = {
-                "F1 Mean":   np.nan,
-                "F2 Mean":   np.nan,
-                "F3 Mean":   np.nan,
-                "F4 Mean":   np.nan,
-                "F1 Median": np.nan,
-                "F2 Median": np.nan,
-                "F3 Median": np.nan,
-                "F4 Median": np.nan,
-                "Formants": "Formant Analysis Failed",
+                "F1 Mean": str(e),
+                "F2 Mean": str(e),
+                "F3 Mean": str(e),
+                "F4 Mean": str(e),
+                "F1 Median": str(e),
+                "F2 Median": str(e),
+                "F3 Median": str(e),
+                "F4 Median": str(e),
+                "Formants": str(e),
             }
         return results
 
     def end(self, results):
 
-        """
-        Args:
-            results:
+        """This passes the data on to State for post-processing of VTL estimates
+
+        :return: results: a dictionary of the results containing the output from process()
+        :rtype: dict
         """
         return results
 
-    def formant_max(self, voice):
-        """:Returns the max formant value based on the voice pitch for the `To Formant Burg...` function.
-            :param voice: Parselmouth-Praat Sound object
-            :type object:
-            ...
-            :return: The max formant value
-            :rtype: int
+    def measure_formants_burg(self, filename, time_step, max_number_of_formants, max_formant, window_length, pre_emphasis):
+        """This function measures the formants using the formant_burg method
+
+        :param filename: the name of the file to measure
+        :type: filename: str
+        :param time_step: the time step to use for the analysis
+        :type: time_step: float
+        :param max_number_of_formants: the maximum number of formants to measure
+        :type: max_number_of_formants: int
+        :param max_formant: the maximum formant to measure
+        :type: max_formant: float
+        :param window_length: the window length to use for the analysis
+        :type: window_length: float
+        :param pre_emphasis: the pre-emphasis to use for the analysis
+        :type: pre_emphasis: float
+        :return formant_object: a praat formant object
+        :rtype: parselmouth.Formant
         """
+        # This is the function to call to measure the formants
+
+        signal, sampling_rate = self.args['voice']
+        sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+        print(f'{max_formant=}')
         try:
-            pitch_floor, pitch_ceiling = self.pitch_bounds(voice)
-            pitch = call(
-                voice, "To Pitch", 0.0, pitch_floor, pitch_ceiling
-            )  # check pitch to set formant settings
-            mean_f0 = call(pitch, "Get mean", 0, 0, "Hertz")
-            if 140 <= mean_f0 <= 300:
-                max_formant = 5500
-
-            elif mean_f0 < 140:
-                max_formant = 5000
-
-            else:
-                max_formant = 8000
-            return max_formant
+            if max_formant == 'Auto':
+                try:
+                    max_formant = self.args['max_formant (To Formant Burg...)'] = self.formant_max(sound)
+                except:
+                    # Otherwise default to 5500 Hz as max_formant value, Praat's default
+                    max_formant = self.args['max_formant (To Formant Burg...)'] = 5500
         except:
-            return 5500
+            # Otherwise default to 5500 Hz as max_formant value, Praat's default
+            max_formant = self.args['max_formant (To Formant Burg...)'] = 5500
+            raise
+
+        print(f'{max_formant=}')
+        formant_object = sound.to_formant_burg(
+            time_step,
+            max_number_of_formants,
+            max_formant,
+            window_length,
+            pre_emphasis
+        )
+        return formant_object
 
 def get_values_function(object, fn, command):
+    """This function returns the values of a function from a praat formant object. This is used to make a vectorized NumPy function to reduce nested loops.
+
+    :param object: the praat formant object
+    :type: object: parselmouth.Formant
+    :param fn: the function to return
+    :type: fn: function
+    :param command: the command to use to get the values
+    :type: command: str
+    :return: values: individual formant values
+    :rtype: Union[float, int]
+    """
+
     if command == 'Get mean':
         return call(object, command, fn, 0, 0, "hertz")
     elif command == 'Get quantile':

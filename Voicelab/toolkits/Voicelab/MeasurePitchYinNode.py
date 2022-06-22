@@ -2,7 +2,7 @@ from Voicelab.pipeline.Node import Node
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 from parselmouth.praat import call
 import parselmouth
-
+import inspect
 import numpy as np
 # from scipy.io.wavfile import read as wavread
 # from scipy.signal import resample
@@ -20,15 +20,15 @@ class MeasurePitchYinNode(VoicelabNode):
         """
         super().__init__(*args, **kwargs)
 
+
         # initialize with default arguments
         self.args = {
             'min f0': 40,
             'max f0': 600,
         }
 
-    def process(self):
+    def process(self, audioFilePath=None, *args, **kwargs):
         try:
-            audioFilePath = self.args["file_path"]
             if audioFilePath[-3:].lower() != "wav":
                 tmp_praat_object = parselmouth.Sound(audioFilePath)
                 tmp_praat_object.save("tmp.wav", "WAV")
@@ -42,20 +42,21 @@ class MeasurePitchYinNode(VoicelabNode):
             yin_max_pitch = np.nanmax(pitches).item()
             yin_mean_pitch = np.nanmean(pitches).item()
             yin_median_pitch = np.nanmedian(pitches).item()
+            yin_standard_deviation_pitch = np.nanstd(pitches).item()
             return {
-                'min_pitch_yin': yin_min_pitch,
-                'max_pitch_yin': yin_max_pitch,
-                'mean_pitch_yin': yin_mean_pitch,
-                'median_pitch_yin': yin_median_pitch,
-                'pitches_yin': pitches_full.tolist()
+                'Min Pitch (Yin)': yin_min_pitch,
+                'Max Pitch (Yin)': yin_max_pitch,
+                'Mean Pitch (Yin)': yin_mean_pitch,
+                'Median Pitch (Yin)': yin_median_pitch,
+                'Standard Deviation Pitch (Yin)': yin_standard_deviation_pitch,
+                'Pitch Values (Yin)': pitches_full.tolist()
             }
 
         except Exception as e:
-            print(e)
             return {
-                'min_pitch_yin': "Measure Pitch Yin Failed",
-                'max_pitch_yin': "Measure Pitch Yin Failed",
-                'mean_pitch_yin': "Measure Pitch Yin Failed",
-                'median_pitch_yin': "Measure Pitch Yin Failed",
-                'pitches_yin': "Measure Pitch Yin Failed",
+                'Min Pitch (Yin)': str(e),
+                'Max Pitch (Yin)': str(e),
+                'Mean Pitch (Yin)': str(e),
+                'Median Pitch (Yin)': str(e),
+                'Pitch Values (Yin)': str(e),
             }

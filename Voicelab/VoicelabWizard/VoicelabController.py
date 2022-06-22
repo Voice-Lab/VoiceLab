@@ -37,9 +37,10 @@ class VoicelabController:
         self.active_functions_cache = {}
         self.last_used_settings = {}
         self.progress = 0
-        self.progress_callback = lambda node, start, current, end: print(
-            node.node_id, start, current, end
-        )
+        # Lambdas are not allowed in multiprocessing.  I made a function below instead.
+        #self.progress_callback = lambda node, start, current, end: print(
+        #    node.node_id, start, current, end
+        #)
         self.figures = []
         self.spectra = []
         self.displayable_results = {}
@@ -48,6 +49,11 @@ class VoicelabController:
     # load_figure: load a single figure into the list of figures. This lets us keep track of and
     # close the figures when they are not needed. This is important especially given matplotlib's statefulness
     """
+
+    def progress_callback(self, node, start, current, end):
+        print(
+            node.node_id, start, current, end
+        )
 
     def load_figure(self, figure):
         self.figures.append(figure)
@@ -74,10 +80,14 @@ class VoicelabController:
     """
     # load voices: from a list of file paths, create voice objects and save them in the model
     """
-
     def load_voices(self, file_paths):
         for file_path in file_paths:
-            self.data_model.load_voice(parselmouth.Sound(file_path), file_path)
+            #self.data_model.load_voice(parselmouth.Sound(file_path), file_path)
+            sound = parselmouth.Sound(file_path)
+            signal = sound.values
+            sampling_rate = sound.sampling_frequency
+            voice = (signal, sampling_rate)
+            self.data_model.load_voice(file_path, signal, sampling_rate)
         return self.data_model.loaded_voices
 
     """
@@ -222,12 +232,10 @@ class VoicelabController:
         pipeline = Pipeline()
 
         # Create a node that will load all of the voices
-        # todo figure out why we need to do this, since we already loaded the voices
         load_voices = Voicelab.LoadVoicesNode("Load Voice")
 
         # Set up the load node with the appropriate file locations
         load_voices.args["file_locations"] = active_voices
-
         # Add the node to the pipeline
         pipeline.add(load_voices)
 

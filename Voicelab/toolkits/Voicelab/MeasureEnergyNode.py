@@ -1,19 +1,40 @@
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+from parselmouth.praat import call
+import parselmouth
+
+from typing import Union
+
 from Voicelab.pipeline.Node import Node
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 
-import numpy as np
-from parselmouth.praat import call
-import parselmouth
-import pandas as pd
-
 
 class MeasureEnergyNode(VoicelabNode):
+    """Measure Energy like in VoiceSauce
+
+    Arguments:
+    ----------
+        self.args: dict
+            Dictionary of arguments for the node.
+
+                self.args["pitch algorithm]": str, default="Praat"
+                    Pitch method to use. Only Praat is available at the moment
+                self.args["start"]: float, default=0.0
+                    Time in seconds to start the analysis
+                self.args["end"]: float, default=0.0
+                    Time in seconds to end the analysis
+                self.args["number of periods"]: int, default=5
+                    Number of pitch periods to use for the analysis
+                self.args['frameshift']: int, default=1
+                    Number of ms to shift between frames
+                self.args['fmin']: int, default=40
+                    Minimum frequency to use for the analysis. Here we use values from VoiceSauce, not from VoiceLab's automatic settings in order to replicate the algorthm used in VoiceSauce.
+                self.args['fmax']: int, default=500
+                    Maximum frequency to use for the analysis. Here we use values from VoiceSauce, not from VoiceLab's automatic settings in order to replicate the algorthm used in VoiceSauce.
+    """
     def __init__(self, *args, **kwargs):
-        """
-        Args:
-            *args:
-            **kwargs:
-        """
         super().__init__(*args, **kwargs)
 
         self.args = {
@@ -24,118 +45,128 @@ class MeasureEnergyNode(VoicelabNode):
             "frameshift": 1,
             'fmin': 40,
             'fmax': 500,
-
         }  # 0 means select all
 
     def process(self):
-        """
-        Get energy of a signal using Algorithm from Voice Sauce ported to Python.
+        """Get energy of a signal using Algorithm from Voice Sauce ported to Python.
+
+        :return: dictionary with energy values, mean energy, and RMS energy from Praat or error messages
+        :rtype:
+                Dictionary with the following values:
+                    str | Union[list of Union[float, int], str]
+                        energy values or error message
+                    str | Union[float, int, str]
+                        mean energy or error message
+                    str | Union[float, int, str]
+                        RMS energy from Praat or error message
         """
 
         try:
             # Get the pitch in order to set a variable window length based on 5 pitch periods
-            sound = self.args["voice"]
-            audioFilePath = self.args["file_path"]
-            print(audioFilePath)
-            self.Fs = sound.sampling_frequency
-            self.audioFilePath = self.args["file_path"]
+            audio_file_path: str = self.args["file_path"]
+            signal, sampling_rate = self.args['voice']
+            sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+            self.fs: Union[float, int] = sound.sampling_frequency
+            self.audio_file_path: str = self.args["file_path"]
             if isinstance(self.args["pitch algorithm"], tuple):
-                self.method = self.args["pitch algorithm"][0]
+                self.method: str = self.args["pitch algorithm"][0]
             else:
-                self.method = self.args["pitch algorithm"]
-            self.fmin = self.args['fmin']
-            self.fmax = self.args['fmax']
+                self.method: str = self.args["pitch algorithm"]
+            self.fmin: int = self.args['fmin']
+            self.fmax: int = self.args['fmax']
 
             # Get the number of periods in the signal
-            N_periods = 5  # Nperiods_EC
-            self.N_periods = N_periods
-            frameshift = 1  # variables.frameshift
-            time_praat, F0_praat = get_raw_pitch(audioFilePath)
-            F0 = refine_pitch_voice_sauce(time_praat, F0_praat)
-            self.F0 = F0
-            sound = parselmouth.Sound(audioFilePath)
-            y = sound.values.T
-            Fs =  sound.sampling_frequency
-            self.Fs = Fs
+            n_periods: int = 5  # Nperiods_EC
+            self.n_periods: int = n_periods
+            frameshift: int = 1  # variables.frameshift
+            time_praat: pd.DataFrame
+            f0_praat: pd.DataFrame
+            time_praat, f0_praat = get_raw_pitch(audio_file_path)
+            f0: np.array = refine_pitch_voice_sauce(time_praat, f0_praat)
+            self.f0: np.array = f0
+            signal, sampling_rate = self.args['voice']
+            sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+            # y: np.array = sound.values.T  # this is unused
+            fs: Union[float, int] =  sound.sampling_frequency
+            self.fs: Union[float, int] = fs
 
-            sampleshift = (Fs / 1000 * frameshift)
-            self.sampleshift = sampleshift
+            sampleshift: Union[float, int] = (fs / 1000 * frameshift)
+            self.sampleshift: Union[float, int] = sampleshift
 
             # Calculate Energy
-            # todo Fix something so we always return values here
 
             try:
-                E = get_energy_voice_sauce(audioFilePath)
-                E = E.tolist()
-            except:
-                E = 'Unable to calculate Energy'
+                energy: Union[np.array, str, list] = get_energy_voice_sauce(audio_file_path)
+            except Exception as e:
+                energy = str(e)
 
             try:
-                EWithNoZero = E[E > 0]
-                if len(EWithNoZero) > 0:
-                    mean_energy = np.nanmean(EWithNoZero)
-                    mean_energy = mean_energy.item()
+                energy_with_no_zeros = energy[energy > 0]
+                if len(energy_with_no_zeros) > 0:
+                    mean_energy: Union[np.ndarray, float, str] = np.nanmean(energy_with_no_zeros)
+                    mean_energy: float = mean_energy.item()
                 else:
-                    E = 'Unable to calculate Energy'
-                    mean_energy = 'Unable to calculate mean'
-            except:
-                E,  mean_energy = 'Unable to calculate Energy', 'Unable to calculate mean'
+                    energy = 'Unable to calculate Energy'
+                    mean_energy: str = 'Unable to calculate mean'
+            except Exception as e:
+                energy,  mean_energy = str(e), str(e)
 
-
-            print(f'{type(mean_energy)=}')
-
-            print(f'{type(E)=}')
             try:
-                praat_rms = call(sound, "Get root-mean-square", 0, 0)
-            except:
-                praat_rms = "Unable to calculate RMS in Praat"
-            print(f'{type(praat_rms)=}')
+                praat_rms: Union[float, str] = call(sound, "Get root-mean-square", 0, 0)
+            except Exception as e:
+                praat_rms = str(e)
 
             return {
-                "Energy Voice Sauce": E,
+                "Energy Voice Sauce": energy.tolist(),
                 "Mean Energy Voice Sauce": mean_energy,
                 "RMS Energy Praat": praat_rms,
             }
-        except:
+        except Exception as e:
             return {
-                "Energy Voice Sauce": "Measurement failed",
-                "Mean Energy Voice Sauce": "Measurement failed",
-                "RMS Energy Praat": "Measurement failed",
+                "Energy Voice Sauce": str(e),
+                "Mean Energy Voice Sauce": str(e),
+                "RMS Energy Praat": str(e),
             }
 
-def get_energy_voice_sauce(audioFilePath):
-    """
-    Get energy of a signal
+
+def get_energy_voice_sauce(audio_file_path: str) -> Union[np.array, str]:
+    """Get energy from Voice Sauce formula
+
+    :param audio_file_path: path to audio file
+    :type audio_file_path: str
+    :return: energy: Energy values or error message
+    :rtype: Union[np.array, str]
     """
 
     # Get the number of periods in the signal
-    N_periods = 5  # Nperiods_EC
-    frameshift = 1 # variables.frameshift
-    time_praat, F0_praat = get_raw_pitch(audioFilePath)
-    F0 = refine_pitch_voice_sauce(time_praat, F0_praat)
-    sound = parselmouth.Sound(audioFilePath)
+    n_periods: int = 5  # Nperiods_EC
+    frameshift: int = 1 # variables.frameshift
+    time_praat, f0_praat = get_raw_pitch(audio_file_path)
+    f0 = refine_pitch_voice_sauce(time_praat, f0_praat)
+    signal, sampling_rate = self.args['voice']
+    sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
     sound.resample(16000)
     y = sound.values.T
-    Fs = sound.sampling_frequency
-    sampleshift = (Fs / 1000 * frameshift)
+    fs = sound.sampling_frequency
+    sampleshift: float = (fs / 1000 * frameshift)
 
     # Calculate Energy
-    E = np.full(len(F0), np.nan)
-    for k, F0_curr in enumerate(F0):
-        ks = round_half_away_from_zero(k * sampleshift)
+    energy: np.array = np.full(len(f0), np.nan)
+    for k, f0_curr in enumerate(f0):
+        ks: Union[float, int] = round_half_away_from_zero(k * sampleshift)
         if ks <= 0:
             continue
         if ks >= len(y):
             continue
 
-        F0_curr = F0[k]
-        if np.isnan(F0_curr):
+        f0_curr: Union[float, int] = f0[k]
+        if np.isnan(f0_curr):
             continue
-        if F0_curr == 0:
+        if f0_curr == 0:
             continue
-        N0_curr = Fs / F0_curr
-        ystart = int(round_half_away_from_zero(ks - N_periods / 2 * N0_curr))
-        yend = int(round_half_away_from_zero(ks + N_periods / 2 * N0_curr) - 1)
+        n0_curr: Union[float, int] = fs / f0_curr
+        ystart: int = int(round_half_away_from_zero(ks - n_periods / 2 * n0_curr))
+        yend: int = int(round_half_away_from_zero(ks + n_periods / 2 * n0_curr) - 1)
 
         if ystart <= 0:
             continue
@@ -143,31 +174,44 @@ def get_energy_voice_sauce(audioFilePath):
         if yend > len(y):
             continue
 
-        yseg = y[ystart:yend]
-        E[k] = np.sum(yseg ** 2)
+        yseg: np.array = y[ystart:yend]
+        energy[k] = np.sum(yseg ** 2)
+    return energy
 
 
-    return E
+def get_raw_pitch(audio_file_path: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Get raw pitch from Praat. This is used to set the window length for the energy calculation.
 
-def get_raw_pitch(audioFilePath):
+    :argument: audio_file_path: path to the audio file
+    :type: str
+    :return: time, f0
+    :rtype: tuple[pd.DataFrame, pd.DataFrame]
     """
-    get pitch from audio file
-    """
-    sound = parselmouth.Sound(audioFilePath)
+    signal, sampling_rate = self.args['voice']
+    sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
     sound.resample(16000)
-    pitch = sound.to_pitch_cc(
+    pitch: parselmouth.Pitch = sound.to_pitch_cc(
         time_step=0.001,
         pitch_floor=40,
         pitch_ceiling=500,
     )
-    pitch_tier = call(pitch, "Down to PitchTier")
+    pitch_tier: parselmouth.Data = call(pitch, "Down to PitchTier")
     call(pitch_tier, "Write to headerless spreadsheet file", "parselmouth_cc.txt")
-    df = pd.read_csv('parselmouth_cc.txt', sep='\t', header=None)
+    df: pd.DataFrame = pd.read_csv('parselmouth_cc.txt', sep='\t', header=None)
     df.columns = ['Time', 'Frequency']
     return df.Time.values, df.Frequency.values
 
-def refine_pitch_voice_sauce(times, frequencies):
-    """Estimate F0 and formants using Praat
+
+def refine_pitch_voice_sauce(times: pd.DataFrame, frequencies: pd.DataFrame) -> np.array:
+    """Refine praat Pitch to remove undefined values, and interpolate values to match our time step.
+
+    :argument: times: np.array
+    :type: times: np.array
+    :argument: frequencies: np.array
+    :type: frequencies: np.array
+
+    :return: f0: refined fundamental frequency values
+    :rtype: np.array
 
     """
 
@@ -182,16 +226,18 @@ def refine_pitch_voice_sauce(times, frequencies):
     # '--undefined--' values to NaN
     # Python 3 reads the undefined strings as byte literals, so we also have to
     # check for the byte literal b'--undefined--'
-    undef = lambda x: np.nan if x == '--undefined--' or x == b'--undefined--' else x
-    frame_shift = 1
-    frame_precision = 1
-    # Gather raw Praat F0 estimates
-    t_raw, F0_raw = np.array(times), np.array(frequencies)
-    data_len = len(t_raw)
-    # Initialize F0 measurement vector with NaN
-    F0 = np.full(data_len, 0, dtype=float)
+    # undef = lambda x: np.nan if x == '--undefined--' or x == b'--undefined--' else x ### this function is not used
+    frame_shift: Union[float, int] = 1
+    frame_precision: Union[float, int] = 1
+    # Gather raw Praat f0 estimates
+    t_raw: np.array
+    f0_raw: np.array
+    t_raw, f0_raw = np.array(times), np.array(frequencies)
+    data_len: int = len(t_raw)
+    # Initialize f0 measurement vector with NaN
+    f0: np.array = np.full(data_len, 0, dtype=float)
     # Convert time from seconds to nearest whole millisecond
-    t_raw_ms = np.int_(round_half_away_from_zero(t_raw * 1000))
+    t_raw_ms: np.int_ = np.int_(round_half_away_from_zero(t_raw * 1000))
 
     # Raw Praat estimates are at time points that don't completely match
     # the time points in our measurement vectors, so we need to interpolate.
@@ -199,41 +245,43 @@ def refine_pitch_voice_sauce(times, frequencies):
     # frame_precision.
 
     # Determine start and stop times
-    start = 0
+    start: int = 0
     if t_raw_ms[-1] % frame_shift == 0:
-        stop = t_raw_ms[-1] + frame_shift
+        stop: Union[float, int] = t_raw_ms[-1] + frame_shift
     else:
         stop = t_raw_ms[-1]
     # Iterate through timepoints corresponding to each frame in time range
     for idx_f, t_f in enumerate(range(start, stop, frame_shift)):
         # Find closest time point among calculated Praat values
-        min_idx = np.argmin(np.abs(t_raw_ms - t_f))
+        min_idx: np.ndarray[int] = np.argmin(np.abs(t_raw_ms - t_f))
 
         # If closest time point is too far away, skip
         if np.abs(t_raw_ms[min_idx] - t_f) > frame_precision * frame_shift:
             continue
 
-        # If index is in range, set value of F0
+        # If index is in range, set value of f0
         if (idx_f >= 0) and (idx_f < data_len): # pragma: no branch
-            F0[idx_f] = F0_raw[min_idx]
-    return F0
+            f0[idx_f] = f0_raw[min_idx]
+    return f0
 
-def round_half_away_from_zero(x):
+
+def round_half_away_from_zero(x) -> np.int_:
     """Rounds a number according to round half away from zero method
-    Args:
-        x - number [float]
-    Returns:
-        q - rounded number [integer]
+
+    :argument x: number to round
+    :type x: Union[float, int]
+    :return: rounded number
+    :rtype: np.int_
+
+
     For example:
-       round_half_away_from_zero(3.5) = 4
-       round_half_away_from_zero(3.2) = 3
-       round_half_away_from_zero(-2.7) = -3
-       round_half_away_from_zero(-4.3) = -4
-    The reason for writing our own rounding function is that NumPy uses the
-    round-half-to-even method. There is a Python round() function, but it
-    doesn't work on NumPy vectors. So we wrote our own
-    round-half-away-from-zero method here.
+       - round_half_away_from_zero(3.5) = 4
+       - round_half_away_from_zero(3.2) = 3
+       - round_half_away_from_zero(-2.7) = -3
+       - round_half_away_from_zero(-4.3) = -4
+
+    The reason for writing our own rounding function is that NumPy uses the round-half-to-even method. There is a Python round() function, but it doesn't work on NumPy vectors. So we wrote our own round-half-away-from-zero method here.
     """
-    q = np.int_(np.sign(x) * np.floor(np.abs(x) + 0.5))
+    q: np.int_ = np.int_(np.sign(x) * np.floor(np.abs(x) + 0.5))
 
     return q

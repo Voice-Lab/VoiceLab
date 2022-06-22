@@ -4,10 +4,10 @@ import Voicelab.toolkits.Voicelab as Voicelab
 # List of all available operations the user can perform as well as their associated function node
 available_functions = {
     "Measure Duration": Voicelab.MeasureDurationNode("Measure Duration"),
-    #"Measure HNR Voice Sauce": Voicelab.MeasureHNRVoiceSauceNode("Measure HNR Voice Sauce"),
+    # "Measure HNR Voice Sauce": Voicelab.MeasureHNRVoiceSauceNode("Measure HNR Voice Sauce"),
     "Measure Pitch": Voicelab.MeasurePitchNode("Measure Pitch"),
-    "Measure Subharmonics": Voicelab.MeasureSHRPNode("Measure Subharmonics"),
-    "Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
+    # "Measure Subharmonics": Voicelab.MeasureSHRPNode("Measure Subharmonics"),
+    # "Measure Pitch Yin": Voicelab.MeasurePitchYinNode("Measure Pitch Yin"),
     "Measure Harmonics-to-Noise-Ratio": Voicelab.MeasureHarmonicityNode(
         "Measure Harmonics-to-Noise-Ratio"
     ),
@@ -25,7 +25,6 @@ available_functions = {
     "Measure LTAS": Voicelab.MeasureLTASNode("Measure LTAS"),
     "Measure MFCCs": Voicelab.MeasureMFCCNode("Measure MFCCs"),
     "Measure Spectral Tilt": Voicelab.MeasureSpectralTiltNode("Measure Spectral Tilt"),
-    #"Measure RMS Energy": Voicelab.MeasureEnergyNode("Measure RMS Energy"),
     "Measure Energy": Voicelab.MeasureEnergyNode("Measure Energy"),
     "Measure Spectral Shape": Voicelab.MeasureSpectralShapeNode("Measure Spectral Shape"),
 
@@ -53,8 +52,6 @@ available_functions = {
     "Create Spectrogram": Voicelab.VisualizeVoiceNode("Create Spectrogram"),
     "Create LPC Power Spectra": Voicelab.VisualizeSpectrumNode("Create LPC Power Spectra"),
     #"Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
-
-    #"Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
 }
 
 # List of default functions that will be performed.
@@ -65,12 +62,8 @@ available_functions = {
 # list of nodes that have visualizable return values and a list naming the values to visualize
 default_functions = [
     "Measure Duration",
-    "Measure HNR Voice Sauce",
     "Measure Pitch",
-    "Measure Subharmonics",
-    "Measure Pitch Yin",
     "Measure Formants",
-    # "Measure Signal-to-Noise Ratio",
     "Measure Harmonics-to-Noise-Ratio",
     "Measure Cepstral Peak Prominance (CPP)",
     "Measure Jitter",
@@ -92,12 +85,13 @@ default_functions = [
     # "Trim Sounds",
     # 'Resample Sounds'
     # 'Reverse Sounds'
-    "Rotate Spectrum",
+    # "Rotate Spectrum",
     # 'Create Spectrograms',
     # "Create LPC Power Spectra",
     # 'Create Spectrogram',
     # "Create F1F2 Plot",
 ]
+
 visualize_list = {
     "Measure Pitch": "Pitch",
     "Measure Intensity": "Intensity",
@@ -116,7 +110,7 @@ function_requirements = {
     # Measure formant positions requires that we first measure the pitch and formants
     "Measure Formants Position": [
         ("Measure Formants", "Formants"),
-        ("Measure Pitch", "Pitch"),
+        # ("Measure Pitch", "Pitch"),
         ("Measure Pitch", "Pitch Floor"),
         ("Measure Pitch", "Pitch Ceiling"),
     ],
@@ -130,29 +124,24 @@ function_requirements = {
         ("Measure Formants", "F2 Median"),
         ("Measure Formants", "F3 Median"),
         ("Measure Formants", "F4 Median"),
-        ("Measure Pitch", "Pitch"),
+        #("Measure Pitch", "Pitch"),
     ],
 
     "Measure Shimmer": [
         ("Measure Pitch", "Pitch Floor"),
         ("Measure Pitch", "Pitch Ceiling"),
-
     ],
+
     "Measure Cepstral Peak Prominance (CPP)": [
         ("Measure Pitch", "Pitch Floor"),
         ("Measure Pitch", "Pitch Ceiling"),
-
     ],
+
     "Measure Formants": [
         ("Measure Pitch", "Pitch Floor"),
         ("Measure Pitch", "Pitch Ceiling"),
-
     ],
-    "Measure Jitter": [
-        ("Measure Pitch", "Pitch Floor"),
-        ("Measure Pitch", "Pitch Ceiling"),
 
-    ],
     "Measure Harmonicity": [
         ("Measure Pitch", "Pitch Floor"),
         ("Measure Pitch", "Pitch Ceiling"),
@@ -173,4 +162,3 @@ function_requirements = {
         ("Measure Formants", "F4 Mean"),
     ],
 }
-

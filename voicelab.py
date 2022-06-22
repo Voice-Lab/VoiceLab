@@ -71,12 +71,12 @@ class VoicelabWizard(QMainWindow):
         # init: setup the base state of a controller, including a data model
         self.data_controller = VoicelabController()
         # links the progress updating on the data controller side to a pyqt signal that can be listened to anywhere
-        self.data_controller.progress_callback = lambda node, start, current, end: self.voicelab_signals[
-            "on_progress_update"
-        ].emit(
-            node.node_id, start, current, end
-        )
-
+        #self.data_controller.progress_callback = lambda node, start, current, end: self.voicelab_signals[
+        #    "on_progress_update"
+        #].emit(
+        #    node.node_id, start, current, end
+        #)
+        self.data_controller.progress_callback = self.on_progress_update_drf
         # load all of the functions specified in the default settings file
         for fn in available_functions:
             self.data_controller.load_function(
@@ -129,6 +129,12 @@ class VoicelabWizard(QMainWindow):
         #    "Experimental",  # Specify the Tab title here
         #)
 
+    def on_progress_update_drf(self, node, start, current, end):
+        self.voicelab_signals[
+            "on_progress_update"
+        ].emit(
+            node.node_id, start, current, end
+        )
 
 if __name__ == "__main__":
 
@@ -141,6 +147,7 @@ if __name__ == "__main__":
     w = VoicelabWizard()
     # Show the GUI
     w.show()
+    w.showMaximized()
     # Exit gracefully
     sys.exit(app.exec_())
 

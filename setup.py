@@ -8,21 +8,30 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 
 setup(name='Voicelab',
-      version='1.0297',
-      description='Python GUI for working with voicefiles',
+      version='1.2.0',
+      description='Fully Automated Reproducible Acoustical Analysis',
       long_description = long_description,
       long_description_content_type="text/markdown",
       url= 'https://github.com/Voice-Lab/VoiceLab',
+      project_urls={
+        "Documentation": "https://voice-lab.github.io/VoiceLab/",
+      },
+      classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+      ],
       author='David Feinberg',
       author_email='feinberg@mcmaster.ca',
       packages=['Voicelab'],
+      python_requres=">=3.9",
       install_requires=[
-            'numpy==1.21',
-            'PyQt5==5.15.2',
-            'QDarkStyle==2.8.1',
-            'praat-parselmouth==0.4.0',
-            'librosa==0.8.0',
-            'openpyxl==3.0.6',
-            'seaborn==0.11.1',
+            'numpy',
+            'PyQt5',
+            'QDarkStyle',
+            'praat-parselmouth',
+            'librosa',
+            'openpyxl',
+            'seaborn',
       ]
      )

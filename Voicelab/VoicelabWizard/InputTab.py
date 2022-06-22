@@ -8,11 +8,6 @@ import parselmouth
 from Voicelab.pipeline.Pipeline import Pipeline
 import Voicelab.toolkits.Voicelab as Voicelab
 
-#import sklearn.utils._cython_blas
-#import sklearn.neighbors.typedefs
-#import sklearn.neighbors.quad_tree
-#import sklearn.tree
-#import sklearn.tree._utils
 import webbrowser
 from Voicelab.VoicelabWizard.VoicelabTab import VoicelabTab
 
@@ -103,7 +98,7 @@ class InputTab(VoicelabTab):
         """Plays sounds"""
         try:
             for self.soundfile in self.playlist:
-                if self.soundfile[-3:].lower() != "wav":
+                if self.soundfile[-3:].lower() != "wav":  # If it's not a wav file, convert it
                     tmp_praat_object = parselmouth.Sound(self.soundfile)
                     tmp_praat_object.save("tmp.wav", "WAV")
                     self.sound = QSound("tmp.wav")
@@ -162,7 +157,7 @@ class InputTab(VoicelabTab):
                 widget.setSelected(True)
 
             # This creates a Parselmouth Sound Object for each filename and puts it into the loaded_voices dictionary
-            # The key is the filename and the value is the parselmouth sound object
+            # The key is the filename and the value is the file location
             self.data_controller.load_voices([file_location])
 
         # Send the signal that the active voices list has changed

@@ -55,7 +55,8 @@ class RotateSpectrumNode(VoicelabNode):
         """
 
         file_path: str = self.args["file_path"]
-        sound: parselmouth.Sound = parselmouth.Sound(file_path)
+        signal, sampling_rate = self.args['voice']
+        sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
         output_file_name: str = file_path.split("/")[-1].split(".wav")[0]
         output_file_name: str = f"{output_file_name}_rotated_spectrum"
         sf: float = sound.sampling_frequency

@@ -7,13 +7,11 @@ import types
 import copy
 
 
-###################################################################################################
-# SettingsTab(VoicelabTab) : presentation widget for displaying and controlling the settings for
-# processing the voice files. inherits basic functionality from the base tab class
-###################################################################################################
 
 
 class SettingsTab(VoicelabTab):
+    """SettingsTab(VoicelabTab) : presentation widget for displaying and controlling the settings for processing the
+    voice files. inherits basic functionality from the VoicelabTab base tab class"""
     def __init__(self, data_controller, signals, tabs, *args, **kwargs):
 
         """
@@ -47,11 +45,8 @@ class SettingsTab(VoicelabTab):
         self.data_controller.save_state()
         self.initUI()
 
-    ###############################################################################################
-    # initUI: pyqt widget function, called to draw the widgets to the screen
-    ###############################################################################################
     def initUI(self):
-
+        """initUI: pyqt widget function, called to draw the widgets to the screen"""
         self.layout = QVBoxLayout()
 
         self.is_active = True
@@ -372,7 +367,8 @@ class SettingWidget(QWidget):
             **kwargs:
         """
         super().__init__(*args, **kwargs)
-        self.bad_inputs = {" ", ",", ".", ":", ";", "!", "?", "'", "\\", "/", "", "-", '_', '+', '=', '*', '&', '^', '%', '$', '#', '@', '~', '`', '<', '>', '|', '{', '}', '[', ']', '(', ')', '"', '\''}
+        self.bad_inputs = {" ", ",", ".", ":", ";", "!", "?", "'", "\\", "/", "", "-", '_', '+', '=', '*', '&', '^',
+                           '%', '$', '#', '@', '~', '`', '<', '>', '|', '{', '}', '[', ']', '(', ')', '"', '\''}
 
         self.data_controller = data_controller
 
@@ -440,7 +436,6 @@ class SettingWidget(QWidget):
                 self.fn_name, [self.name], [setting_type(new_text)]
             )
 
-        print(self.data_controller.active_settings[self.fn_name][self.name])
 
     @property
     def value(self):
@@ -505,12 +500,17 @@ class FunctionSetting(QWidget):
             # self.model['settings'][self.fn_name]['value'][self.name] = self.cached
             self.data_controller.set_settings(self.fn_name, [self.name], [self.cached])
 
+    # New stuff DRF
+    def line_edit(self):
+        return self.lineedit.text()
+
     @property
     def value(self):
         if self.inactive:
             return self.default
-
-        return lambda: self.lineedit.text()
+        # Changed to remove lambdas
+        #return lambda: self.lineedit.text()
+        return self.lineedit
 
 
 class ComboSetting(QWidget):

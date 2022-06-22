@@ -1,12 +1,22 @@
-from Voicelab.pipeline.Node import Node
+from __future__ import annotations
+
+import numpy as np
+import parselmouth
 from parselmouth.praat import call
-from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
-from Voicelab.toolkits.Voicelab.MeasurePitchNode import measure_pitch
-from scipy import stats
+
+from sklearn.preprocessing import StandardScaler,  RobustScaler
 import statistics
+from scipy import stats
+from typing import Union
+
+from Voicelab.pipeline.Node import Node
+from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
+from Voicelab.toolkits.Voicelab.MeasurePitchNode import measure_pitch_praat
 
 
 class MeasureFormantPositionsNode(VoicelabNode):
+    """Measure Formnat Positions Node. This measures formant frequency position. This code is called from the MeasureVocalTractEstimatesNode. It's recommended you use that node to access this code.
+    """
     def __init__(self, *args, **kwargs):
         """
         Args:
@@ -24,46 +34,47 @@ class MeasureFormantPositionsNode(VoicelabNode):
             "f2_mean_pf_list": [],
             "f3_mean_pf_list": [],
             "f4_mean_pf_list": [],
-            #'f1_median_pf_list': [],
-            #'f2_median_pf_list': [],
-            #'f3_median_pf_list': [],
-            #'f4_median_pf_list': [],
         }
 
     # On each file we want to calculate the formants at the glottal pulses
     def process(self):
+        """This runs the formant position measurement on each file. Results are passed to the end() method where they are sent to the Data Model.
 
-        voice: object = self.args["voice"]
+            :return results: A dictionary of results for each file.
+            :rtype results: dict
+        """
+        file_path: str = self.args["file_path"]
+        voice: parselmouth.Sound = parselmouth.Sound(file_path)
+        formant_object: parselmouth.Formant = self.args["Formants"]
 
-        # method = self.args['Method']
-        # pitch = self.args['Pitch']
-        formant_object = self.args["Formants"]
-
-        pitch_floor = self.args["Pitch Floor"]
-        pitch_ceiling = self.args["Pitch Ceiling"]
-        pitch = measure_pitch(
-            voice=voice, measure="cc", floor=pitch_floor, ceiling=pitch_ceiling
+        pitch_floor: float = self.args["Pitch Floor"]
+        pitch_ceiling: float = self.args["Pitch Ceiling"]
+        pitch: tuple[float, list[float], float, float, float, float] = measure_pitch_praat(
+            file_path=file_path,
+            method="cc",
+            floor=pitch_floor,
+            ceiling=pitch_ceiling
         )
 
-        point_process = call(
-            [voice, pitch], "To PointProcess (cc)"
-        )  # Create PointProcess object
-        num_points = call(point_process, "Get number of points")
+        point_process: parselmouth.Data = call([voice, pitch], "To PointProcess (cc)")  # Create PointProcess object
+        num_points: Union[float, int] = call(point_process, "Get number of points")
 
-        f1_list = []
-        f2_list = []
-        f3_list = []
-        f4_list = []
-        measurement_times = []
+        f1_list: list = []
+        f2_list: list = []
+        f3_list: list = []
+        f4_list: list = []
+        measurement_times: list = []
+        normalization_method_list: list = []
 
+        point: Union[float, int]
         for point in range(0, num_points):
             point += 1
-            t = call(point_process, "Get time from index", point)
+            t: float = call(point_process, "Get time from index", point)
             measurement_times.append(t)
-            f1 = call(formant_object, "Get value at time", 1, t, "Hertz", "Linear")
-            f2 = call(formant_object, "Get value at time", 2, t, "Hertz", "Linear")
-            f3 = call(formant_object, "Get value at time", 3, t, "Hertz", "Linear")
-            f4 = call(formant_object, "Get value at time", 4, t, "Hertz", "Linear")
+            f1: float = call(formant_object, "Get value at time", 1, t, "Hertz", "Linear")
+            f2: float = call(formant_object, "Get value at time", 2, t, "Hertz", "Linear")
+            f3: float = call(formant_object, "Get value at time", 3, t, "Hertz", "Linear")
+            f4: float = call(formant_object, "Get value at time", 4, t, "Hertz", "Linear")
             f1_list.append(f1)
             f2_list.append(f2)
             f3_list.append(f3)
@@ -74,47 +85,31 @@ class MeasureFormantPositionsNode(VoicelabNode):
         f3_list = [f3 for f3 in f3_list if str(f3) != "nan"]
         f4_list = [f4 for f4 in f4_list if str(f4) != "nan"]
 
-        # calculate mean & median formants across pulses
+        # calculate mean
         if len(f1_list) > 0:
-            f1_mean_pf = sum(f1_list) / len(f1_list)
-            # f1_median_pf = statistics.median(f1_list)
+            f1_mean_pf: Union[float, str] = sum(f1_list) / len(f1_list)
         else:
-            f1_mean_pf = "N/A"
-            f1_median_pf = "N/A"
-
+            f1_mean_pf: Union[float, str] = "N/A"
         if len(f2_list) > 0:
-            f2_mean_pf = sum(f2_list) / len(f2_list)
-            f2_median_pf = statistics.median(f2_list)
+            f2_mean_pf: Union[float, str] = sum(f2_list) / len(f2_list)
         else:
-            f2_mean_pf = "N/A"
-            f2_median_pf = "N/A"
-
+            f2_mean_pf: Union[float, str] = "N/A"
         if len(f3_list) > 0:
-            f3_mean_pf = sum(f3_list) / len(f3_list)
-            f3_median_pf = statistics.median(f3_list)
+            f3_mean_pf: Union[float, str] = sum(f3_list) / len(f3_list)
         else:
-            f3_mean_pf = "N/A"
-            f3_median_pf = "N/A"
-
+            f3_mean_pf: Union[float, str] = "N/A"
         if len(f4_list) > 0:
-            f4_mean_pf = sum(f4_list) / len(f4_list)
-            f4_median_pf = statistics.median(f4_list)
+            f4_mean_pf: Union[float, str] = sum(f4_list) / len(f4_list)
         else:
-            f4_mean_pf = "N/A"
-            f4_median_pf = "N/A"
+            f4_mean_pf: Union[float, str] = "N/A"
 
-        results = {}
+        results: dict = {}
 
-        # collect all means and median values, these will be needed at the end to calculate the formant positions
+        # collect all means values, these will be needed at the end to calculate the formant positions
         self.state["f1_mean_pf_list"].append(f1_mean_pf)
         self.state["f2_mean_pf_list"].append(f2_mean_pf)
         self.state["f3_mean_pf_list"].append(f3_mean_pf)
         self.state["f4_mean_pf_list"].append(f4_mean_pf)
-
-        self.state["f1_median_pf_list"].append(f1_median_pf)
-        self.state["f2_median_pf_list"].append(f2_median_pf)
-        self.state["f3_median_pf_list"].append(f3_median_pf)
-        self.state["f4_median_pf_list"].append(f4_median_pf)
 
         return results
 
@@ -130,79 +125,55 @@ class MeasureFormantPositionsNode(VoicelabNode):
         f3_mean_pf_list = self.state["f3_mean_pf_list"]
         f4_mean_pf_list = self.state["f4_mean_pf_list"]
 
-        f1_median_pf_list = self.state["f1_median_pf_list"]
-        f2_median_pf_list = self.state["f2_median_pf_list"]
-        f3_median_pf_list = self.state["f3_median_pf_list"]
-        f4_median_pf_list = self.state["f4_median_pf_list"]
-
         formant_mean_lists = [
             f1_mean_pf_list,
             f2_mean_pf_list,
             f3_mean_pf_list,
             f4_mean_pf_list,
         ]
-        formant_median_lists = [
-            f1_median_pf_list,
-            f2_median_pf_list,
-            f3_median_pf_list,
-            f4_median_pf_list,
-        ]
 
         # append it to the results of all of them
-        formant_positions = self.calculate_formant_position(formant_mean_lists)
+        formant_positions, normalization_type = self.calculate_formant_position(formant_mean_lists)
         for i, result in enumerate(results):
             if isinstance(formant_positions, str):
                 results[i][self]["Formant Position"] = formant_positions
             else:
                 results[i][self]["Formant Position"] = float(formant_positions[i])
+            results[i][self]["Formant Position Normalization"] = normalization_type
 
         return results
 
-    # to calcualte the formant position we need the formants at glotal pulses for each file we rans
-    def calculate_formant_position(self, formant_mean_lists, formant_median_lists):
+    # to calcualte the formant position we need the formants at glotal pulses
+    def calculate_formant_position(self, formant_mean_lists):
+        """Calculate the formant position for each voice.
+
+        :param formant_mean_lists: List of lists of formant means.
+        :type formant_mean_lists: list
+
+        :returns: Formant position and normalization type.
+        :rtype: tuple of (Union[float, str, list, np.ndarray], str)
         """
-        Args:
-            formant_mean_lists:
-            formant_median_lists:
-        """
-        if len(formant_mean_lists[0]) < 30:  # or len(formant_medians_lists[0]) < 8:
-            return "Not enough samples, requires at least 30"
+        if len(formant_mean_lists[0]) < 30:
+            return "Not enough samples, requires at least 30", "Not enough samples, requires at least 30"
 
         # Normality test for mean data
         _, p_f1_mean = stats.normaltest(formant_mean_lists[0])
         _, p_f2_mean = stats.normaltest(formant_mean_lists[1])
         _, p_f3_mean = stats.normaltest(formant_mean_lists[2])
         _, p_f4_mean = stats.normaltest(formant_mean_lists[3])
+
+        # Check if data are normally distributed, if not, use Robust Scaler, if so, use Standard Scaler (z-score).
         if p_f1_mean >= 0.5 or p_f2_mean >= 0.5 or p_f3_mean >= 0.5 or p_f4_mean >= 0.5:
-            return "formants not normally distributed"
-
+            scalar = RobustScaler
+            scalar_type = "Robust"
         else:
-            zf1_mean = stats.zscore(formant_mean_lists[0])
-            zf2_mean = stats.zscore(formant_mean_lists[1])
-            zf3_mean = stats.zscore(formant_mean_lists[2])
-            zf4_mean = stats.zscore(formant_mean_lists[3])
-            pf_mean = (zf1_mean + zf2_mean + zf3_mean + zf4_mean) / 4
-            return pf_mean
+            scalar = StandardScaler
+            scalar_type = "z-score"
 
-        # normality test for median data
-        _, p_f1_median = stats.normaltest(formant_medians_lists[0])
-        _, p_f2_median = stats.normaltest(formant_medians_lists[1])
-        _, p_f3_median = stats.normaltest(formant_medians_lists[2])
-        _, p_f4_median = stats.normaltest(formant_medians_lists[3])
+        zf1_mean = scalar().fit_transform((np.array(formant_mean_lists[0]).reshape(-1, 1))).reshape(-1, 1)
+        zf2_mean = scalar().fit_transform((np.array(formant_mean_lists[1]).reshape(-1, 1))).reshape(-1, 1)
+        zf3_mean = scalar().fit_transform((np.array(formant_mean_lists[2]).reshape(-1, 1))).reshape(-1, 1)
+        zf4_mean = scalar().fit_transform((np.array(formant_mean_lists[3]).reshape(-1, 1))).reshape(-1, 1)
+        pf_mean = (zf1_mean + zf2_mean + zf3_mean + zf4_mean) / 4
+        return pf_mean, scalar_type
 
-        if (
-            p_f1_median >= 0.5
-            or p_f2_median >= 0.5
-            or p_f3_median >= 0.5
-            or p_f4_median >= 0.5
-        ):
-            return "formants not normally distributed"
-
-        else:
-            zf1_median = stats.zscore(formant_medians_lists[0])
-            zf2_median = stats.zscore(formant_medians_lists[1])
-            zf3_median = stats.zscore(formant_medians_lists[2])
-            zf4_median = stats.zscore(formant_medians_lists[3])
-
-            pf_median = (zf1_median + zf2_median + zf3_median + zf4_median) / 4
-            return pf_median

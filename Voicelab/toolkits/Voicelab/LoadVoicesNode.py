@@ -26,17 +26,21 @@ class LoadVoicesNode(Node):
         super().__init__(name)
         self.done = False
 
-    """
-    process: Retrieve the next file location and return it
-    """
-    def process(self):
-        item, file_path = self.get_next(self.state["voices"])
-        return {"voice": item, "file_path": file_path}
 
-    """
-    start: WARIO hook, run before any data is processed to load the data in
-    """
+    def process(self):
+        """
+        process: Retrieve the next file location and return it
+        """
+        #item, file_path = self.get_next(self.state["voices"])
+        #return {"voice": item, "file_path": file_path}
+        (signal, sampling_rate), file_path = self.get_next(self.state["voices"])
+        return {"voice": (signal, sampling_rate), "file_path": file_path}
+
+
     def start(self):
+        """
+        start: WARIO hook, run before any data is processed to load the data in
+        """
         self.state["voices"] = []
 
         # If a collection of file locations are present use those, otherwise prompt for them
@@ -47,8 +51,16 @@ class LoadVoicesNode(Node):
             self.state["files"] = self.args["file_locations"]
 
         for file_path in self.state["files"]:
-
-            self.state["voices"].append((parselmouth.Sound(file_path), file_path))
+            #  This is where we load files
+            #  Select Load None if we want to load nothing
+            #  Append the parselmouth.Sound object if you don't need multiprocessing
+            #  We are going to try passing the data and sampling rate through nodes instead of sound objects.
+            sound = parselmouth.Sound(file_path)
+            signal = sound.values
+            sampling_rate = sound.sampling_frequency
+            voice = (signal, sampling_rate)
+            self.state["voices"].append((voice, file_path))
+            #self.state["voices"].append((None, file_path))
 
         # return how many files have been loaded
         return len(self.state["voices"])

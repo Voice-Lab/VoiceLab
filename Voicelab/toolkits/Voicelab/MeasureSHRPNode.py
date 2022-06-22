@@ -21,14 +21,27 @@ from scipy.io import wavfile
 
 
 class MeasureSHRPNode(VoicelabNode):
+    def __init__(self, *args, **kwargs):
 
-    ###############################################################################################
-    # process: WARIO hook called once for each voice file.
-    ###############################################################################################
-    def process(self):
+        """
+        Args:
+            *args:
+            **kwargs:
+        """
+        super().__init__(*args, **kwargs)
+
+        self.args = {
+
+        }
+
+
+    def process(self, filename=None, *args, **kwargs):
+        """Returns subharmonic-to-harmonic ratio and Pitch from Subharmonics."""
+
         try:
-            """Returns subharmonic-to-harmonic ratio and Pitch from Subharmonics."""
-            filename = self.args["file_path"]
+            if filename is None:
+                filename = self.args['file_path']
+            # filename = self.args["file_path"]
             # If it's an mp3, convert it to wav
             if filename[-3:].lower() != "wav":
                 tmp_praat_object = parselmouth.Sound(filename)
@@ -43,22 +56,28 @@ class MeasureSHRPNode(VoicelabNode):
             wav_data, wavdata_int, fps = wavread(filename)
             shr, f0 = shr_pitch(wav_data, fps, datalen=200)
             mean_shr = np.nanmean(shr)
+            median_shr = np.nanmedian(shr)
+            sd_shr = np.nanstd(shr)
+
 
             mean_f0 = np.nanmean(f0)
             return {
                 "subharmonic-to-harmonic ratio": mean_shr.item(),
                 "Subharmonic Mean Pitch": mean_f0.item(),
+                "Subharmonic Median Pitch": median_shr.item(),
+                "Subharmonic Stdev of Pitch": sd_shr.item(),
                 "Subharmonic Pitch Values": f0.tolist() # padded or truncated to 200 values
             }
 
 
-        #except Exception as e:
-        #    print(e)
-        except:
+
+        except Exception as e:
             return {
-                "subharmonic-to-harmonic ratio": "Measurement failed",
-                "Subharmonic Mean Pitch": "Measurement failed",
-                "Subharmonic Pitch Values": "Measurement failed",
+                "subharmonic-to-harmonic ratio": str(e),
+                "Subharmonic Mean Pitch": str(e),
+                "Subharmonic Median Pitch": str(e),
+                "Subharmonic Stdev of Pitch": str(e),
+                "Subharmonic Pitch Values": str(e),
             }
 
 
@@ -627,15 +646,38 @@ def _triangular(n):
     res = np.arange(np.floor(m+1))/m
     return np.append(res, res[int(np.ceil(m))-1::-1])
 
-window_funcs = dict(
-    rect = lambda n: np.ones(n),
-    tria = _triangular,
-    hann = lambda n: 0.5*(1 - np.cos(_pi_arange(n))),
-    hamm = lambda n: 0.54 - 0.46*np.cos(_pi_arange(n)),
-    blac = lambda n: (0.42 - 0.5*np.cos(_pi_arange(n)) + 0.08*np.cos(2*_pi_arange(n))),
-    kais = lambda n: _not_implemented(),
-    )
+def rect(n):
+    return np.ones(n)
 
+def hann(n):
+    return 0.5*(1 - np.cos(_pi_arange(n)))
+
+def hamm(n):
+    return 0.54 - 0.46 * np.cos(_pi_arange(n))
+
+def blac(n):
+    return (0.42 - 0.5*np.cos(_pi_arange(n)) + 0.08*np.cos(2*_pi_arange(n)))
+
+def kais(n):
+    return _not_implemented()
+
+#window_funcs = dict(
+#    rect = lambda n: np.ones(n),
+#    tria = _triangular,
+#    hann = lambda n: 0.5*(1 - np.cos(_pi_arange(n))),
+#    hamm = lambda n: 0.54 - 0.46*np.cos(_pi_arange(n)),
+#    blac = lambda n: (0.42 - 0.5*np.cos(_pi_arange(n)) + 0.08*np.cos(2*_pi_arange(n))),
+#    kais = lambda n: _not_implemented(),
+#    )
+
+window_funcs = dict(
+    rect = rect,
+    tria = _triangular,
+    hann = hann,
+    hamm = hamm,
+    blac = blac,
+    kais = kais,
+    )
 
 def window(width, window_type, beta=None):
     """Generate a window function (1 dim ndarray) of length width.

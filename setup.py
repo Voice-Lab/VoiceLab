@@ -23,7 +23,7 @@ setup(name='Voicelab',
       ],
       author='David Feinberg',
       author_email='feinberg@mcmaster.ca',
-      packages=['Voicelab'],
+      packages=setuptools.find_packages(),
       python_requres=">=3.9",
       install_requires=[
             'numpy',

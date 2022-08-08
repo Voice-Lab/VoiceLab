@@ -26,7 +26,7 @@ setup(name='Voicelab',
       packages=setuptools.find_packages(),
       python_requres=">=3.9",
       install_requires=[
-            'numpy==1.21',
+            'numpy==1.22',
             'PyQt5==5.15.2',
             'QDarkStyle==2.8.1',
             'praat-parselmouth==0.4.1',

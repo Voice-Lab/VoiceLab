@@ -44,7 +44,8 @@ class MeasureSHRPNode(VoicelabNode):
             # filename = self.args["file_path"]
             # If it's an mp3, convert it to wav
             if filename[-3:].lower() != "wav":
-                tmp_praat_object = parselmouth.Sound(filename)
+                signal, sampling_rate = self.args['voice']
+                tmp_praat_object: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
                 # If it's stereo, convert it to mo
                 number_of_channels = call(tmp_praat_object, 'Get number of channels')
                 if number_of_channels == 2:

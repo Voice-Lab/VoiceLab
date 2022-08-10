@@ -32,8 +32,9 @@ class MeasureSpectralTiltNode(VoicelabNode):
             """
         try:
             "Measure spectral tilt"
-            file_path = self.args['file_path']
-            sound = parselmouth.Sound(file_path) # read the sound
+            file_path: str = self.args["file_path"]
+            signal, sampling_rate = self.args['voice']
+            sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
             window_length_in_millisecs = int(self.args["window_length_in_millisecs"][0])
             print(f'{window_length_in_millisecs=}')
             window_length = window_length_in_millisecs / 1000

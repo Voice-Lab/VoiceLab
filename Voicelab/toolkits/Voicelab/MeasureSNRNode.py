@@ -45,7 +45,10 @@ class MeasureSNRNode(VoicelabNode):
             maximum_silent_interval_duration = self.args["maximum_silent_interval_duration"]
             tier1_label = self.args["tier1_label"]
             tier2_label = self.args["tier2_label"]
-            voice = self.args["voice"]
+            file_path: str = self.args["file_path"]
+            signal, sampling_rate = self.args['voice']
+            voice: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+            #voice = self.args["voice"]
             start_time = 0
             end_time = 0  # Zero start and end time means select all in Praat
             interpolation = "None"

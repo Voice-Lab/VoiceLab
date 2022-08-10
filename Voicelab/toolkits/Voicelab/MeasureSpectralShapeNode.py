@@ -62,8 +62,10 @@ class MeasureSpectralShapeNode(VoicelabNode):
         """
         try:
             # Gather parameters
-            file_path = self.args['file_path']
-            sound = parselmouth.Sound(file_path)
+            file_path: str = self.args["file_path"]
+            signal, sampling_rate = self.args['voice']
+            sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+            #sound = parselmouth.Sound(file_path)
             spectrum = sound.to_spectrum()
             power = self.args["Power"]
             low_band_floor = self.args["Low band floor (Hz)"]

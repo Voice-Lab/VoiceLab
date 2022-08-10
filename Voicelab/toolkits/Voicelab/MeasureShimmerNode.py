@@ -89,8 +89,9 @@ class MeasureShimmerNode(VoicelabNode):
         """This function measures Shimmer.
         """
 
-        file_path = self.args['file_path']
-        sound = parselmouth.Sound(file_path)
+        file_path: str = self.args["file_path"]
+        signal, sampling_rate = self.args['voice']
+        sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
         try:
             pitch_floor = self.pitch_floor(file_path)
             pitch_ceiling = self.pitch_ceiling(file_path)

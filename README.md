@@ -8,8 +8,8 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 
-## Version 1.2.0
-### Changes from 1.1.2
+## Version 1.3.0
+### Changes from 1.2.0
 #### New Features
 * MeasurePitchNode now outputs a list of all pitch values
 * New Rotate Spectrum script from Chris Darwin
@@ -33,17 +33,19 @@ You can grab the full program here for <a href="https://github.com/Voice-Lab/Voi
 0. Clone this repository and navigate to the project root.
 1. <code>python3.9 -m venv venv</code>
 2. <code>source venv/bin/activate</code>
-3. <code>python setup.py install</code>
+3. <code>python3 -m pip install .</code>
 4. <code>python voicelab.py</code>
 
  Do not install the version on PyPi. It does not work.
 
 
 ## Software Development Team
-### Current Sole Maintainer
+### Maintainer
 David Feinberg, PhD
-### Past Contributor(s)
+
+### Contributors
 Oliver Cook
+El Khanoussi Yassine
 
  # Documentation
  https://voice-lab.github.io/VoiceLab
@@ -56,7 +58,7 @@ parselmouth-praat. parselmouth-praat is a Python package that
 essentially turns Praat\'s source code written in C and C++ into a
 Pythonic interface. What that means is that any praat measurement in
 this software is using actual Praat source code, so you can trust the
-underlying algorithms. Voice Lab figures out all of the analysis
+underlying algorithms. Voice Lab figures out all analysis
 parameters for you, but you can always use your own, and these are the
 same parameters as in Praat, and they do the exact same thing because it
 is Praat\'s source code powering everything. That means if you are a

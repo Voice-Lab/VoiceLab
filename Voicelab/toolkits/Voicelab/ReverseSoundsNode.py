@@ -24,6 +24,7 @@ class ReverseSoundsNode(VoicelabNode):
             """The path to the file to be reversed"""
             signal, sampling_rate = self.args['voice']
             sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+
             """The parselmouth sound object to be reversed"""
             sound.reverse()
             output_file_name: str = file_path.split("/")[-1].split(".wav")[0]

@@ -24,10 +24,14 @@ class VoicelabNode(Node):
         sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
         # sound: parselmouth.Sound = parselmouth.Sound(file_path)
         # measure pitch ceiling and floor
-        broad_pitch: float = sound.to_pitch_ac(
+        
+        try:
+            broad_pitch: float = sound.to_pitch_ac(
             None, 50, 15, True, 0.03, 0.45, 0.01, 0.35, 0.14, 500
-        )
-        broad_mean_f0: float = call(broad_pitch, "Get mean", 0, 0, "hertz")  # get mean pitch
+            )
+            broad_mean_f0: float = call(broad_pitch, "Get mean", 0, 0, "hertz")  # get mean pitch
+        except:
+            broad_mean_f0 = 0
 
         if broad_mean_f0 > 170:
             pitch_floor = 100

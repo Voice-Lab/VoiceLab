@@ -127,8 +127,9 @@ class MeasureSpeechRateNode(VoicelabNode):
         
         """
         try:
-            file_path = self.args['file_path']
-            sound = parselmouth.Sound(file_path)
+            file_path: str = self.args["file_path"]
+            signal, sampling_rate = self.args['voice']
+            sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
             snr = call(sound.to_harmonicity(), "Get mean", 0, 0)
             if snr < 60:
                 self.args["mindip"] = 2

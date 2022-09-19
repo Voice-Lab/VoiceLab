@@ -10,6 +10,7 @@ spectrograms and power spectra, with the press of one button.
 
 ## Version 1.3.0
 ### Changes from 1.2.0
+* Installing on windows is different. First unzip the folder, then go in it and click VoiceLab.exe. This should speed things up a bit for loading the software.
 #### New Features
 * MeasurePitchNode now outputs a list of all pitch values
 * New Rotate Spectrum script from Chris Darwin

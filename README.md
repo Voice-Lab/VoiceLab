@@ -37,7 +37,7 @@ You can grab the full program here for <a href="https://github.com/Voice-Lab/Voi
 3. <code>python3 -m pip install .</code>
 4. <code>python voicelab.py</code>
 
- Do not install the version on PyPi. It does not work.
+ Do not install the version on PyPi. It does not work.  VoiceLab is not yet compatible with Python 3.11.
 
 
 ## Software Development Team

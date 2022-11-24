@@ -16,6 +16,8 @@ spectrograms and power spectra, with the press of one button.
 * New Rotate Spectrum script from Chris Darwin
 * *Some* API documentation: https://voice-lab.github.io/VoiceLab/#api
   * There's a lot to do, so it's going to take a while to get it all together.
+* The API instructions have not been updates since v1.2.0. They won't work on 1.3.0 
+  *This would be a great thing for someone to help out with.
 
 #### Bug fixes
 * When trying to enter a value in "Time Steps" (Measure Voice pitch) it will no longer crash when typing a ".".

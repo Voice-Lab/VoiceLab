@@ -29,6 +29,7 @@ class MeasureCPPNode(VoicelabNode):
         super().__init__(*args, **kwargs)
 
         self.args = {
+            "Measure only voiced segments": True,
             "interpolation": "Parabolic",  # todo add user options for 'None', 'Cubic', and 'Sinc70'
             "Tilt line qeufrency lower bound": 0.001,
             "Tilt line qeufrency upper bound": 0.0,  # 0 = entire range
@@ -47,6 +48,7 @@ class MeasureCPPNode(VoicelabNode):
             file_path: str = self.args["file_path"]
             signal, sampling_rate = self.args['voice']
             voice: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
+            sound = voice
             spectrum: parselmouth.Spectrum = voice.to_spectrum()
             cepstrum: parselmouth.Data = call(spectrum, "To PowerCepstrum")
 
@@ -59,6 +61,21 @@ class MeasureCPPNode(VoicelabNode):
             pitch_floor: Union[float, int]
             pitch_ceiling: Union[float, int]
             pitch_floor, pitch_ceiling = self.pitch_bounds(voice)
+
+            maximum_period = 0.02
+            mean_period = 0.01
+
+            if self.args["Measure only voiced segments"]:
+                pitch = voice.to_pitch_cc(
+                    pitch_floor=pitch_floor,
+                    pitch_ceiling=pitch_ceiling)
+                PointProcess = call([sound, pitch], "To PointProcess (cc)")
+                textgrid: parselmouth.Data = call(PointProcess, "To TextGrid (vuv)", maximum_period, mean_period)
+                newsounds: list = call([sound, textgrid], "Extract all intervals", 1, False)
+                concatenated_sound: parselmouth.Sound = call(newsounds, "Concatenate")
+                spectrum: parselmouth.Spectrum = concatenated_sound.to_spectrum()
+                cepstrum: parselmouth.Data = call(spectrum, "To PowerCepstrum")
+
 
             cpp: Union[int, str] = call(
                 cepstrum,

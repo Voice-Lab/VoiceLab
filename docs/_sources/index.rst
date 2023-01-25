@@ -96,15 +96,25 @@ Output formats
 
 Documentation and API Reference
 ********************************
+VoiceLab was not written with an API in mind but I am providing functionality anyways.  For now, it's a bit rough.
+
 This API is not yet complete. It is a work in progress. But, for now, there's enough for you to run any node as long
 as you can understand the code.  Reproducing Voicelab's exact behaviour in the command line is a bit more difficult as
-there is a state dictionary and and :python:`end()` method for some nodes.
+there is a state dictionary and and :python:`end()` method for nodes whose measures depend on other nodes (e.g Voice Tract-Length Estimates).
 
 All nodes can be imported and run without the VoiceLab GUI if you program their execution in Python.
 
-You'll need to supply: :python:`args['file_path']`, which is the file path, and
+You'll need to do some prep work to get your sounds in a form the nodes read. We are preparing for multiprocessing, and Parselmouth.Sound obejects don't pickle
+So, to avoid multiple disk reads and slow things down, we pass the values and sampling rate through the nodes.
+That means to use this at the command line you need:
+
+: :python:`args['file_path']`, which is the file path, and
 :python:`args['voice']`, which is the :python:`parselmouth.Sound` object created by running
-:python:`parselmouth.Sound(args['file_path'])`.  You may also set additional parameters by creating an 
+:python:`parselmouth.Sound(args['file_path'])`.
+You also need :python:`signal`, and :python:`sampling_rate`, which you can get by doing:
+:python:`signal = args['voice'].values` and :python:`sampling_rate  = args['voice'].sampling_frequency`.
+
+You may also set additional parameters by creating an
 instance of a node, and setting the dictionary :python:`args` to the appropriate values as specified
 in each node. The output of each node is a dictionary of the results. If the node is a manipulation
 node, it will return a :python:`parselmouth.Sound` object. If the node is a plot, it will return a matplotlib figure.

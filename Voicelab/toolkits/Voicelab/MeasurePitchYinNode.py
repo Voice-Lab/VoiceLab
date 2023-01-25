@@ -36,7 +36,7 @@ class MeasurePitchYinNode(VoicelabNode):
             y, sr = librosa.load(audioFilePath)
             fmin = self.args["min f0"]
             fmax = self.args["max f0"]
-            pitches_full = librosa.yin(y, fmin, fmax, sr) #
+            pitches_full = librosa.yin(y, fmin=fmin, fmax=fmax, sr=sr) # This changed to keyword arguments to future proof incoming Librosa changes
             pitches = pitches_full[pitches_full != 0]
             yin_min_pitch = np.nanmin(pitches).item()
             yin_max_pitch = np.nanmax(pitches).item()

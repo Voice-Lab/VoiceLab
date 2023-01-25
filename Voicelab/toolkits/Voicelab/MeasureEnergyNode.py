@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import os
 import pandas as pd
 from parselmouth.praat import call
 import parselmouth
@@ -196,8 +197,10 @@ class MeasureEnergyNode(VoicelabNode):
             pitch_ceiling=500,
         )
         pitch_tier: parselmouth.Data = call(pitch, "Down to PitchTier")
-        call(pitch_tier, "Write to headerless spreadsheet file", "parselmouth_cc.txt")
-        df: pd.DataFrame = pd.read_csv('parselmouth_cc.txt', sep='\t', header=None)
+        # get the directory where this file is located
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        call(pitch_tier, "Write to headerless spreadsheet file", f"{dir_path}/parselmouth_cc.txt")
+        df: pd.DataFrame = pd.read_csv(f'{dir_path}/parselmouth_cc.txt', sep='\t', header=None)
         df.columns = ['Time', 'Frequency']
         return df.Time.values, df.Frequency.values
 

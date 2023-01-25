@@ -12,6 +12,9 @@ from Voicelab.pipeline.Node import Node
 from Voicelab.toolkits.Voicelab.VoicelabNode import VoicelabNode
 
 
+
+
+
 class MeasureEnergyNode(VoicelabNode):
     """Measure Energy like in VoiceSauce
 
@@ -196,13 +199,16 @@ class MeasureEnergyNode(VoicelabNode):
             pitch_floor=40,
             pitch_ceiling=500,
         )
-        pitch_tier: parselmouth.Data = call(pitch, "Down to PitchTier")
-        # get the directory where this file is located
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        call(pitch_tier, "Write to headerless spreadsheet file", f"{dir_path}/parselmouth_cc.txt")
-        df: pd.DataFrame = pd.read_csv(f'{dir_path}/parselmouth_cc.txt', sep='\t', header=None)
-        df.columns = ['Time', 'Frequency']
-        return df.Time.values, df.Frequency.values
+        #pitch_tier: parselmouth.Data = call(pitch, "Down to PitchTier")
+
+        df = pd.DataFrame()
+        df['Time'] = pitch.xs()
+        df['Frequency'] = [pitch.get_value_at_time(value) for value in pitch.xs()]
+
+        #call(pitch_tier, "Write to headerless spreadsheet file", f"{dir_path}/parselmouth_cc.txt")
+        #df: pd.DataFrame = pd.read_csv(f'{dir_path}/parselmouth_cc.txt', sep='\t', header=None)
+        #df.columns = ['Time', 'Frequency']
+        return df.Time, df.Frequency
 
 
     def refine_pitch_voice_sauce(self, times: pd.DataFrame, frequencies: pd.DataFrame) -> np.array:
@@ -288,3 +294,4 @@ class MeasureEnergyNode(VoicelabNode):
         q: np.int_ = np.int_(np.sign(x) * np.floor(np.abs(x) + 0.5))
 
         return q
+

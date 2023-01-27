@@ -8,38 +8,35 @@ your data, analysis parameters, manipulated voices, and full colour
 spectrograms and power spectra, with the press of one button.
 
 
-## Version 1.3.0
-### Changes from 1.2.0
-* Installing on windows is different. First unzip the folder, then go in it and click VoiceLab.exe. This should speed things up a bit for loading the software.
-#### New Features
-* MeasurePitchNode now outputs a list of all pitch values
-* New Rotate Spectrum script from Chris Darwin
-* *Some* API documentation: https://voice-lab.github.io/VoiceLab/#api
-  * There's a lot to do, so it's going to take a while to get it all together.
-* The API instructions have not been updates since v1.2.0. They won't work on 1.3.0  
-  * This would be a great thing for someone to help out with.
-
-#### Bug fixes
-* When trying to enter a value in "Time Steps" (Measure Voice pitch) it will no longer crash when typing a ".".
-* Fixed spectrograms
-
-#### Feature Removals
-* Started removing pitch range and duration options from formant manipulation menus. 
-  * If you need these back, contact me, and I'll put them back.
+## Version 1.3.1
+### Changes from 1.3.0
+- Measure Cepstral Peak Prominence (CPP) now defaults to measure only pitched frames.  There is an option to turn this off.  
+    -  Elizabeth S. Heller Murray, Andie Chao, Lauren Colletti, A (2022) Practical Guide to Calculating Cepstral Peak Prominence in Praat, Journal of Voice
+- Fixed bug where Energy would not work in compiled versions
+- Updated API to reflect recent changes 
 
 ## Contact
 #### David Feinberg: feinberg@mcmaster.ca
 
 ## Installation instructions:
-You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.2.0/voicelab.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.2.0/voicelab.exe" title="VoiceLab for Windows">here for Windows</a>.  On OSX, don't forget to unzip the files. Then just run the VoiceLab file --no installation necessary. 
-### If you are on Linux, other systems, or just want to use Python, we recommend setting up a new virtual environment with Python 3.9.
+You can grab the full program here for <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.3.1/VoiceLab-OSX.zip" title="VoiceLab for OSX">OSX</a>, and <a href="https://github.com/Voice-Lab/VoiceLab/releases/download/v1.3.1/VoiceLab-WIndows.zip" title="VoiceLab for Windows">here for Windows</a>.  
+### On OSX
+- Unzip the file, run the app
+### On Windows
+- Unzip the file
+- Enter the VoiceLab Folder
+- Scroll down and run VoiceLab.exe
+
+### If you are on Linux, other systems, or just want to use Python, I recommend setting up a new virtual environment with Python 3.9.
 0. Clone this repository and navigate to the project root.
 1. <code>python3.9 -m venv venv</code>
 2. <code>source venv/bin/activate</code>
 3. <code>python3 -m pip install .</code>
 4. <code>python voicelab.py</code>
 
- Do not install the version on PyPi. It does not work.  VoiceLab is not yet compatible with Python 3.11.
+ Do not install the version on PyPi. It does not work.  
+ 
+ VoiceLab is not yet compatible with Python 3.11, but has been tested and works on 3.10.
 
 
 ## Software Development Team

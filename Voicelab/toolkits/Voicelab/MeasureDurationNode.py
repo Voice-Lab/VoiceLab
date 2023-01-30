@@ -12,6 +12,7 @@ class MeasureDurationNode(VoicelabNode):
         try:
             """Returns the total duration of a sound file."""
             file_path: str = self.args["file_path"]
+            print(f"file_path: from duration node {file_path}")
             signal, sampling_rate = self.args['voice']
             sound: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)
             return {"Voice Duration": sound.duration}

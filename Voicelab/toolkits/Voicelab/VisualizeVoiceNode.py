@@ -83,7 +83,7 @@ class VisualizeVoiceNode(VoicelabNode):
         :return: dict of the matplotlib figure object
         :rtype: dict of str | union[plt.figure, str]
         """
-        file_path: str = self.args['file_path']
+        #file_path: str = self.args['file_path']
         #voice: parselmouth.Sound = parselmouth.Sound(file_path)
         signal, sampling_rate = self.args['voice']
         voice: parselmouth.Sound = parselmouth.Sound(signal, sampling_rate)

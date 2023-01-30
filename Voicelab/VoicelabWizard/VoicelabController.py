@@ -277,7 +277,7 @@ class VoicelabController:
 
         for fn in active_functions:
             # Visualize is handled outside of this
-            # if fn != "Create Spectrograms":
+            #if fn != "Create Spectrograms":
             active_functions[fn].args = active_settings[fn]
             pipeline.add(active_functions[fn])
             pipeline.connect(
@@ -286,12 +286,12 @@ class VoicelabController:
             pipeline.connect(
                 (load_voices, "file_path"), (active_functions[fn], "file_path")
             )
-            # if "Create Spectrograms" in active_functions and fn in visualize_list:
+            #else:# "Create Spectrograms" in active_functions and fn in visualize_list:
             #    pipeline.connect(
-            #        (active_functions[fn], visualize_list[fn]),
+            #        (active_functions[fn], visualize_list[fn]),  #'Create Spectrograms' is not on visualize_list
             #        (visualize_voices, visualize_list[fn]),
             #    )
-
+            #    print(active_functions)
         # Some nodes may require specific values from upstream nodes (as specified in the default settings file)
         # Resolve these dependancies and create the relevant connections
         for fn_name in function_requirements:
@@ -315,6 +315,7 @@ class VoicelabController:
         # Collect the results of the pipeline running
         for i, result_file in enumerate(pipeline_results):
             for result_fn in pipeline_results[i]:
+                print(f"{result_fn.node_id=}")
                 if result_fn.node_id == "Create Spectrograms":
                     # "figure" is the maptlotlib figure returned from VisualizeVoiceNode.py
                     #  it is a dictionary key, the dictionary value is the actual figure `fig`  from fig = plt.figure()
@@ -529,13 +530,13 @@ class VoicelabController:
 
     def save_spectrogram(self, figure, file_name):
         figure.set_size_inches(10, 5)
-        figure.savefig(file_name, dpi=250, quality=95)
+        figure.savefig(file_name, dpi=250)
         plt.close(figure)
         return file_name
 
     def save_spectrum(self, figure, file_name):
         figure.set_size_inches(10, 5)
-        figure.savefig(file_name, dpi=250, quality=95)
+        figure.savefig(file_name, dpi=250)
         plt.close(figure)
         return file_name
 

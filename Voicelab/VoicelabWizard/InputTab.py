@@ -59,11 +59,11 @@ class InputTab(VoicelabTab):
         btn_help.clicked.connect(self.onclick_help)
 
         # Create and connect play button
-        btn_play = QPushButton("Play Sound File(s)")
+        btn_play = QPushButton("Play Sound File")
         btn_play.clicked.connect(self.onclick_play)
 
         # Create and connect stop button
-        btn_stop = QPushButton("Stop Playing Sound File(s)")
+        btn_stop = QPushButton("Stop Playing Sound File")
         btn_stop.clicked.connect(self.onclick_stop)
 
         # Create the progress bar
@@ -114,8 +114,8 @@ class InputTab(VoicelabTab):
         """Stops playing sounds"""
         try:
             self.sound.stop()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     ###############################################################################################
     # on_selection_change: callback for when the selection of files has changed.

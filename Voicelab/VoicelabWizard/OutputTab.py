@@ -46,6 +46,8 @@ class OutputTab(VoicelabTab):
 
         horizontal_splitter = QSplitter(Qt.Horizontal)
         vertical_splitter = QSplitter(Qt.Vertical)
+        horizontal_splitter2 = QSplitter(Qt.Vertical)
+
 
         ## Set up files list section
         files_list_container = QFrame()
@@ -67,8 +69,21 @@ class OutputTab(VoicelabTab):
         self.spectrogram_map = {}
         self.btn_show_plt = QPushButton()
         self.btn_show_plt.clicked.connect(self.onshow_plot)
-        self.btn_show_plt.setText("Expand Spectrogram")
+        self.btn_show_plt.setText("View Spectrogram in Separate Window")
         spectrogram_display_layout.addWidget(self.btn_show_plt)
+        
+        ## Set up Spectrum Viewer section
+        spectrum_display_container = QFrame()
+        spectrum_display_layout = QVBoxLayout()
+        spectrum_display_container.setFrameShape(QFrame.StyledPanel)
+        spectrum_display_container.setLayout(spectrum_display_layout)
+        self.spectrum_display_stack = QStackedWidget()
+        spectrum_display_layout.addWidget(self.spectrum_display_stack)
+        self.spectrum_map = {}
+        self.btn_show_plt = QPushButton()
+        self.btn_show_plt.clicked.connect(self.onshow_plot)
+        self.btn_show_plt.setText("View spectrum in Separate Window")
+        spectrum_display_layout.addWidget(self.btn_show_plt)
         ## Set up results table section
 
         results_table_container = QFrame()
@@ -85,13 +100,14 @@ class OutputTab(VoicelabTab):
         ## Add the appropriate widgets to their respective layouts
         horizontal_splitter.addWidget(files_list_container)
         horizontal_splitter.addWidget(spectrogram_display_container)
-        horizontal_splitter.setSizes([50, 50])
 
+        horizontal_splitter.setSizes([50, 50])
         vertical_splitter.addWidget(horizontal_splitter)
         vertical_splitter.addWidget(results_table_container)
         vertical_splitter.setSizes([60, 40])
 
         container_layout.addWidget(vertical_splitter)
+
 
         self.signals["on_processing_completed"].connect(self.on_processing_completed)
 
@@ -100,10 +116,12 @@ class OutputTab(VoicelabTab):
     # default matplotlib display.
     ###############################################################################################
     def onshow_plot(self):
+        """Display the current spectrogram in a new window"""
+        print(self.data_controller.figures)
         index = self.spectrogram_display_stack.currentIndex()
         if len(self.data_controller.figures) > 0:
-            active_figure = self.data_controller.figures[index]
-
+            active_figure = self.data_controller.figures[index]  # This is empty.  Where is it supposed to be filled?
+            active_figure.show()
             # TODO: this is not a great way to handle this, the figure seems to be shared between the two...
             new_manager = plt.figure().canvas.manager
             new_manager.canvas.figure = active_figure

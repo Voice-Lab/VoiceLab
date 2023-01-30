@@ -49,7 +49,7 @@ available_functions = {
     "Reverse Sounds": Voicelab.ReverseSoundsNode("Reverse Sounds"),
     "Rotate Spectrum": Voicelab.RotateSpectrumNode("Rotate Spectrum"),
     "Scale Intensity (RMS)": Voicelab.ScaleIntensityNode("Scale Intensity (RMS)"),
-    "Create Spectrogram": Voicelab.VisualizeVoiceNode("Create Spectrogram"),
+    'Create Spectrograms': Voicelab.VisualizeVoiceNode('Create Spectrograms'),
     "Create LPC Power Spectra": Voicelab.VisualizeSpectrumNode("Create LPC Power Spectra"),
     #"Create F1F2 Plot": Voicelab.F1F2PlotNode("Create F1F2 Plot"),
 }
@@ -88,7 +88,6 @@ default_functions = [
     # "Rotate Spectrum",
     # 'Create Spectrograms',
     # "Create LPC Power Spectra",
-    # 'Create Spectrogram',
     # "Create F1F2 Plot",
 ]
 
@@ -147,7 +146,7 @@ function_requirements = {
         ("Measure Pitch", "Pitch Ceiling"),
 
     ],
-    "Create Spectrogram": [
+    "Create Spectrograms": [
         ("Measure Formants", "Formants"),
         ("Measure Intensity", "Intensity"),
         ("Measure Pitch", "Pitch"),

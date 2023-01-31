@@ -18,6 +18,8 @@ from pandas import ExcelFile
 from datetime import datetime
 from PyQt5.QtWidgets import QMessageBox
 
+from multiprocessing import Pool, cpu_count
+
 """
 # Voicelab Controller: coordinates the interaction between the presentation of the data and its storage
 # The data controller does not need to know how the data gets in from the user, nor how the data
@@ -245,7 +247,6 @@ class VoicelabController:
             visualize_voices = Voicelab.VisualizeVoiceNode("Create Spectrograms")
 
             # if there are settings the user has configured, we want to attach them to the node
-
             visualize_voices.args = active_settings["Create Spectrograms"]
 
             # visualize_voices.args[value] = self.model['settings']['Visualize Voice']['value'][value]
@@ -302,7 +303,8 @@ class VoicelabController:
                     parent_node = active_functions[parent_name]
                     pipeline.connect((parent_node, argument), (child_node, argument))
 
-        pipeline.listen(self.progress_callback)
+            pipeline.listen(self.progress_callback)
+
         pipeline_results = pipeline.start()
 
         finished_window = QMessageBox()

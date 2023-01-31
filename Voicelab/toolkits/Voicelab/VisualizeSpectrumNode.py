@@ -65,14 +65,14 @@ class VisualizeSpectrumNode(VoicelabNode):
             # Measure the formants
             try:
                 formant_path_object = call(sound,
-                                           "To FormantPath (burg)",
-                                           0.0025,
-                                           5,
-                                           max_freq,
-                                           0.025,
-                                           50,
-                                           0.025,
-                                           5)
+                                            "To FormantPath (burg)",
+                                            0.0025,
+                                            5,
+                                            max_freq,
+                                            0.025,
+                                            50,
+                                            0.025,
+                                            5)
                 formant_object = call(formant_path_object, "Extract Formant")
 
 

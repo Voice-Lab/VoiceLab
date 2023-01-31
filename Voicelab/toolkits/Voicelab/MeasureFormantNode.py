@@ -175,7 +175,7 @@ class MeasureFormantNode(VoicelabNode):
                 "F2 Median": str(e),
                 "F3 Median": str(e),
                 "F4 Median": str(e),
-                "Formants": str(e),
+                #"Formants": str(e),
             }
         return results
 

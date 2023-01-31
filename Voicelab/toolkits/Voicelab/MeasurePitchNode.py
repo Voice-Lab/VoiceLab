@@ -11,7 +11,7 @@ from Voicelab.toolkits.Voicelab.MeasureSHRPNode import MeasureSHRPNode
 
 class MeasurePitchNode(VoicelabNode):
     """Measure Pitch with Praat
-       -------------------------
+    -------------------------
 
         Arguments:
         -----------
@@ -231,7 +231,7 @@ class MeasurePitchNode(VoicelabNode):
                     very_accurate=very_accurate,
                 )
                 praat_ac_results = {
-                    "Pitch": pitch,
+                    #"Pitch": pitch,
                     "Pitch Values (Praat To Pitch (ac))": praat_ac_pitch_values,
                     "Mean Pitch (F0) (Praat To Pitch (ac))": praat_ac_mean_f0,
                     "Median Pitch (F0) (Praat To Pitch (ac))": praat_ac_median_f0,
@@ -325,19 +325,19 @@ def measure_pitch_praat(
     """
     voice = parselmouth.Sound(file_path)
     pitch: parselmouth.Pitch = call(
-        voice,
-        method,
-        time_step,
-        floor,
-        max_number_of_candidates,
-        very_accurate,
-        silence_threshold,
-        voicing_threshold,
-        octave_cost,
-        octave_jump_cost,
-        voiced_unvoiced_cost,
-        ceiling,
-    )
+                                    voice,
+                                    method,
+                                    time_step,
+                                    floor,
+                                    max_number_of_candidates,
+                                    very_accurate,
+                                    silence_threshold,
+                                    voicing_threshold,
+                                    octave_cost,
+                                    octave_jump_cost,
+                                    voiced_unvoiced_cost,
+                                    ceiling,
+                                    )
     mean_f0: float = call(pitch, "Get mean", 0, 0, unit)
     median_f0: float = call(pitch, "Get quantile", 0, 0, 0.5, "Hertz")
     stdev_f0: float = call(pitch, "Get standard deviation", 0, 0, unit)

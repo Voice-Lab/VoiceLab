@@ -46,7 +46,6 @@ class OutputTab(VoicelabTab):
 
         horizontal_splitter = QSplitter(Qt.Horizontal)
         vertical_splitter = QSplitter(Qt.Vertical)
-        horizontal_splitter2 = QSplitter(Qt.Vertical)
 
 
         ## Set up files list section
@@ -67,10 +66,10 @@ class OutputTab(VoicelabTab):
         self.spectrogram_display_stack = QStackedWidget()
         spectrogram_display_layout.addWidget(self.spectrogram_display_stack)
         self.spectrogram_map = {}
-        self.btn_show_plt = QPushButton()
-        self.btn_show_plt.clicked.connect(self.onshow_plot)
-        self.btn_show_plt.setText("View Spectrogram in Separate Window")
-        spectrogram_display_layout.addWidget(self.btn_show_plt)
+        #self.btn_show_plt = QPushButton()
+        #self.btn_show_plt.clicked.connect(self.onshow_plot)
+        #self.btn_show_plt.setText("View Spectrogram in Separate Window")
+        #spectrogram_display_layout.addWidget(self.btn_show_plt)
         
         ## Set up Spectrum Viewer section
         spectrum_display_container = QFrame()
@@ -80,10 +79,10 @@ class OutputTab(VoicelabTab):
         self.spectrum_display_stack = QStackedWidget()
         spectrum_display_layout.addWidget(self.spectrum_display_stack)
         self.spectrum_map = {}
-        self.btn_show_plt = QPushButton()
-        self.btn_show_plt.clicked.connect(self.onshow_plot)
-        self.btn_show_plt.setText("View spectrum in Separate Window")
-        spectrum_display_layout.addWidget(self.btn_show_plt)
+        #self.btn_show_plt = QPushButton()
+        #self.btn_show_plt.clicked.connect(self.onshow_plot)
+        #self.btn_show_plt.setText("View spectrum in Separate Window")
+        #spectrum_display_layout.addWidget(self.btn_show_plt)
         ## Set up results table section
 
         results_table_container = QFrame()
@@ -100,8 +99,9 @@ class OutputTab(VoicelabTab):
         ## Add the appropriate widgets to their respective layouts
         horizontal_splitter.addWidget(files_list_container)
         horizontal_splitter.addWidget(spectrogram_display_container)
+        horizontal_splitter.addWidget(spectrum_display_container)
 
-        horizontal_splitter.setSizes([50, 50])
+        horizontal_splitter.setSizes([50, 50, 50])
         vertical_splitter.addWidget(horizontal_splitter)
         vertical_splitter.addWidget(results_table_container)
         vertical_splitter.setSizes([60, 40])
@@ -117,17 +117,19 @@ class OutputTab(VoicelabTab):
     ###############################################################################################
     def onshow_plot(self):
         """Display the current spectrogram in a new window"""
-        print(self.data_controller.figures)
         index = self.spectrogram_display_stack.currentIndex()
         if len(self.data_controller.figures) > 0:
             active_figure = self.data_controller.figures[index]  # This is empty.  Where is it supposed to be filled?
-            active_figure.show()
-            # TODO: this is not a great way to handle this, the figure seems to be shared between the two...
-            new_manager = plt.figure().canvas.manager
-            new_manager.canvas.figure = active_figure
-            new_manager.canvas.mpl_connect("close_event", self.refresh_figure_canvas)
-            active_figure.set_canvas(new_manager.canvas)
-            active_figure.show()
+            try:
+                #active_figure.show()
+                # TODO: this is not a great way to handle this, the figure seems to be shared between the two...
+                new_manager = plt.figure().canvas.manager
+                new_manager.canvas.figure = active_figure
+                new_manager.canvas.mpl_connect("close_event", self.refresh_figure_canvas)
+                active_figure.set_canvas(new_manager.canvas)
+                active_figure.show()
+            except Exception as e:
+                print(e)
 
     ###############################################################################################
     # refresh_figure_canvas: redraws the currently displayed spectrogram canvas
@@ -138,6 +140,7 @@ class OutputTab(VoicelabTab):
             e:
         """
         self.spectrogram_display_stack.currentWidget().draw()
+        self.spectrum_display_stack.currentWidget().draw()
 
     ###############################################################################################
     # on_processing_completed: callback for when processing is completed. Triggers and update of
@@ -167,6 +170,12 @@ class OutputTab(VoicelabTab):
                     self.spectrogram_map[selected_file_name]
                 )
                 self.spectrogram_display_stack.setCurrentIndex(index)
+
+            if len(self.spectrum_map) > 0:
+                index = self.spectrum_display_stack.indexOf(
+                    self.spectrum_map[selected_file_name]
+                )
+                self.spectrum_display_stack.setCurrentIndex(index)
 
     def on_tab_select(self, selected_index):
         """
@@ -209,6 +218,11 @@ class OutputTab(VoicelabTab):
                         spectrogram_display = FigureCanvas(spectrogram_figure)
                         self.spectrogram_display_stack.addWidget(spectrogram_display)
                         self.spectrogram_map[file_path] = spectrogram_display
+                    elif fn_name == "Create LPC Power Spectra":
+                        spectrum_figure = results[file_path][fn_name]["spectrum"]
+                        spectrum_display = FigureCanvas(spectrum_figure)
+                        self.spectrum_display_stack.addWidget(spectrum_display)
+                        self.spectrum_map[file_path] = spectrum_display
                     else:
                         # create a table for the stack of tables
                         results_table = QTableWidget()

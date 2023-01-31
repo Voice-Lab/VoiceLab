@@ -48,7 +48,7 @@ class VisualizeVoiceNode(VoicelabNode):
 
         self.show_figure: bool = True
         self.args: dict = {
-            "window_length": 0.05,  # Positive number
+            "window_length": 0.005,  # Positive number
             "colour_map": (
                 "afmhot",
                 [
@@ -245,7 +245,7 @@ class VisualizeVoiceNode(VoicelabNode):
                 intensity_value: float = parselmouth.praat.call(
                     intensity, "Get value at time", time, "cubic"
                 )
-                if intensity_value < 50:
+                if intensity_value < 50 and j<len(formant_values):
                     formant_values[j] = 0
             formant_values[formant_values == 0] = np.nan
             axis.scatter(

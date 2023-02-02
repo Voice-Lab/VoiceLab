@@ -197,7 +197,6 @@ class MeasurePitchNode(VoicelabNode):
                         "Standard Deviation Pitch (F0) (Praat To Pitch (cc))": praat_cc_stdev_f0,
                         "Pitch Min (F0) (Praat To Pitch (cc))": praat_cc_min_f0,
                         "Pitch Max (F0) (Praat To Pitch (cc))": praat_cc_max_f0,
-                        "Pitch (Praat To Pitch (cc))": pitch,
                         "Pitch Floor": pitch_floor,
                         "Pitch Ceiling": pitch_ceiling,
                     }

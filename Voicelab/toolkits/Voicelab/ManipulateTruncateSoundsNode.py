@@ -59,7 +59,6 @@ class ManipulateTruncateSoundsNode(VoicelabNode):
                 self.args["Trim sound"] = False
 
         sound.name = self.get_output_file_name(filename)
-        sound.save(sound.name, "WAV")
         return {"voice": sound,
                 "Trim Sound": True}
 

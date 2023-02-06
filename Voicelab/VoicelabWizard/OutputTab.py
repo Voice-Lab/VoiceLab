@@ -127,6 +127,7 @@ class OutputTab(VoicelabTab):
                 new_manager.canvas.figure = active_figure
                 new_manager.canvas.mpl_connect("close_event", self.refresh_figure_canvas)
                 active_figure.set_canvas(new_manager.canvas)
+                self.resize_plot(new_manager.canvas, active_figure)
                 active_figure.show()
             except Exception as e:
                 print(e)
@@ -286,3 +287,6 @@ class OutputTab(VoicelabTab):
             active_results, active_functions, last_used_settings, temp_loaded
         )
 
+    def resize_plot(self, window, figure):
+        window.setGeometry(QRect(0, 0, self.width(), self.height() - 20))
+        figure.setGeometry(QRect(0, 0, self.width(), self.height() - 30))

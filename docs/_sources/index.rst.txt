@@ -96,17 +96,13 @@ Output formats
 
 Documentation and API Reference
 ********************************
-This is not a supported way to run Voicelab, but it works. This will work if you clone the github repo and run it from
-the command line, but not if you install it from PyPi or Binary. You can adapt this for any node.
-See source code for the node you want to run for more details.
-I have the directory structure set up below in the code examples.
-You might need to fiddle with it. The prepare_node() function sets up the node with the sound file the
-way it likes it and returns the node. The process() method runs the node.
+THe API is not a supported way to run Voicelab, but it works, with some elbow grease.
+You need to clone the github repo and run it from the command line, but not if you install it from PyPi or Binary. You
+can adapt this process for any node.  See source code for the node you want to run for more details. I have the
+directory structure set up below in the code examples. It's just at test file, but you can see how to make it work.
+In short, The prepare_node() function sets up the node with the sound file the way it likes it and returns the node. The
+process() method runs the node.
 
-
-
-
-Validation analyses for automatic analysis settings and Energy can be found `here<https://osf.io/3wr6k/files/>`_.
 
 
 Automated Settings
@@ -186,7 +182,13 @@ This measures the full duration of the sound file. There are no parameters to ad
 
 Measure Energy
 ==============
-This is my port of VoiceSauce's Energy Algorithm.  It is different than the old RMS Energy algorithm in previous versions of VoiceLab. This code is not in OpenSauce.
+This is my port of VoiceSauce's Energy Algorithm.  It is different than the old RMS Energy algorithm in previous
+versions of VoiceLab, which was RMS of the file and is still available. This code is not in OpenSauce. It is a line-by
+line translation of the Voice Sauce MatLab and Praat Code.  Validation analyses for automatic analysis settings and
+Energy can be found `here<https://osf.io/3wr6k/files/>`_.
+
+It is a normal Energy calculation, but the widow size is equal to 5 pitch periods, estimated by my port of Voice
+Sauce's Praat script to Python using the praat-parselmouth package.
 
 .. automodule:: voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode
    :members:
@@ -1685,7 +1687,9 @@ VoiceLab creates power spectra of sounds and overlays an LPC curve over the top.
    :members:
 
 
-Code Example from Tests
+.. _CodeExample:
+
+Code Example
 *****************
 ==========
 Running Voicelab from the command line was never intended, but you can hack your way through.
@@ -1761,8 +1765,7 @@ The `process()` method runs the node.
       number_of_test_files, _ = get_test_files()
       return number_of_test_files
 
-
- .. code-block:: Python
+.. code-block:: Python
 
     # Arrange
     def generate_numpy_arrays(execution_number):

@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -80,10 +80,7 @@
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href="#" title="VoiceLab: Automated Reproducible Acoustic Analysis"
-           class="md-header-nav__button md-
-                  
-                  
-                  ">
+           class="md-header-nav__button md-logo">
           
             &nbsp;
           
@@ -165,7 +162,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="#" title="VoiceLab: Automated Reproducible Acoustic Analysis" class="md-nav__button md-logo">
       
-        <img src="docs/_static/logo-1.png" alt=" logo" width="48" height="48">
+        <img src="_static/" alt=" logo" width="48" height="48">
       
     </a>
     <a href="#"
@@ -1480,7 +1477,7 @@
         </li></ul>
             </nav>
         </li>
-        <li class="md-nav__item"><a href="#code-example-from-tests" class="md-nav__link">Code Example from Tests</a>
+        <li class="md-nav__item"><a href="#code-example" class="md-nav__link">Code Example</a>
         </li>
   </ul>
 </nav>
@@ -1560,13 +1557,12 @@ Only the files selected (in blue) will be analyzed. By default we will select al
 </section>
 <section id="documentation-and-api-reference">
 <h1 id="documentation-and-api-reference">Documentation and API Reference<a class="headerlink" href="#documentation-and-api-reference" title="Permalink to this heading">¶</a></h1>
-<p>This is not a supported way to run Voicelab, but it works. This will work if you clone the github repo and run it from
-the command line, but not if you install it from PyPi or Binary. You can adapt this for any node.
-See source code for the node you want to run for more details.
-I have the directory structure set up below in the code examples.
-You might need to fiddle with it. The prepare_node() function sets up the node with the sound file the
-way it likes it and returns the node. The process() method runs the node.</p>
-<p>Validation analyses for automatic analysis settings and Energy can be found <a href="#id411"><span class="problematic" id="id412">`here&lt;https://osf.io/3wr6k/files/&gt;`_</span></a>.</p>
+<p>THe API is not a supported way to run Voicelab, but it works, with some elbow grease.
+You need to clone the github repo and run it from the command line, but not if you install it from PyPi or Binary. You
+can adapt this process for any node.  See source code for the node you want to run for more details. I have the
+directory structure set up below in the code examples. It’s just at test file, but you can see how to make it work.
+In short, The prepare_node() function sets up the node with the sound file the way it likes it and returns the node. The
+process() method runs the node.</p>
 <section id="automated-settings">
 <h2 id="automated-settings">Automated Settings<a class="headerlink" href="#automated-settings" title="Permalink to this heading">¶</a></h2>
 <p>VoiceLab uses automated settings for pitch floor and ceiling, and also uses these to set the centre frequency parameter in the FormantPath formant analysis.</p>
@@ -1960,7 +1956,12 @@ implemented.)</p>
 </section>
 <section id="measure-energy">
 <span id="energy"></span><h3 id="measure-energy">Measure Energy<a class="headerlink" href="#measure-energy" title="Permalink to this heading">¶</a></h3>
-<p>This is my port of VoiceSauce’s Energy Algorithm.  It is different than the old RMS Energy algorithm in previous versions of VoiceLab. This code is not in OpenSauce.</p>
+<p>This is my port of VoiceSauce’s Energy Algorithm.  It is different than the old RMS Energy algorithm in previous
+versions of VoiceLab, which was RMS of the file and is still available. This code is not in OpenSauce. It is a line-by
+line translation of the Voice Sauce MatLab and Praat Code.  Validation analyses for automatic analysis settings and
+Energy can be found <a href="#id411"><span class="problematic" id="id412">`here&lt;https://osf.io/3wr6k/files/&gt;`_</span></a>.</p>
+<p>It is a normal Energy calculation, but the widow size is equal to 5 pitch periods, estimated by my port of Voice
+Sauce’s Praat script to Python using the praat-parselmouth package.</p>
 <span class="target" id="module-voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode"></span><dl class="py class">
 <dt class="sig sig-object py" id="voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode.MeasureEnergyNode">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode.</span></span><span class="sig-name descname"><span class="pre">MeasureEnergyNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode.MeasureEnergyNode" title="Permalink to this definition">¶</a></dt>
@@ -1994,11 +1995,9 @@ implemented.)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode.MeasureEnergyNode.get_energy_voice_sauce">
 <span class="sig-name descname"><span class="pre">get_energy_voice_sauce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="headerlink" href="#voicelab.src.Voicelab.toolkits.Voicelab.MeasureEnergyNode.MeasureEnergyNode.get_energy_voice_sauce" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Get energy from Voice Sauce formula</dt><dd><p>The formula measures energy the normal way, but the window length is variable based on 5 pitch periods.
-This ensures the</p>
-</dd>
-</dl>
+<dd><p>Get energy from Voice Sauce formula
+The formula measures energy the normal way, but the window length is variable based on 5 pitch periods.
+I added some extra calculations like RMS and Equivalent Continuous Sound Level (Leq)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>audio_file_path</strong> (<em>str</em>) – path to audio file</p>
@@ -4237,11 +4236,9 @@ implemented.)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="id72">
 <span class="sig-name descname"><span class="pre">get_energy_voice_sauce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="headerlink" href="#id72" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Get energy from Voice Sauce formula</dt><dd><p>The formula measures energy the normal way, but the window length is variable based on 5 pitch periods.
-This ensures the</p>
-</dd>
-</dl>
+<dd><p>Get energy from Voice Sauce formula
+The formula measures energy the normal way, but the window length is variable based on 5 pitch periods.
+I added some extra calculations like RMS and Equivalent Continuous Sound Level (Leq)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>audio_file_path</strong> (<em>str</em>) – path to audio file</p>
@@ -6482,11 +6479,9 @@ implemented.)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="id267">
 <span class="sig-name descname"><span class="pre">get_energy_voice_sauce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="headerlink" href="#id267" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Get energy from Voice Sauce formula</dt><dd><p>The formula measures energy the normal way, but the window length is variable based on 5 pitch periods.
-This ensures the</p>
-</dd>
-</dl>
+<dd><p>Get energy from Voice Sauce formula
+The formula measures energy the normal way, but the window length is variable based on 5 pitch periods.
+I added some extra calculations like RMS and Equivalent Continuous Sound Level (Leq)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>audio_file_path</strong> (<em>str</em>) – path to audio file</p>
@@ -8170,8 +8165,8 @@ self.args[“Trim silences”]: bool, default=True</p>
 </section>
 </section>
 </section>
-<section id="code-example-from-tests">
-<h1 id="code-example-from-tests">Code Example from Tests<a class="headerlink" href="#code-example-from-tests" title="Permalink to this heading">¶</a></h1>
+<section id="code-example">
+<span id="codeexample"></span><h1 id="code-example">Code Example<a class="headerlink" href="#code-example" title="Permalink to this heading">¶</a></h1>
 <p>This is not a supported way to run Voicelab, but it works.
 This will work if you clone the github repo and run it from the command line, but not if you install it from
 PyPi or Binary.
@@ -8213,32 +8208,30 @@ The <cite>process()</cite> method runs the node.</p>
   <span class="k">return</span> <span class="n">validation_sound</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>   <span class="c1"># Arrange</span>
-   <span class="k">def</span> <span class="nf">get_number_of_test_files</span><span class="p">():</span>
-     <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_test_files</span><span class="p">()</span>
-     <span class="k">return</span> <span class="n">number_of_test_files</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">get_number_of_test_files</span><span class="p">():</span>
+  <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_test_files</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">number_of_test_files</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">generate_numpy_arrays</span><span class="p">(</span><span class="n">execution_number</span><span class="p">):</span>
+  <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">test_files</span> <span class="o">=</span> <span class="n">get_test_files</span><span class="p">()</span>
+  <span class="n">filename</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">[</span><span class="n">execution_number</span><span class="p">]</span>
+  <span class="n">node</span> <span class="o">=</span> <span class="n">prepare_node</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="c1"># Run the node</span>
+  <span class="n">results</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+  <span class="c1"># Validate the results</span>
+  <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">get_reversed_test_sound</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="n">test_sound</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'voice'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+  <span class="k">return</span> <span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span>
 
-
-<span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">Python</span>
-
-   <span class="c1"># Arrange</span>
-   <span class="k">def</span> <span class="nf">generate_numpy_arrays</span><span class="p">(</span><span class="n">execution_number</span><span class="p">):</span>
-     <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">test_files</span> <span class="o">=</span> <span class="n">get_test_files</span><span class="p">()</span>
-     <span class="n">filename</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">[</span><span class="n">execution_number</span><span class="p">]</span>
-     <span class="n">node</span> <span class="o">=</span> <span class="n">prepare_node</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-     <span class="c1"># Run the node</span>
-     <span class="n">results</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
-     <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-     <span class="c1"># Validate the results</span>
-     <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">get_reversed_test_sound</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-     <span class="n">test_sound</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'voice'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-     <span class="k">return</span> <span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span>
-
-   <span class="c1"># Act</span>
-   <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'execution_number'</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-   <span class="k">def</span> <span class="nf">test_ReverseSoundsNode</span><span class="p">(</span><span class="n">execution_number</span><span class="p">):</span>
-     <span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">generate_numpy_arrays</span><span class="p">(</span><span class="n">execution_number</span><span class="p">)</span>
-     <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span><span class="p">)</span>
+<span class="c1"># Act</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'execution_number'</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_ReverseSoundsNode</span><span class="p">(</span><span class="n">execution_number</span><span class="p">):</span>
+  <span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">generate_numpy_arrays</span><span class="p">(</span><span class="n">execution_number</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
 
 extensions = [
     #'sphinx_rtd_theme',
+    'sphinx_material_theme',
     'sphinx.ext.autodoc'
 ]
 

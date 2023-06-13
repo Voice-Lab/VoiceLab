@@ -18,6 +18,13 @@ extensions = [
 html_theme = 'sphinx_material'
 #htm_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
+# Set the theme options
+html_theme_options = {
+    "nav_title": "VoiceLab Documentation",
+    "color_primary": "blue",
+    "color_accent": "light-blue",
+}
+
 
 todo_include_todos = True
 templates_path = ['_templates']

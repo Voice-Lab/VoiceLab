@@ -1,0 +1,21 @@
+ HOW-TO GUIDE:
+ To add a new function:
+     1. Create a node class with a process function containing the required functionality
+     2. Import the class in default_settings.py or in the Voicelab __init__.py file
+     3. Add an instance of it to the available_functions dictionary with a human readable key (this
+        will become the label for it used throughout)
+     OPTIONALLY IN default_settings.py
+     4. (Make it run by default) Add the name of the function to the default_functions dict
+     5. (Visualize data on the spectrogram plot) Add the name of the function to the visualize_list
+        along with the label of the return variable that will be visualized. Data returned from that function
+        on that label will be passed into the VisualizeVoices node during run time. The VisualizeVoices node
+        will have to be updated to reflect these changes and define behaviour for displaying this data.
+     6. (Recieve data from other nodes) The nodes run as a graph of sequentially connected function nodes
+        To link a node downstream (that is, pass data in from another node during run-time) add the node to
+        the function_requirements dictionary along with a list of tuples defining where to find the data
+        This is in the form of 'CHILD_FUNCTION_NAME': [('PARENT_FUNCTION_NAME', 'VARIABLE_NAME'), ...]
+        Each tuple in the list only defines the data path for one parent, one child, and on one labeled return variable,
+        but each parent and variable can be represented any number of times in the list.
+ Allow displaying additional variable types:
+    1. Add the variable type to the display_whitelist
+    2. Write functionality for displaying this data type into ResultsTab.py

@@ -64,5 +64,5 @@ html_theme_options = {
     'titles_only': False
 }
 
-sphinx_material.html_theme_path.append(sphinx_material.get_html_theme_path())
+html_theme_path = (sphinx_material.get_html_theme_path()
 

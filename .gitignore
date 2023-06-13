@@ -190,3 +190,7 @@ MANIFEST
 # and the .venv directory here if using poetry's built-in 
 # virtual environment support
 .venv/
+
+*.wav
+voicelab/tests
+tests

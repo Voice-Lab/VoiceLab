@@ -13,7 +13,7 @@ jobs:
           pip install sphinx sphinx_material
       - name: Sphinx build
         run: |
-          sphinx-build docs/_sources docs
+          sphinx-build docs/_sources _build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}

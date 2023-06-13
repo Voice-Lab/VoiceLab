@@ -63,3 +63,6 @@ html_theme_options = {
     'includehidden': False,
     'titles_only': False
 }
+
+sphinx_material.html_theme_path.append(sphinx_material.get_html_theme_path())
+

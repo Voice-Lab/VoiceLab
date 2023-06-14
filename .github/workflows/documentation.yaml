@@ -12,7 +12,7 @@ jobs:
         run: |
           pip install sphinx sphinx_material
       - name: Upgrade dependencies
-        run: pip install --upgrade sphinx sphinx-material myst-parser
+        run: pip install --upgrade sphinx sphinx_rtd_theme myst-parser
       - name: Sphinx build
         run: |
           sphinx-build docs/_sources _build

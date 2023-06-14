@@ -13,18 +13,15 @@ extensions = [
     'sphinx.ext.autodoc'
 ]
 
+autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'show-inheritance'] 
 html_theme = 'sphinx_rtd_theme'
-
-
-todo_include_todos = True
+todo_include_todos = False
 templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 exclude_patterns = []
 add_function_parentheses = True
 add_module_names = True
-# A list of ignored prefixes for module index sorting.
-# modindex_common_prefix = []
 
 project = u'VoiceLab'
 copyright = u'2023, David R Feinberg'
@@ -32,11 +29,8 @@ copyright = u'2023, David R Feinberg'
 version = '2.2.0'
 release = '2.2.0'
 
-# -- Options for HTML output ---------------------------------------------------
 
 html_title = "VoiceLab: Automated Reproducible Acoustic Analysis"
-#html_short_title = None
-#html_logo = None
 html_favicon = 'favicon.ico'
 html_static_path = ['../_static', '../_static/images', '../_images']
 html_domain_indices = False
@@ -53,5 +47,4 @@ html_theme_options = {
     'titles_only': False
 }
 
-#html_theme_path = (sphinx_material.get_html_theme_path())
 

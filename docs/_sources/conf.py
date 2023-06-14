@@ -17,7 +17,7 @@ extensions = [
 html_theme = "sphinx_rtd_theme"
 #html_theme = 'sphinx_material'
 #html_theme_path = sphinx_material.html_theme_path()
-html_theme_path = sphinx_rtd_theme.html_theme_path()
+
 
 # Set the theme options
 html_theme_options = {

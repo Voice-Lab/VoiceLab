@@ -33,7 +33,7 @@ html_theme_options = {
 
 todo_include_todos = True
 templates_path = ['_templates']
-source_suffix = '.rst'
+source_suffix = '.md'
 master_doc = 'index'
 exclude_patterns = []
 add_function_parentheses = True
@@ -54,20 +54,20 @@ html_title = "VoiceLab: Automated Reproducible Acoustic Analysis"
 #html_short_title = None
 #html_logo = None
 html_favicon = 'favicon.ico'
-html_static_path = ['_static', '_static/images', '_images']
+html_static_path = ['../_static', '../_static/images', '../_images']
 html_domain_indices = False
 html_use_index = False
 html_show_sphinx = False
 htmlhelp_basename = 'VoiceLab'
 html_show_sourcelink = False
 
-html_theme_options = {
-    'collapse_navigation': True,
-    'sticky_navigation': True,
-    'navigation_depth': 3,
-    'includehidden': False,
-    'titles_only': False
-}
+#html_theme_options = {
+#    'collapse_navigation': True,
+#    'sticky_navigation': True,
+#    'navigation_depth': 3,
+#    'includehidden': False,
+#    'titles_only': False
+#}
 
 #html_theme_path = (sphinx_material.get_html_theme_path())
 

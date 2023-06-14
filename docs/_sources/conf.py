@@ -18,7 +18,7 @@ html_theme = 'sphinx_rtd_theme'
 
 todo_include_todos = True
 templates_path = ['_templates']
-source_suffix = '.md'
+source_suffix = '.rst'
 master_doc = 'index'
 exclude_patterns = []
 add_function_parentheses = True

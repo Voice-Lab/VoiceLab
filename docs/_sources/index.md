@@ -13,8 +13,6 @@
 
 
 
-
-
 Voice Lab is an automated voice analysis software. What this software does is allow you to measure, manipulate, and visualize many voices at once, without messing with analysis parameters. You can also save all of your data, analysis parameters, manipulated voices, and full colour spectrograms with the press of one button.
 
 Voice Lab is written in Python and relies heavily on a package called parselmouth-praat. parselmouth-praat is a Python package that essentially turns Praat's source code written in C and C++ into a Pythonic interface. What that means is that any praat measurement in this software is using actual Praat source code, so you can trust the underlying algorithms. Voice Lab figures out all of the analysis parameters for you, but you can always use your own, and these are the same parameters as in Praat, and they do the exact same thing because it is Praat's source code powering everything. That means if you are a beginner an expert, or anything in-between, you can use this software to automate your acoustical analyses.

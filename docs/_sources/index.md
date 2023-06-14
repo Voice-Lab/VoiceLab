@@ -14,7 +14,7 @@
 ```{eval-rst}
 .. toctree::
     :numbered:
-    :maximum_depth: 2
+    :maxdepth: 2
 ```
 
 Voice Lab is an automated voice analysis software. What this software does is allow you to measure, manipulate, and visualize many voices at once, without messing with analysis parameters. You can also save all of your data, analysis parameters, manipulated voices, and full colour spectrograms with the press of one button.

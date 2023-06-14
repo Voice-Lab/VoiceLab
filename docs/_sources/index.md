@@ -11,14 +11,7 @@
     :language: python
 ```
 
-```{eval-rst}
-.. toctree::
-    :numbered:
-    :maxdepth: 2
-    TOC 1
-   TOC 2
-   TOC 3
-```
+
 
 
 

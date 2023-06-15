@@ -22,17 +22,17 @@ If you use VoiceLab in your research, please cite it:
 
 
 ### Installation instructions:
-* Install from pip using Python 3.9 (May work on 3.10, will not work on 3.11)
-  * `python3.9 -m venv venv`
-  * `source venv/bin/activate`
-    * `python3 -m pip install voicelab`
-    * `voicelab`
-* To install on Windows, download the .zip file from the releases page.
-  * Unzip the file, navigate to the Voicelab folder
+* Install from pip using Python 3.9-3.11
+  * `pip install voicelab`
+* To install on Windows, download the .exe file from the releases page.
   * run the voicelab.exe file
-  * If you want, you can make a shortcut and put that on your desktop
 * To install on OSX, download the .zip file from the releases page.
   * Unzip the file, and run the VoiceLab app
+* Install on Ubuntu (standalone)
+    * Download `voicelab`
+    * change the permissions to executable: `chmod +x voicelab`
+    * try: `voicelab` or `./voicelab`
+    * You might need to run this to install a dependency:  `sudo apt-get install libxcb-xinerama0`
 
 ### Changes from 1.3.1 to 2.0
 

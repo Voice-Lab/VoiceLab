@@ -474,20 +474,6 @@ requests-oauthlib = ">=0.7.0"
 tool = ["click (>=6.0.0)"]
 
 [[package]]
-name = "helpdev"
-version = "0.7.1"
-description = "HelpDev - Extracts information about the Python environment easily."
-optional = false
-python-versions = "*"
-files = [
-    {file = "helpdev-0.7.1-py3-none-any.whl", hash = "sha256:779a761b18c2d96fb181aa699609f802347806125f2fee2f60dad875a625e38e"},
-    {file = "helpdev-0.7.1.tar.gz", hash = "sha256:bb62a79acbac141dadf42cadeb92bb7450dd18b9824a62043b6a0b149190db3d"},
-]
-
-[package.extras]
-memory-info = ["psutil (>=5.6)"]
-
-[[package]]
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -1794,17 +1780,16 @@ files = [
 
 [[package]]
 name = "qdarkstyle"
-version = "2.8.1"
-description = "The most complete dark stylesheet for Python and Qt applications"
+version = "3.1"
+description = "The most complete dark/light style sheet for C++/Python and Qt applications"
 optional = false
 python-versions = "*"
 files = [
-    {file = "QDarkStyle-2.8.1-py2.py3-none-any.whl", hash = "sha256:7cead57817a8a1f38b48d76ef38986b6cc397d0315c0dd0431fcd06749556947"},
-    {file = "QDarkStyle-2.8.1.tar.gz", hash = "sha256:d53b0120bddd9e3efba9801731e22ef86ed798bb5fc6a802f5f7bb32dedf0321"},
+    {file = "QDarkStyle-3.1-py2.py3-none-any.whl", hash = "sha256:679a38fcd040de9fac8b8cae483310302fdb12c8d912845249c41dc54974a9b2"},
+    {file = "QDarkStyle-3.1.tar.gz", hash = "sha256:600584d625343e0ddd128de08393d3c35637786a49827f174d29aa7caa8279c1"},
 ]
 
 [package.dependencies]
-helpdev = ">=0.6.10"
 qtpy = ">=1.9"
 
 [package.extras]
@@ -2430,4 +2415,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9, <=3.11.3"
-content-hash = "9d7946b2b0a960fb0e5e4ef896800eaa3d5e53bce923ef901b599d4707ef9462"
+content-hash = "1f4ed063fb2ae2e1efd044b90817d3c75d876fff504faf375ec82e31587ba329"

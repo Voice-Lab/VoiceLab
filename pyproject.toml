@@ -17,7 +17,7 @@ openpyxl = "3.1.2"
 seaborn = "0.13.0"
 
 [tool.poetry.group.dev.dependencies]
-PyInstaller = "^5.10.0"
+PyInstaller = ">=5.10,<7.0"
 Sphinx = "<8.0.0"
 sphinx-autodoc2 = ">=0.4.2"
 sphinx_rtd_theme = ">=0.1.0"

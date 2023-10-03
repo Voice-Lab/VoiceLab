@@ -1,5 +1,6 @@
 <img src="voicelab/src/Voicelab/favicon.ico">**VoiceLab**
 ======
+[![Downloads](https://static.pepy.tech/badge/voicelab)](https://pepy.tech/project/voicelab)  
 **Automated Reproducible Acoustical Analysis**  
 Voice Lab is an automated voice analysis software. What this software
 does is allow you to measure, manipulate, and visualize many voices at

@@ -1,6 +1,11 @@
 <img src="voicelab/src/Voicelab/favicon.ico">**VoiceLab**
 ======
-[![Downloads](https://static.pepy.tech/badge/voicelab)](https://pepy.tech/project/voicelab)  
+[![Downloads](https://static.pepy.tech/badge/voicelab)](https://pepy.tech/project/voicelab)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![PyPI - Version](https://img.shields.io/pypi/v/voicelab)
+
+
+
 **Automated Reproducible Acoustical Analysis**  
 Voice Lab is an automated voice analysis software. What this software
 does is allow you to measure, manipulate, and visualize many voices at

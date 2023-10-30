@@ -1590,6 +1590,7 @@ optional = false
 python-versions = ">=3.7"
 files = [
     {file = "PyQt5-5.15.10-cp37-abi3-macosx_10_13_x86_64.whl", hash = "sha256:93288d62ebd47b1933d80c27f5d43c7c435307b84d480af689cef2474e87e4c8"},
+    {file = "PyQt5-5.15.10-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:862cea3be95b4b0a2b9678003b3a18edf7bd5eafd673860f58820f246d4bf616"},
     {file = "PyQt5-5.15.10-cp37-abi3-manylinux_2_17_x86_64.whl", hash = "sha256:b89478d16d4118664ff58ed609e0a804d002703c9420118de7e4e70fa1cb5486"},
     {file = "PyQt5-5.15.10-cp37-abi3-win32.whl", hash = "sha256:ff99b4f91aa8eb60510d5889faad07116d3340041916e46c07d519f7cad344e1"},
     {file = "PyQt5-5.15.10-cp37-abi3-win_amd64.whl", hash = "sha256:501355f327e9a2c38db0428e1a236d25ebcb99304cd6e668c05d1188d514adec"},
@@ -1752,17 +1753,17 @@ files = [
 
 [[package]]
 name = "qdarkstyle"
-version = "3.1"
+version = "3.2"
 description = "The most complete dark/light style sheet for C++/Python and Qt applications"
 optional = false
 python-versions = "*"
 files = [
-    {file = "QDarkStyle-3.1-py2.py3-none-any.whl", hash = "sha256:679a38fcd040de9fac8b8cae483310302fdb12c8d912845249c41dc54974a9b2"},
-    {file = "QDarkStyle-3.1.tar.gz", hash = "sha256:600584d625343e0ddd128de08393d3c35637786a49827f174d29aa7caa8279c1"},
+    {file = "QDarkStyle-3.2-py2.py3-none-any.whl", hash = "sha256:71fc0e22648f943014fdeb8d958ac8ae95d35f90054ef8123cd10a1acd46cdaa"},
+    {file = "QDarkStyle-3.2.tar.gz", hash = "sha256:f2f03c4bd7fb4e1e87f8f5d233c7839165422f43d6797cbe00e0bd919449f12c"},
 ]
 
 [package.dependencies]
-qtpy = ">=1.9"
+qtpy = ">=2"
 
 [package.extras]
 develop = ["qtsass", "watchdog"]
@@ -2403,4 +2404,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9, <=3.11.3"
-content-hash = "25c8d4fe603190a5cb6e1049dd122fa66d873af2cd9892c91cc4d2a32a62c92e"
+content-hash = "79ccc8ed3b515e91af98a223c02e21caf15975f98065098175a5028ff4819cf5"

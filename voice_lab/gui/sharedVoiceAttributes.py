@@ -3,32 +3,32 @@ from parselmouth.praat import call
 import numpy as np
 import soundfile as sf
 from hashlib import sha256
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict, fields, is_dataclass
 from typing import Any
+import numpy as np
 
 @dataclass
 class Unionable:
     def __or__(self, other):
-        self_dict = asdict(self)
-        other_dict = asdict(other)
+        # Ensure both objects are instances of Unionable
+        if not isinstance(other, Unionable):
+            return NotImplemented
 
-        # Merge the 'extra_attributes' dictionaries
-        if 'extra_attributes' in self_dict and 'extra_attributes' in other_dict:
-            self_dict['extra_attributes'] = {**self_dict['extra_attributes'], **other_dict['extra_attributes']}
-            other_dict.pop('extra_attributes')
+        # Initialize a new instance of the class without setting any fields
+        new_instance = self.__class__.__new__(self.__class__)
 
-        # Remove 'unique_id' from 'extra_attributes' if it exists
-        self_dict['extra_attributes'].pop('unique_id', None)
-        other_dict.pop('unique_id', None)
-        other_dict.pop('path_to_file', None)
-        other_dict.pop('filename', None)
-        other_dict.pop('signal', None)
-        other_dict.pop('sampling_rate', None)
-        other_dict.pop('duration', None)
-        other_dict.pop('time_vector', None)
-        
+        # Merge fields defined in the dataclass
+        for field in fields(self):
+            value = getattr(other, field.name, getattr(self, field.name, None))
+            setattr(new_instance, field.name, value)
 
-        return self.__class__(**self_dict, **other_dict)
+        # Merge dynamically added attributes
+        dynamic_attrs = set(self.__dict__.keys()).union(other.__dict__.keys()) - {field.name for field in fields(self)}
+        for attr in dynamic_attrs:
+            value = getattr(other, attr, getattr(self, attr, None))
+            setattr(new_instance, attr, value)
+
+        return new_instance
 
 @dataclass
 class VoiceFile(Unionable):
@@ -39,16 +39,15 @@ class VoiceFile(Unionable):
     sampling_rate: int | float
     duration: float
     time_vector: np.ndarray
-    extra_attributes: dict = field(default_factory=dict)
-
+    
     def add_attribute(self, key: str, value: Any):
         """
-        Adds or updates an optional attribute associated with the voice file.
+        Dynamically adds or updates an optional attribute associated with the voice file.
 
         :param key: The attribute name.
         :param value: The attribute value.
         """
-        self.extra_attributes[key] = value
+        setattr(self, key, value)
 
 
 class VoiceAttributes:
@@ -84,19 +83,17 @@ class VoiceAttributes:
         # get the time vector
         self.time_vector = self.sound.xs()
 
-        # store the data in the VoiceFile object
-        return VoiceFile(
+        voice_file = VoiceFile(
             unique_id=self.id,
             path_to_file=self.sound_file,
             filename=self.filename,
             signal=self.signal,
             sampling_rate=self.sampling_rate,
             duration=self.sound.duration,
-            time_vector=self.time_vector,
-            extra_attributes={
-                "sound": self.sound
-            }
+            time_vector=self.time_vector
         )
+        voice_file.add_attribute('praat_sound_object', self.sound)
+        return voice_file
 
     def get_unscaled_signal(self):
         # read signal with soundfile

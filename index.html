@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice Lab Interface &mdash; VoiceLab: Automated Reproducible Acoustic Analysis</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=1facb17f" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=90673249"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            VoiceLab
+          </a>
+              <div class="version">
+                2.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Voice Lab Interface</a><ul>
+<li><a class="reference internal" href="#load-voices-tab">Load Voices Tab</a><ul>
+<li><a class="reference internal" href="#load-sound-file">Load Sound File</a></li>
+<li><a class="reference internal" href="#remove-sound-file">Remove Sound File</a></li>
+<li><a class="reference internal" href="#start">Start</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#settings-tab">Settings Tab</a><ul>
+<li><a class="reference internal" href="#save-results">Save Results</a><ul>
+<li><a class="reference internal" href="#results-xlsx">results.xlsx</a></li>
+<li><a class="reference internal" href="#settings-xlsx">settings.xlsx</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#results-tab">Results Tab</a><ul>
+<li><a class="reference internal" href="#output-formats">Output formats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation-and-api-reference">Documentation and API Reference</a><ul>
+<li><a class="reference internal" href="#automated-settings">Automated Settings</a><ul>
+<li><a class="reference internal" href="#automated-pitch-floor-and-ceiling-parameters">Automated pitch floor and ceiling parameters</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#measurement-nodes">Measurement Nodes</a><ul>
+<li><a class="reference internal" href="#measure-pitch">Measure Pitch</a><ul>
+<li><a class="reference internal" href="#measure-pitch-yin">Measure Pitch Yin</a></li>
+<li><a class="reference internal" href="#measure-subharmonics">Measure Subharmonics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#measure-cpp-cepstral-peak-prominence">Measure CPP (Cepstral Peak Prominence)</a></li>
+<li><a class="reference internal" href="#measure-duration">Measure Duration</a></li>
+<li><a class="reference internal" href="#measure-energy">Measure Energy</a></li>
+<li><a class="reference internal" href="#measure-formants">Measure Formants</a></li>
+<li><a class="reference internal" href="#measure-vocal-tract-length-estimates">Measure Vocal Tract Length Estimates</a><ul>
+<li><a class="reference internal" href="#average-formant">Average Formant</a></li>
+<li><a class="reference internal" href="#principle-components-analysis">Principle Components Analysis</a></li>
+<li><a class="reference internal" href="#geometric-mean">Geometric Mean</a></li>
+<li><a class="reference internal" href="#formant-dispersion">Formant Dispersion</a></li>
+<li><a class="reference internal" href="#vtl">VTL</a></li>
+<li><a class="reference internal" href="#vtl-f">VTL Δf</a></li>
+<li><a class="reference internal" href="#measure-formant-positions-node">Measure Formant Positions Node</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#measure-harmonicity">Measure Harmonicity</a></li>
+<li><a class="reference internal" href="#measure-intensity">Measure Intensity</a></li>
+<li><a class="reference internal" href="#measure-jitter">Measure Jitter</a></li>
+<li><a class="reference internal" href="#measure-shimmer">Measure Shimmer</a></li>
+<li><a class="reference internal" href="#measure-ltas">Measure LTAS</a></li>
+<li><a class="reference internal" href="#measure-mfcc">Measure MFCC</a></li>
+<li><a class="reference internal" href="#measure-spectral-shape">Measure Spectral Shape</a></li>
+<li><a class="reference internal" href="#measure-spectral-tilt">Measure Spectral Tilt</a></li>
+<li><a class="reference internal" href="#measure-speech-rate">Measure Speech Rate</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#manipulation-nodes">Manipulation Nodes</a><ul>
+<li><a class="reference internal" href="#lower-pitch">Lower Pitch</a></li>
+<li><a class="reference internal" href="#raise-pitch">Raise Pitch</a></li>
+<li><a class="reference internal" href="#lower-formants">Lower Formants</a></li>
+<li><a class="reference internal" href="#raise-formants">Raise Formants</a></li>
+<li><a class="reference internal" href="#lower-pitch-and-formants">Lower Pitch and Formants</a></li>
+<li><a class="reference internal" href="#raise-pitch-and-formants">Raise Pitch and Formants</a></li>
+<li><a class="reference internal" href="#reverse-sounds">Reverse Sounds</a></li>
+<li><a class="reference internal" href="#resample-sounds">Resample Sounds</a></li>
+<li><a class="reference internal" href="#rotate-spectrum">Rotate Spectrum</a></li>
+<li><a class="reference internal" href="#scale-intensity">Scale Intensity</a></li>
+<li><a class="reference internal" href="#truncate-sounds">Truncate Sounds</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#visualization-nodes">Visualization Nodes</a><ul>
+<li><a class="reference internal" href="#spectrograms">Spectrograms</a></li>
+<li><a class="reference internal" href="#power-spectra">Power Spectra</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">VoiceLab</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Voice Lab Interface</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="voice-lab-interface">
+<h1>Voice Lab Interface<a class="headerlink" href="#voice-lab-interface" title="Link to this heading"></a></h1>
+<p>Voice Lab is an automated voice analysis software. What this software does is allow you to measure, manipulate, and visualize many voices at once, without messing with analysis parameters. You can also save all of your data, analysis parameters, manipulated voices, and full colour spectrograms with the press of one button.</p>
+<p>Voice Lab is written in Python and relies heavily on a package called parselmouth-praat. parselmouth-praat is a Python package that essentially turns Praat’s source code written in C and C++ into a Pythonic interface. What that means is that any praat measurement in this software is using actual Praat source code, so you can trust the underlying algorithms. Voice Lab figures out all of the analysis parameters for you, but you can always use your own, and these are the same parameters as in Praat, and they do the exact same thing because it is Praat’s source code powering everything. That means if you are a beginner an expert, or anything in-between, you can use this software to automate your acoustical analyses.</p>
+<p>All of the code is open source and available on our GitHub repository, so if this manual isn’t in-depth enough, and you want to see exactly what’s going on, go for it. It is under the MIT license, so you are free to do what you like with the software as long as you give us credit. For more info on that license, see here.</p>
+<section id="load-voices-tab">
+<h2>Load Voices Tab<a class="headerlink" href="#load-voices-tab" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../_static/LoadVoices.png"><img alt="Load voices window" src="../_static/LoadVoices.png" style="width: 400px;" /></a>
+<section id="load-sound-file">
+<h3>Load Sound File<a class="headerlink" href="#load-sound-file" title="Link to this heading"></a></h3>
+<p>Press this button to load sound files. You can load as many files as you like.
+At the moment, Voice Lab processes the following file types:</p>
+<ul class="simple">
+<li><p>wav</p></li>
+<li><p>mp3</p></li>
+<li><p>aiff</p></li>
+<li><p>ogg</p></li>
+<li><p>aifc</p></li>
+<li><p>au</p></li>
+<li><p>nist</p></li>
+<li><p>flac</p></li>
+</ul>
+</section>
+<section id="remove-sound-file">
+<h3>Remove Sound File<a class="headerlink" href="#remove-sound-file" title="Link to this heading"></a></h3>
+<p>Use this button to remove the selected sound file(s) from the list.</p>
+</section>
+<section id="start">
+<h3>Start<a class="headerlink" href="#start" title="Link to this heading"></a></h3>
+<p>Pressing this begins analysis. If you want to run the default analysis, press this button.
+If you want to select different analyses or adjust analysis parameters, go to the ‘Settings’ tab and press the ‘Advanced Settings’ button.
+Only the files selected (in blue) will be analyzed. By default we will select all files.</p>
+</section>
+</section>
+<section id="settings-tab">
+<span id="settings"></span><h2>Settings Tab<a class="headerlink" href="#settings-tab" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../settings.png"><img alt="Settings window" src="../settings.png" style="width: 400px;" /></a>
+<p>To choose different analyses, select the <code class="code highlight python docutils literal highlight-python"><span class="n">Use</span> <span class="n">Advanced</span> <span class="n">Settings</span></code> checkbox. From here, you’ll be given the option to select different analyses. You can also change any analysis parameters. If you do change analysis parameters, make sure you know what you are doing, and remember that those same analysis parameters will be used on all voice files that are selected. If you don’t alter these parameters, we determine analysis parameters automatically for you, so they are tailored for each voice to give the best measurements.</p>
+<section id="save-results">
+<h3>Save Results<a class="headerlink" href="#save-results" title="Link to this heading"></a></h3>
+<p>Save Results saves two xlsx files. One is the results.xlsx file and one is the settings.xlsx file. Here you can choose the directory you want to save the files into. You don’t have to click on a file, just go to the directory and press the button.</p>
+<section id="results-xlsx">
+<h4>results.xlsx<a class="headerlink" href="#results-xlsx" title="Link to this heading"></a></h4>
+<p>The results file saves all of the voice measurements that you made. Each measurement gets a separate tab in the xlsx file.</p>
+</section>
+<section id="settings-xlsx">
+<h4>settings.xlsx<a class="headerlink" href="#settings-xlsx" title="Link to this heading"></a></h4>
+<p>This file saves all of the parameters used in each measurement. Each measurement gets a separate tab in the xlsx file. This is great if you want to know what happened. It can also accompany a manuscript or paper to help others replicate analyses.</p>
+</section>
+</section>
+<section id="results-tab">
+<h3>Results Tab<a class="headerlink" href="#results-tab" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../output_window.png"><img alt="Results window" src="../output_window.png" style="width: 400px;" /></a>
+<p>This is where you can view results. You can select each voice file on the left and view each measurement result on the bottom frame. You can also view your spectrograms in the spectrogram window. You can change the size of any of these frames in order to see things better. Press <code class="code highlight python docutils literal highlight-python"><span class="n">Save</span> <span class="n">Results</span></code> to save data. All data (results &amp; settings), manipulated voices, and spectrograms are saved automatically when this button is pressed. All you have to do is choose which folder to save into. Don’t worry about picking file names, Voice Lab will make those automatically for you.</p>
+<section id="output-formats">
+<h4>Output formats<a class="headerlink" href="#output-formats" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>All data files are saved as xlsx</p></li>
+<li><p>All sound files are saved as wav</p></li>
+<li><p>All image files are saved as png</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="documentation-and-api-reference">
+<h1>Documentation and API Reference<a class="headerlink" href="#documentation-and-api-reference" title="Link to this heading"></a></h1>
+<p>THe API is not a supported way to run Voicelab, but it works, with some elbow grease.
+You need to clone the github repo and run it from the command line, but not if you install it from PyPi or Binary. You
+can adapt this process for any node.  See source code for the node you want to run for more details. I have the
+directory structure set up below in the code examples. It’s just at test file, but you can see how to make it work.
+In short, The prepare_node() function sets up the node with the sound file the way it likes it and returns the node. The
+process() method runs the node.</p>
+<p id="codeexample">Running Voicelab from the command line was never intended, but you can hack your way through.
+This is a code example from the tests. It shows how to run Voicelab from the command line.
+This is not a supported way to run Voicelab, but it works.
+This will work if you clone the github repo and run it from the command line, but not if you install it from
+PyPi or Binary.
+You can adapt this for any node.  See source code for the node you want to run for more details.
+I have the directory structure set up below.  You might need to fiddle with it.
+The <cite>prepare_node()</cite> function sets up the node with the sound file the way it likes it and returns the node.
+The <cite>process()</cite> method runs the node.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">get_test_files</span><span class="p">():</span>
+  <span class="n">number_of_test_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># -1 because the first file is a broken sound</span>
+  <span class="n">test_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span>
+  <span class="k">return</span> <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">test_files</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">prepare_node</span><span class="p">(</span><span class="n">test_file</span><span class="p">):</span>
+  <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">,</span> <span class="n">test_file</span><span class="p">)</span>
+  <span class="n">node</span> <span class="o">=</span> <span class="n">ReverseSoundsNode</span><span class="o">.</span><span class="n">ReverseSoundsNode</span><span class="p">()</span>
+  <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;file_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_path</span>
+  <span class="c1"># Load the sound and setup the node</span>
+  <span class="k">try</span><span class="p">:</span>
+      <span class="n">sound</span><span class="p">:</span> <span class="n">parselmouth</span><span class="o">.</span><span class="n">Sound</span> <span class="o">=</span> <span class="n">parselmouth</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+      <span class="n">signal</span> <span class="o">=</span> <span class="n">sound</span><span class="o">.</span><span class="n">values</span>
+      <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">sound</span><span class="o">.</span><span class="n">sampling_frequency</span>
+  <span class="k">except</span><span class="p">:</span>
+      <span class="n">signal</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="n">sampling_rate</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">node</span><span class="o">.</span><span class="n">voice</span> <span class="o">=</span> <span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">)</span>
+  <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;voice&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="si">=}</span><span class="s2">..</span><span class="si">{</span><span class="n">sampling_rate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">node</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">get_reversed_test_sound</span><span class="p">(</span><span class="n">test_file</span><span class="p">):</span>
+  <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">,</span> <span class="n">test_file</span><span class="p">)</span>
+  <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">parselmouth</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+  <span class="n">validation_sound</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">validation_sound</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">get_number_of_test_files</span><span class="p">():</span>
+  <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_test_files</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">number_of_test_files</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arrange</span>
+<span class="k">def</span> <span class="nf">generate_numpy_arrays</span><span class="p">(</span><span class="n">execution_number</span><span class="p">):</span>
+  <span class="n">number_of_test_files</span><span class="p">,</span> <span class="n">test_files</span> <span class="o">=</span> <span class="n">get_test_files</span><span class="p">()</span>
+  <span class="n">filename</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">[</span><span class="n">execution_number</span><span class="p">]</span>
+  <span class="n">node</span> <span class="o">=</span> <span class="n">prepare_node</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="c1"># Run the node</span>
+  <span class="n">results</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+  <span class="c1"># Validate the results</span>
+  <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">get_reversed_test_sound</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="n">test_sound</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;voice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+  <span class="k">return</span> <span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span>
+
+<span class="c1"># Act</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;execution_number&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">AUDIO_DIR</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_ReverseSoundsNode</span><span class="p">(</span><span class="n">execution_number</span><span class="p">):</span>
+  <span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span> <span class="o">=</span> <span class="n">generate_numpy_arrays</span><span class="p">(</span><span class="n">execution_number</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">test_sound</span><span class="p">,</span> <span class="n">validation_sound</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="automated-settings">
+<h2>Automated Settings<a class="headerlink" href="#automated-settings" title="Link to this heading"></a></h2>
+<p>VoiceLab uses automated settings for pitch floor and ceiling, and also uses these to set the centre frequency parameter in the FormantPath formant analysis.</p>
+<section id="automated-pitch-floor-and-ceiling-parameters">
+<span id="floor-ceiling"></span><h3>Automated pitch floor and ceiling parameters<a class="headerlink" href="#automated-pitch-floor-and-ceiling-parameters" title="Link to this heading"></a></h3>
+<p>Praat suggests adjusting pitch settings based on <a class="reference external" href="http://www.fon.hum.uva.nl/praat/manual/Intro_4_2__Configuring_the_pitch_contour.html">gender</a> . It’s not gender per se that is important, but the pitch of voice. To mitigate this, VoiceLab first casts a wide net in  floor and ceiling settings to learn the range of probable fundamental frequencies is a voice. Then it remeasures the voice pitch using different settings for higher and lower pitched voices. VoiceLab by default uses employs <code class="code highlight python docutils literal highlight-python"><span class="n">very</span> <span class="n">accurate</span></code>. VoiceLab returns <code class="code highlight python docutils literal highlight-python"><span class="n">minimum</span> <span class="n">pitch</span></code>, <code class="code highlight python docutils literal highlight-python"><span class="n">maximum</span> <span class="n">pitch</span></code>, <code class="code highlight python docutils literal highlight-python"><span class="n">mean</span> <span class="n">pitch</span></code>, and <code class="code highlight python docutils literal highlight-python"><span class="n">standard</span> <span class="n">deviation</span> <span class="n">of</span> <span class="n">pitch</span></code>. By default VoiceLab uses  autocorrelation for <a class="reference internal" href="#pitch"><span class="std std-ref">Measuring Pitch</span></a>, and cross-correlation for <a class="reference internal" href="#hnr"><span class="std std-ref">harmonicity</span></a>, <a class="reference internal" href="#jitter"><span class="std std-ref">Jitter</span></a>, and <a class="reference internal" href="#shimmer"><span class="std std-ref">Shimmer</span></a>,</p>
+</section>
+</section>
+<section id="measurement-nodes">
+<h2>Measurement Nodes<a class="headerlink" href="#measurement-nodes" title="Link to this heading"></a></h2>
+<section id="measure-pitch">
+<span id="pitch"></span><h3>Measure Pitch<a class="headerlink" href="#measure-pitch" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>This measures voice pitch or fundamental frequency. Users can measure pitch using any number of the following algorithms:</dt><dd><ul class="simple">
+<li><p>Praat Autocorrelation</p></li>
+<li><p>Praat Cross Correlation</p></li>
+<li><p>Yin (From Librosa)</p></li>
+<li><p>Subharmonics (from Open Sauce)</p></li>
+</ul>
+</dd>
+</dl>
+<p>By default it will measure all of these.</p>
+<p>This uses Praat’s <code class="code highlight python docutils literal highlight-python"><span class="n">Sound</span><span class="p">:</span> <span class="n">To</span> <span class="n">Pitch</span> <span class="p">(</span><span class="n">ac</span><span class="p">)</span><span class="o">...</span></code>, by default. You can also use the cross-correlation algorithm: <code class="code highlight python docutils literal highlight-python"><span class="n">Sound</span><span class="p">:</span> <span class="n">To</span> <span class="n">Pitch</span> <span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="o">...</span></code>. For full details on these algorithms, see the <a class="reference external" href="http://www.fon.hum.uva.nl/praat/manual/Pitch.html">praat manual pitch page</a>.
+<code class="code highlight python docutils literal highlight-python"><span class="n">Measure</span> <span class="n">Pitch</span></code> returns the following measurements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>A list of the pitch values</p></li>
+<li><p>Minimum Pitch</p></li>
+<li><p>Maximum Pitch</p></li>
+<li><p>Mean Pitch</p></li>
+<li><p>Standard Deviation of Pitch</p></li>
+<li><p>Pitch Floor (used to set window length)</p></li>
+<li><p>Pitch Ceiling (no candidates above this value will be considered)</p></li>
+</ul>
+</div></blockquote>
+<p>We use the automated pitch floor and ceiling parameters described <a class="reference internal" href="#floor-ceiling"><span class="std std-ref">here.</span></a></p>
+<section id="measure-pitch-yin">
+<h4>Measure Pitch Yin<a class="headerlink" href="#measure-pitch-yin" title="Link to this heading"></a></h4>
+<p>This is the Yin implementation from Librosa.  This is now run out of the Measure Pitch Node.</p>
+</section>
+<section id="measure-subharmonics">
+<h4>Measure Subharmonics<a class="headerlink" href="#measure-subharmonics" title="Link to this heading"></a></h4>
+<p>This measures subharmonic pitch and subharmonic to harmonic ratio. Subharmonic to harmonic ratio and Subharmonic pitch are measures from Open Sauce (Yu et al., 2019), a Python port of Voice Sauce (Shue et al., 2011).  These measurements do not use any Praat or Parselmouth code.  As in (Shue et al., 2011) and (Yu et al., 2019), subharmonic raw values are padded with NaN values to 201 data points.</p>
+</section>
+</section>
+<section id="measure-cpp-cepstral-peak-prominence">
+<span id="cpp"></span><h3>Measure CPP (Cepstral Peak Prominence)<a class="headerlink" href="#measure-cpp-cepstral-peak-prominence" title="Link to this heading"></a></h3>
+<p>This measures Cepstral Peak Prominance in Praat. You can adjust interpolation, qeufrency upper and lower bounds, line type, and fit method.</p>
+</section>
+<section id="measure-duration">
+<span id="duration"></span><h3>Measure Duration<a class="headerlink" href="#measure-duration" title="Link to this heading"></a></h3>
+<p>This measures the full duration of the sound file. There are no parameters to adjust.</p>
+</section>
+<section id="measure-energy">
+<span id="energy"></span><h3>Measure Energy<a class="headerlink" href="#measure-energy" title="Link to this heading"></a></h3>
+<p>This is my port of VoiceSauce’s Energy Algorithm.  It is different than the old RMS Energy algorithm in previous
+versions of VoiceLab, which was RMS of the file and is still available. This code is not in OpenSauce. It is a line-by
+line translation of the Voice Sauce MatLab and Praat Code.  Validation analyses for automatic analysis settings and
+Energy can be found <a href="#id1"><span class="problematic" id="id2">`here&lt;https://osf.io/3wr6k/files/&gt;`_</span></a>.</p>
+<p>It wass a normal Energy calculation, but the widow size is equal to 5 pitch periods, estimated by my port of Voice
+Sauce’s Praat script to Python using the praat-parselmouth package.</p>
+<p>This changed in version 2.0.0</p>
+<p>In Voice Sauce source code, they report to calculate RMS in the documentation, but instead calculated total energy in each pitch-dependent frame. This means the Energy value in Voice Sauce that was translated to VoiceLab was not scaled for wavelength, and therefore not pitch-independent. Why does this matter?</p>
+<p>Lower pitched voices have longer wavelengths, and therefore more energy than higher pitched voices. Voice Sauce is trying to correct for that by making the window length equivalent to a few pitch periods. They take the sum of the energy in each frame, and since they do not divide by the number of frames (in taking the mean for the RMS calculation), there is no pitch correction occurring at that level. If you then take the mean or RMS of the output of Voice Sauce Energy, you would be taking the total energy divided by number of frames in the sound. Higher pitched sounds have shorter wavelengths, and you can fit more of them into a fixed time period, so if your sounds are all the same length, then your measurements are pitch corrected. This doesn’t happen automatically, so the problem is that the longer sounds also have more frames. Thus the measure is confounded.</p>
+<p>To fix this I have implemented and RMS calculation at every frame as it says in the Voice Sauce manual. You can see the values are much closer to those given by Praat now, but are different, and that is because of the pitch-dependent frame length. I’ve removed the old calculation of mean energy, and if you are using RMS energy as a single value, that is the RMS of all of the frames. If you want the old calculation, it is in all of the older versions of VoiceLab.</p>
+<p>If you are concerned, I recommend anyone who has published using this algorithm, or plans to in Voice Sauce or older versions of VoiceLab, re-run their Energy measurements and use the new values if this is something critical to your findings.</p>
+</section>
+<section id="measure-formants">
+<span id="formants"></span><h3>Measure Formants<a class="headerlink" href="#measure-formants" title="Link to this heading"></a></h3>
+<p>This returns the mean of the first 4 formant frequencies of the voice using the <code class="code highlight python docutils literal highlight-python"><span class="n">To</span> <span class="n">FormantPath</span></code> algorithm using
+5.5 maximum number of formants and a variable centre frequency, set automatically or user-specified.  All other values
+are Praat defaults for Formant Path.  Formant path picks the best formant ceiling value by fitting each prediction to a
+polynomial curve, and choosing the best fit for each formant. The centre frequency is determined in the automatic
+settings You can also use your own settings for <code class="code highlight python docutils literal highlight-python"><span class="n">To</span> <span class="n">Formant</span> <span class="n">Burg</span><span class="o">...</span></code> if you want to.</p>
+</section>
+<section id="measure-vocal-tract-length-estimates">
+<h3>Measure Vocal Tract Length Estimates<a class="headerlink" href="#measure-vocal-tract-length-estimates" title="Link to this heading"></a></h3>
+<p>This returns the following vocal tract length estimates:</p>
+<section id="average-formant">
+<h4>Average Formant<a class="headerlink" href="#average-formant" title="Link to this heading"></a></h4>
+<p>This calculates the mean <span class="math notranslate nohighlight">\(\frac {\sum _{i=1}^{n} {f_i}}{n}\)</span> of the first four formant frequencies for each sound.</p>
+<p>Pisanski, K., &amp; Rendall, D. (2011). The prioritization of voice fundamental frequency or formants in listeners’ assessments of speaker size, masculinity, and attractiveness. The Journal of the Acoustical Society of America, 129(4), 2201-2212.</p>
+</section>
+<section id="principle-components-analysis">
+<h4>Principle Components Analysis<a class="headerlink" href="#principle-components-analysis" title="Link to this heading"></a></h4>
+<p>This returns the first factor from a Principle Components Analysis (PCA) of the 4 formants.</p>
+<p>Babel, M., McGuire, G., &amp; King, J. (2014). Towards a more nuanced view of vocal attractiveness. PloS one, 9(2), e88616.</p>
+</section>
+<section id="geometric-mean">
+<h4>Geometric Mean<a class="headerlink" href="#geometric-mean" title="Link to this heading"></a></h4>
+<p>This calculates the geometric mean <span class="math notranslate nohighlight">\(\left(\prod _{i=1}^{n}f_{i}\right)^{\frac {1}{n}}\)</span> of the first 4 formant frequencies for each sound.</p>
+<p>Smith, D. R., &amp; Patterson, R. D. (2005). The interaction of glottal-pulse rate andvocal-tract length in judgements of speaker size, sex, and age.Journal of theAcoustical Society of America, 118, 3177e3186.</p>
+</section>
+<section id="formant-dispersion">
+<h4>Formant Dispersion<a class="headerlink" href="#formant-dispersion" title="Link to this heading"></a></h4>
+<p><span class="math notranslate nohighlight">\(\frac {\sum _{i=2}^{n} {f_i - f_{i-1}}}{n}\)</span></p>
+<p>Fitch, W. T. (1997). Vocal-tract length and formant frequency dispersion correlate with body size in rhesus macaques.Journal of the Acoustical Society of America,102,1213e1222.</p>
+</section>
+<section id="vtl">
+<h4>VTL<a class="headerlink" href="#vtl" title="Link to this heading"></a></h4>
+<p><span class="math notranslate nohighlight">\(\frac {\sum _{i=1}^{n} (2n-1) \frac {f_i}{4c}}{n}\)</span></p>
+<p>Fitch, W. T. (1997). Vocal-tract length and formant frequency dispersion correlate with body size in rhesus macaques.Journal of the Acoustical Society of America,102,1213e1222.</p>
+<p>Titze, I. R. (1994).Principles of voice production. Englewood Cliffs, NJ: Prentice Hall.</p>
+</section>
+<section id="vtl-f">
+<h4>VTL Δf<a class="headerlink" href="#vtl-f" title="Link to this heading"></a></h4>
+<p><span class="math notranslate nohighlight">\(f_i\)</span> = The slope of 0 intercept regression between <span class="math notranslate nohighlight">\(F_i = \frac {(2i-1)}{2} Δf\)</span> and the mean of each of the first 4 formant frequencies.</p>
+<p><span class="math notranslate nohighlight">\(VTL f_i = \frac {\sum _{i=1}^{n} (2n-1)(\frac {c}{4f_i})}{n}\)</span></p>
+<p><span class="math notranslate nohighlight">\(VTL \Delta f = \frac {c}{2Δf}\)</span></p>
+<p>Reby,D.,&amp;McComb,K.(2003).Anatomical constraints generate honesty: acoustic cues to age and weight in the roars of red deer stags. Animal Behaviour, 65,519e530.</p>
+</section>
+<section id="measure-formant-positions-node">
+<span id="formant-position"></span><h4>Measure Formant Positions Node<a class="headerlink" href="#measure-formant-positions-node" title="Link to this heading"></a></h4>
+<p>This node measures formant position. This node is executed by MeasureVocalTractEstimatesNode.</p>
+<p>Formant Position is set to only run on samples of 30 or greater because this measure is based on scaling the data. Without a large enough sample, this measurement could be suspicious.</p>
+<dl>
+<dt>The algorithm is as follows:</dt><dd><ul>
+<li><p>First, measure formants at each gottal pulse.</p></li>
+<li><p>Second, scale each formant separately.</p></li>
+<li><p>Third, find the mean of the scaled formants.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\frac{1}{n} {\sum _{i=1}^{n}{f_i}}\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+<p>This algorithm deviates from the original in that it checks the data for a normal distribution before applying the z-score. If it is not normally distributed, it uses Scikit Learn’s <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html">Robust Scalar</a>
+The scalar method is recorded in the voicelab_settings.xlsx file.</p>
+<p>Puts, D. A., Apicella, C. L., &amp; Cárdenas, R. A. (2011). Masculine voices signal men’s threat potential in forager and industrial societies. Proceedings of the Royal Society B: Biological Sciences, 279(1728), 601-609.</p>
+</section>
+</section>
+<section id="measure-harmonicity">
+<span id="hnr"></span><h3>Measure Harmonicity<a class="headerlink" href="#measure-harmonicity" title="Link to this heading"></a></h3>
+<p>This measures mean harmonics-to-noise-ratio using automatic floor and ceiling settings described <a class="reference internal" href="#floor-ceiling"><span class="std std-ref">here.</span></a>  Full details of the algorithm can be found in the <a href="#id3"><span class="problematic" id="id4">`Praat Manual Harmonicity Page&lt;http://www.fon.hum.uva.nl/praat/manual/Harmonicity.html&gt;`_</span></a>. By default Voice Lab use <code class="code highlight python docutils literal highlight-python"><span class="n">To</span> <span class="n">Harmonicity</span> <span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="o">..</span></code>. You can select <code class="code highlight python docutils literal highlight-python"><span class="n">To</span> <span class="n">Harmonicity</span> <span class="p">(</span><span class="n">ac</span><span class="p">)</span></code> or change any other Praat parameters if you wish.</p>
+</section>
+<section id="measure-intensity">
+<h3>Measure Intensity<a class="headerlink" href="#measure-intensity" title="Link to this heading"></a></h3>
+<p>This returns the mean of Praat’s  <code class="code highlight python docutils literal highlight-python"><span class="n">Sound</span><span class="p">:</span> <span class="n">To</span> <span class="n">Intensity</span><span class="o">...</span></code> function in dB. You can adjust the minimum pitch parameter. For more information, see Praat
+s <a class="reference external" href="https://www.fon.hum.uva.nl/praat/manual/Intro_6_2__Configuring_the_intensity_contour.html">Configuring the intensity contour Page</a>.</p>
+</section>
+<section id="measure-jitter">
+<span id="jitter"></span><h3>Measure Jitter<a class="headerlink" href="#measure-jitter" title="Link to this heading"></a></h3>
+<p>This measures and returns values of all of <a class="reference external" href="http://www.fon.hum.uva.nl/praat/manual/Voice_2__Jitter.html">Praat’s jitter algorithms</a>. This can be a bit overwhelming or difficult to understand which measure to use and why, or can lead to multiple colinear comparisons. To address this, by default, Voice Lab returns a the first component from a principal components analysis of those jitter algorithms taken across all selected voices. The underlying reasoning here is that each of these algorithms measures something about how noisy the voice is due to perturbations in period length. The PCA finds what is common about all of these measures of noise, and gives you a score relative to your sample. With a large enough sample, the PCA score should be a more robust measure of jitter than any single measurement. Voice Lab uses use it’s <a class="reference internal" href="#floor-ceiling"><span class="std std-ref">automated pitch floor and ceiling algorithm.</span></a> to set analysis parameters.</p>
+<p>Jitter Measures:</p>
+<ul class="simple">
+<li><p>Jitter (local)</p></li>
+<li><p>Jitter (local, absolute)</p></li>
+<li><p>Jitter (rap)</p></li>
+<li><p>Jitter (ppq5)</p></li>
+<li><p>Jitter (ddp)</p></li>
+</ul>
+</section>
+<section id="measure-shimmer">
+<span id="shimmer"></span><h3>Measure Shimmer<a class="headerlink" href="#measure-shimmer" title="Link to this heading"></a></h3>
+<p>This measures and returns values of all of <a class="reference external" href="http://www.fon.hum.uva.nl/praat/manual/Voice_3__Shimmer.html">Praat’s shimmer algorithms</a>. This can be a bit overwhelming or difficult to understand which measure to use and why, or can lead to multiple colinear comparisons. To address this, by default, Voice Lab returns a the first component from a principal components analysis of those shimmer algorithms taken across all selected voices. The underlying reasoning here is that each of these algorithms measures something about how noisy the voice is due to perturbations in amplitude of periods. The PCA finds what is common about all of these measures of noise, and gives you a score relative to your sample. With a large enough sample, the PCA score should be a more robust measure of shimmer than any single measurement. Voice Lab uses use it’s <a class="reference internal" href="#floor-ceiling"><span class="std std-ref">automated pitch floor and ceiling algorithm.</span></a> to set analysis parameters.</p>
+<p>Shimmer Measures:</p>
+<ul class="simple">
+<li><p>Shimmer (local)</p></li>
+<li><p>Shimmer (local, dB)</p></li>
+<li><p>Shimmer (apq3)</p></li>
+<li><p>Shimmer (aqp5)</p></li>
+<li><p>Shimmer (apq11)</p></li>
+<li><p>Shimmer (ddp)</p></li>
+</ul>
+</section>
+<section id="measure-ltas">
+<h3>Measure LTAS<a class="headerlink" href="#measure-ltas" title="Link to this heading"></a></h3>
+<p>This measures several items from the Long-Term Average Spectrum using Praat’s default settings.</p>
+<ul class="simple">
+<li><p>mean (dB)</p></li>
+<li><p>slope (dB)</p></li>
+<li><p>local peak height (dB)</p></li>
+<li><p>standard deviation (dB)</p></li>
+<li><p>spectral tilt slope (dB/Hz)</p></li>
+<li><p>spectral tilt intercept (dB)</p></li>
+</ul>
+<p>You can adjust:
+- Pitch correction
+- Bandwidth
+- Max Frequency
+- Shortest and longest periods
+- Maximum period factor</p>
+</section>
+<section id="measure-mfcc">
+<h3>Measure MFCC<a class="headerlink" href="#measure-mfcc" title="Link to this heading"></a></h3>
+<p>This node measures the first 24 Mel Cepstral Coeffecients of the sound.  There are no options to set. If you want fewer coeffecients, you can delete the one’s you don’t want. If you need the same number of values for each sound for Machine Learning, make sure the sounds are the same length before running the analysis.</p>
+</section>
+<section id="measure-spectral-shape">
+<h3>Measure Spectral Shape<a class="headerlink" href="#measure-spectral-shape" title="Link to this heading"></a></h3>
+<p>This measures spectral:
+- Centre of Gravity
+- Standard Deviation
+- Kurtosis
+- Band Energy Difference
+- Band Density Difference</p>
+</section>
+<section id="measure-spectral-tilt">
+<h3>Measure Spectral Tilt<a class="headerlink" href="#measure-spectral-tilt" title="Link to this heading"></a></h3>
+<p>This measures spectral tilt by returning the slope of a regression between freqeuncy and amplitude of each sound. This is from a script written by Michael J. Owren, with sorting errors corrected. This is not the same equation in Voice Sauce.</p>
+<p>Owren, M.J. GSU Praat Tools: Scripts for modifying and analyzing sounds using Praat acoustics software. Behavior Research Methods (2008) 40:  822–829. <a class="reference external" href="https://doi.org/10.3758/BRM.40.3.822">https://doi.org/10.3758/BRM.40.3.822</a></p>
+</section>
+<section id="measure-speech-rate">
+<h3>Measure Speech Rate<a class="headerlink" href="#measure-speech-rate" title="Link to this heading"></a></h3>
+<p>This function is an implementation of the Praat script published here:
+De Jong, N.H. &amp; Wempe, T. (2009). Praat script to detect syllable nuclei and measure speech rate automatically. Behavior research methods, 41 (2), 385 - 390.</p>
+<p>Voice Lab used version 2 of the script, available <a class="reference external" href="https://sites.google.com/site/speechrate/Home/praat-script-syllable-nuclei-v2">here</a>.</p>
+<dl class="simple">
+<dt>This returns:</dt><dd><ul class="simple">
+<li><p>Number of Syllables</p></li>
+<li><p>Number of Pauses</p></li>
+<li><p>Duration(s)</p></li>
+<li><p>Phonation Time(s)</p></li>
+<li><p>Speech Rate (Number of Syllables / Duration)</p></li>
+<li><p>Articulation Rate (Number of Syllables / Phonation Time)</p></li>
+<li><p>Average Syllable Duration (Speaking Time / Number of Syllables)</p></li>
+</ul>
+</dd>
+</dl>
+<p>You can adjust:
+- silence threshold <code class="code highlight python docutils literal highlight-python"><span class="n">mindb</span></code></p>
+<ul class="simple">
+<li><p>mimimum dip between peaks (dB) <code class="code highlight python docutils literal highlight-python"><span class="n">mindip</span></code>. This should be between 2-4. Try 4 for clean and filtered sounds, and lower numbers for noisier sounds.</p></li>
+<li><p>minimum pause length <code class="code highlight python docutils literal highlight-python"><span class="n">minpause</span></code></p></li>
+</ul>
+<p>This command really only words on sounds with a few syllables, since Voice Lab is measuring how fast someone speaks. For monosyllabic sounds, use the <a class="reference internal" href="#duration"><span class="std std-ref">Measure Duration function.</span></a></p>
+</section>
+</section>
+<section id="manipulation-nodes">
+<h2>Manipulation Nodes<a class="headerlink" href="#manipulation-nodes" title="Link to this heading"></a></h2>
+<section id="lower-pitch">
+<h3>Lower Pitch<a class="headerlink" href="#lower-pitch" title="Link to this heading"></a></h3>
+<p>This lowers pitch using the PSOLA method. By default, this lowers  by 0.5 ERBs (Equivalent Rectangular Bandwidths) which is about 20 Hz at a 120 Hz pitch centre and about -/+ 25 Hz at a 240 Hz pitch centre. By default VoiceLab also normalizes intensity to 70 dB RMS, but you can turn this off by deselecting the box in the Settings tab.</p>
+</section>
+<section id="raise-pitch">
+<h3>Raise Pitch<a class="headerlink" href="#raise-pitch" title="Link to this heading"></a></h3>
+<p>This raises pitch using the PSOLA method. By default, this lowers  by 0.5 ERBs (Equivalent Rectangular Bandwidths) which is about 20 Hz at a 120 Hz pitch centre and about -/+ 25 Hz at a 240 Hz pitch centre. By default VoiceLab also normalizes intensity to 70 dB RMS, but you can turn this off by deselecting the box in the Settings tab.</p>
+</section>
+<section id="lower-formants">
+<h3>Lower Formants<a class="headerlink" href="#lower-formants" title="Link to this heading"></a></h3>
+<p>This lowers formants using Praat’s Change Gender Function. By default, Formants are lowered by 15%. This manipulation resamples a sound by the Formant scaling factor (which can be altered in the Settings tab). Then, the sampling rate is overriden to the sound’s original sampling rate. Then PSOLA is employed to stretch time and pitch back (separately) into their original values. By default VoiceLab also normalizes intensity to 70 dB RMS, but you can turn this off by deselecting the box in the Settings tab.</p>
+</section>
+<section id="raise-formants">
+<h3>Raise Formants<a class="headerlink" href="#raise-formants" title="Link to this heading"></a></h3>
+<p>This raises formants using Praat’s Change Gender Function. By default, Formants are raised by 15%. This manipulation resamples a sound by the Formant scaling factor (which can be altered in the Settings tab). Then, the sampling rate is overriden to the sound’s original sampling rate. Then PSOLA is employed to stretch time and pitch back (separately) into their original values. By default VoiceLab also normalizes intensity to 70 dB RMS, but you can turn this off by deselecting the box in the Settings tab.</p>
+</section>
+<section id="lower-pitch-and-formants">
+<h3>Lower Pitch and Formants<a class="headerlink" href="#lower-pitch-and-formants" title="Link to this heading"></a></h3>
+<p>This manipulation lowers both pitch and formants in the same direction by the same or independent amounts. This uses the algorithm described in Manipulate Formants, but allows the user to scale or shift pitch to a designated degree. By default, pitch is also lowered by 15%. By default VoiceLab also normalizes intensity to 70 dB RMS, but you can turn this off by deselecting the box in the Settings tab.</p>
+</section>
+<section id="raise-pitch-and-formants">
+<h3>Raise Pitch and Formants<a class="headerlink" href="#raise-pitch-and-formants" title="Link to this heading"></a></h3>
+<p>This manipulation raises both pitch and formants in the same direction by the same or independent amounts. This uses the algorithm described in Manipulate Formants, but allows the user to scale or shift pitch to a designated degree. By default, pitch is also raised by 15%. By default VoiceLab also normalizes intensity to 70 dB RMS, but you can turn this off by deselecting the box in the Settings tab.</p>
+</section>
+<section id="reverse-sounds">
+<h3>Reverse Sounds<a class="headerlink" href="#reverse-sounds" title="Link to this heading"></a></h3>
+<p>This reverses the selected sounds. Use this if you want to play sounds backwards. Try a Led Zepplin or Beatles song.</p>
+</section>
+<section id="resample-sounds">
+<h3>Resample Sounds<a class="headerlink" href="#resample-sounds" title="Link to this heading"></a></h3>
+<p>This is a quick and easy way to batch process resampling sounds. 44.1kHz is the default. Change this value in the Settings tab.</p>
+</section>
+<section id="rotate-spectrum">
+<h3>Rotate Spectrum<a class="headerlink" href="#rotate-spectrum" title="Link to this heading"></a></h3>
+<p>This resamples the sound, rotates the selected sounds by 180 degrees and reverses it so it’s just the inverted frequency spectrum.
+This script is from Chris Darwin and reproduced here with permission: <a class="reference external" href="http://www.lifesci.sussex.ac.uk/home/Chris_Darwin/Praatscripts/Spectral%20Rotation">The original script can be found here</a>.</p>
+<p>A similar technique was used here: Bédard, C., &amp; Belin, P. (2004). A “voice inversion effect?”. Brain and cognition, 55(2), 247-249.</p>
+</section>
+<section id="scale-intensity">
+<h3>Scale Intensity<a class="headerlink" href="#scale-intensity" title="Link to this heading"></a></h3>
+<p>This scales intensity with Peak or RMS. Use this if you want your sounds to all be at an equivalent amplitude. By default intensity is normalized to 70 dB using RMS. If you use peak, it is scaled between -1 and 1, so pick a number between -1 and 1 to normalize to peak.</p>
+</section>
+<section id="truncate-sounds">
+<h3>Truncate Sounds<a class="headerlink" href="#truncate-sounds" title="Link to this heading"></a></h3>
+<p>This trims and/or truncates sounds. You can trim a % of time off the ends of the sound, or voicelab can automatically detect silences at the beginning and end of the sound, and clip those out also.
+If you have trouble with trimming silences, try adjusting the silence ratio in the Settings tab.</p>
+</section>
+</section>
+<section id="visualization-nodes">
+<h2>Visualization Nodes<a class="headerlink" href="#visualization-nodes" title="Link to this heading"></a></h2>
+<section id="spectrograms">
+<h3>Spectrograms<a class="headerlink" href="#spectrograms" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../spectrogram.png"><img alt="Spectrogram" src="../spectrogram.png" style="width: 400px;" /></a>
+<p>VoiceLab creates full colour spectrograms. By default we use a wide-band window. You can adjust the window length. For example, for a narrow-band spectrogram, you can try 0.005 as a window length. You can also select a different colour palate. You can also overlay pitch, the first four formant frequencies, and intensity measures on the spectrogram.</p>
+</section>
+<section id="power-spectra">
+<h3>Power Spectra<a class="headerlink" href="#power-spectra" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../power_spectrum.png"><img alt="Power spectrum" src="../power_spectrum.png" style="width: 400px;" /></a>
+<p>VoiceLab creates power spectra of sounds and overlays an LPC curve over the top.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, David R Feinberg.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

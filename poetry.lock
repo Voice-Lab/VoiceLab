@@ -718,13 +718,13 @@ files = [
 
 [[package]]
 name = "librosa"
-version = "0.10.1"
+version = "0.10.2.post1"
 description = "Python module for audio and music processing"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "librosa-0.10.1-py3-none-any.whl", hash = "sha256:7ab91d9f5fcb75ea14848a05d3b1f825cf8d0c42ca160d19ae6874f2de2d8223"},
-    {file = "librosa-0.10.1.tar.gz", hash = "sha256:832f7d150d6dd08ed2aa08c0567a4be58330635c32ddd2208de9bc91300802c7"},
+    {file = "librosa-0.10.2.post1-py3-none-any.whl", hash = "sha256:dc882750e8b577a63039f25661b7e39ec4cfbacc99c1cffba666cd664fb0a7a0"},
+    {file = "librosa-0.10.2.post1.tar.gz", hash = "sha256:cd99f16717cbcd1e0983e37308d1db46a6f7dfc2e396e5a9e61e6821e44bd2e7"},
 ]
 
 [package.dependencies]
@@ -735,7 +735,7 @@ lazy-loader = ">=0.1"
 msgpack = ">=1.0"
 numba = ">=0.51.0"
 numpy = ">=1.20.3,<1.22.0 || >1.22.0,<1.22.1 || >1.22.1,<1.22.2 || >1.22.2"
-pooch = ">=1.0"
+pooch = ">=1.1"
 scikit-learn = ">=0.20.0"
 scipy = ">=1.2.0"
 soundfile = ">=0.12.1"
@@ -743,9 +743,9 @@ soxr = ">=0.3.2"
 typing-extensions = ">=4.1.1"
 
 [package.extras]
-display = ["matplotlib (>=3.3.0)"]
-docs = ["ipython (>=7.0)", "matplotlib (>=3.3.0)", "mir-eval (>=0.5)", "numba (>=0.51)", "numpydoc", "presets", "sphinx (!=1.3.1)", "sphinx-gallery (>=0.7)", "sphinx-multiversion (>=0.2.3)", "sphinx-rtd-theme (>=1.2.0)", "sphinxcontrib-svg2pdfconverter"]
-tests = ["matplotlib (>=3.3.0)", "packaging (>=20.0)", "pytest", "pytest-cov", "pytest-mpl", "resampy (>=0.2.2)", "samplerate", "types-decorator"]
+display = ["matplotlib (>=3.5.0)"]
+docs = ["ipython (>=7.0)", "matplotlib (>=3.5.0)", "mir-eval (>=0.5)", "numba (>=0.51)", "numpydoc", "presets", "sphinx (!=1.3.1)", "sphinx-copybutton (>=0.5.2)", "sphinx-gallery (>=0.7)", "sphinx-multiversion (>=0.2.3)", "sphinx-rtd-theme (>=1.2.0)", "sphinxcontrib-svg2pdfconverter"]
+tests = ["matplotlib (>=3.5.0)", "packaging (>=20.0)", "pytest", "pytest-cov", "pytest-mpl", "resampy (>=0.2.2)", "samplerate", "types-decorator"]
 
 [[package]]
 name = "llvmlite"

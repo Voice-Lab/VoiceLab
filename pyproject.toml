@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9, <=3.11.10"
-llvmlite = "=0.42.0"
+llvmlite = "=0.43.0"
 numpy = ">=1.22"
 pyqt5-qt5 = ">=5.15.3"
 QDarkStyle = "3.2.3"
